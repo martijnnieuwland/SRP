@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %} Preflight {% endblock %}
+<body>
+{% block content %}
+
+this is a record
+<a href="/">Home</a>
+<p>SRP: {{srp}}</p>
+<p>Off Blocks: {{offblocktime}}</p>
+<p>Takeoff: {{takeofftime}}</p>
+<p>Landing: {{landingtime}}</p>
+<p>On Blocks: {{onblocktime}}</p>
+<p>Block Time: {{blocktime}}</p>
+<p>Flight Time: {{flighttime}}</p>
+<p>This is the first item in airport: {{ airports.icao }} </p>
+<p>First name: {{crew_name.name_first}} </p>
+<p>Who's last name do you want to know?</p>
+<input type="text" name="first">
+<p>Last name: </p>
+<ul>
+   {% for names in crew_data %}
+    <li>
+        {{ names.name_last }}
+    </li>
+     {% endfor %}
+</ul>
+<p></p>
+</body>
+{% endblock %}}

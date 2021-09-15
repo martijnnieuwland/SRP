@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+
+{% block title %} Preflight {% endblock %}
+<body>
+{% block content %}
+<form class="d-grid gap-3" method="post">
+
+    <h1 class="text-center">Pre-flight</h1>
+
+    <div class="row">
+        <div class="col">
+            <h5 class="mt-3">Sector</h5>
+        </div>
+        <div class="col text-end">
+            <!--            <h5 class="mt-3">{# SRP #}</h5>-->
+            <input type="number" class="form-control" name="srp" placeholder="To do: SRP">
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-group col">
+            <span class="input-group-text" id="aircraft-label">Aircraft</span>
+            <select class="form-select" id="aircraft">
+                {% for ac in aircraft %}
+                <option value="{{ ac.registration }}">{{ ac.registration }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col input-group">
+            <span class="input-group-text" id="callsign-label">Callsign</span>
+            <input class="form-control" list="callsigns" id="callsign" tabindex="2">
+            <datalist id="callsigns">
+                <option value="WKT01">WKT01</option>
+                <option value="WKT02">WKT02</option>
+                <option value="WKT03">WKT03</option>
+                <option value="WKT04">WKT04</option>
+                <option value="WKT05">WKT05</option>
+                <option value="WKT06">WKT06</option>
+                <option value="WKT07">WKT07</option>
+                <option value="WKT08">WKT08</option>
+                <option value="WKT09">WKT09</option>
+                <option value="WKT10">WKT10</option>
+                <option value="WKT11">WKT11</option>
+                <option value="WKT12">WKT12</option>
+                <option value="WKT13">WKT13</option>
+                <option value="WKT14">WKT14</option>
+                <option value="WKT15">WKT15</option>
+                <option value="WKT16">WKT16</option>
+                <option value="WKT17">WKT17</option>
+                <option value="WKT18">WKT18</option>
+                <option value="WKT19">WKT19</option>
+                <option value="WKT20">WKT20</option>
+                <option value="WKT21">WKT21</option>
+                <option value="WKT22">WKT22</option>
+                <option value="WKT23">WKT23</option>
+                <option value="WKT24">WKT24</option>
+                <option selected>WKT25</option>
+                <option value="WKT26">WKT26</option>
+                <option value="WKT27">WKT27</option>
+                <option value="WKT28">WKT28</option>
+                <option value="WKT29">WKT29</option>
+                <option value="WKT30">WKT30</option>
+                <option value="WKT31">WKT31</option>
+                <option value="WKT32">WKT32</option>
+                <option value="WKT33">WKT33</option>
+                <option value="WKT34">WKT34</option>
+                <option value="WKT35">WKT35</option>
+                <option value="WKT36">WKT36</option>
+                <option value="WKT37">WKT37</option>
+                <option value="WKT38">WKT38</option>
+                <option value="WKT39">WKT39</option>
+                <option value="WKT40">WKT40</option>
+                <option value="WKT41">WKT41</option>
+                <option value="WKT42">WKT42</option>
+                <option value="WKT43">WKT43</option>
+                <option value="WKT44">WKT44</option>
+                <option value="WKT45">WKT45</option>
+                <option value="WKT46">WKT46</option>
+                <option value="WKT47">WKT47</option>
+                <option value="WKT48">WKT48</option>
+                <option value="WKT49">WKT49</option>
+                <option value="WKT50">WKT50</option>
+                <option value="WKT51">WKT51</option>
+                <option value="WKT52">WKT52</option>
+                <option value="WKT53">WKT53</option>
+                <option value="WKT54">WKT54</option>
+                <option value="WKT55">WKT55</option>
+                <option value="WKT56">WKT56</option>
+                <option value="WKT57">WKT57</option>
+                <option value="WKT58">WKT58</option>
+                <option value="WKT59">WKT59</option>
+                <option value="WKT60">WKT60</option>
+                <option value="WKT61">WKT61</option>
+                <option value="WKT62">WKT62</option>
+                <option value="WKT63">WKT63</option>
+                <option value="WKT64">WKT64</option>
+                <option value="WKT65">WKT65</option>
+                <option value="WKT66">WKT66</option>
+                <option value="WKT67">WKT67</option>
+                <option value="WKT68">WKT68</option>
+                <option value="WKT69">WKT69</option>
+                <option value="WKT70">WKT70</option>
+                <option value="WKT71">WKT71</option>
+                <option value="WKT72">WKT72</option>
+                <option value="WKT73">WKT73</option>
+                <option value="WKT74">WKT74</option>
+                <option value="WKT75">WKT75</option>
+                <option value="WKT76">WKT76</option>
+                <option value="WKT77">WKT77</option>
+                <option value="WKT78">WKT78</option>
+                <option value="WKT79">WKT79</option>
+                <option value="WKT80">WKT80</option>
+                <option value="WKT81">WKT81</option>
+                <option value="WKT82">WKT82</option>
+                <option value="WKT83">WKT83</option>
+                <option value="WKT84">WKT84</option>
+                <option value="WKT85">WKT85</option>
+                <option value="WKT86">WKT86</option>
+                <option value="WKT87">WKT87</option>
+                <option value="WKT88">WKT88</option>
+                <option value="WKT89">WKT89</option>
+                <option value="WKT90">WKT90</option>
+                <option value="WKT91">WKT91</option>
+                <option value="WKT92">WKT92</option>
+                <option value="WKT93">WKT93</option>
+                <option value="WKT94">WKT94</option>
+                <option value="WKT95">WKT95</option>
+                <option value="WKT96">WKT96</option>
+                <option value="WKT97">WKT97</option>
+                <option value="WKT98">WKT98</option>
+                <option value="WKT99">WKT99</option>
+            </datalist>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col input-group">
+            <span class="input-group-text" id="task-label">Task</span>
+            <select class="input-group-text" id="task">
+                <option value="CAT">CAT</option>
+                <option value="NCO">NCO</option>
+                <option selected>SPO</option>
+            </select>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col input-group">
+            <span class="input-group-text" id="date-label">Date</span>
+            <input type="date" class="form-control" id="date" required tabindex="3">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col input-group">
+            <span class="input-group-text" id="departure-label">Departure</span>
+            <input type="text" class="form-control" id="departure" placeholder="To do" required tabindex="4">
+        </div>
+        <div class="col input-group">
+            <span class="input-group-text" id="destination-label">Destination</span>
+            <input type="text" class="form-control" id="destination" required tabindex="5">
+        </div>
+    </div>
+
+    <h5 class="mt-3">Crew</h5>
+
+    <div class="row">
+        <div class="col input-group">
+            <span class="input-group-text" id="pilot1-label">PIC</span>
+            <select class="form-select" id="p1">
+                {% for pilot in pilot_name %}
+                <option value="{{ pilot.name_last }}">{{ pilot.name_last }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col input-group">
+            <span class="input-group-text" id="pilot2-label">Pilot 2</span>
+            <input type="text" class="form-control" id="pilot2" list="p2">
+            <datalist id="p2">
+                {% for pilot in pilot_name %}
+                <option value="{{ pilot.name_last }}">{{ pilot.name_last }}</option>
+                {% endfor %}
+            </datalist>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col input-group">
+            <span class="input-group-text" id="crew-label">Crew</span>
+            <input type="text" class="form-control" id="crew" list="ts" name="crew" tabindex="7">
+            <datalist id="ts">
+                {% for crew in crew_name %}
+                <option value="{{ crew.name_last }}">{{ crew.name_last }}</option>
+                {% endfor %}
+            </datalist>
+        </div>
+        <div class="col input-group">
+            <span class="input-group-text" id="pax-label">Passenger</span>
+            <input type="text" class="form-control" id="pax" name="pax">
+        </div>
+    </div>
+
+    <h5 class="mt-3">Aircraft</h5>
+
+    <div class="row">
+        <div class="col input-group">
+            <span class="input-group-text">Take-off mass</span>
+            <input type="number" class="form-control" id="tom" required tabindex="8">
+            <select class="input-group-text" id="ac_mass">
+                <option value="Lbs.">Lbs.</option>
+                <option selected>Kg.</option>
+            </select>
+        </div>
+    </div>
+
+    <h6>Fuel</h6>
+    <div class="row">
+        <div class="row">
+            <div class="col h6 text-center">Total</div>
+            <div class="col h6 text-center">Uplift</div>
+        </div>
+        <div class="col input-group">
+            <span class="input-group-text">B'Fwd</span>
+            <input type="number" class="form-control" id="fuel_bfwd" tabindex="9" name="fuel_bfwd" value="{{ fuel_bfwd }}">
+        </div>
+        <div class="col input-group">
+            <span class="input-group-text">Expected</span>
+            <input type="number" class="form-control" id="uplift_exp" tabindex="10" name="uplift_exp">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col input-group">
+            <span class="input-group-text">Departure</span>
+            <input type="number" class="form-control" id="departure_fuel" required tabindex="12" name="fuel_dep" value="{{ fuel_dep  }}">
+        </div>
+        <div class="col input-group">
+            <span class="input-group-text">Actual</span>
+            <input type="number" class="form-control" id="uplift_act" tabindex="11" name="uplift_act" value="0">
+        </div>
+    </div>
+
+    <h5>Oil</h5>
+    <div class="row">
+        <div class="row">
+            <div class="col h6 text-center">Total</div>
+            <div class="col h6 text-center">Uplift</div>
+        </div>
+        <div class="col input-group">
+            <span class="input-group-text">Uplift</span>
+            <input type="number" class="form-control" id="oil_up_l" step="0.5">
+        </div>
+        <div class="col input-group">
+            <span class="input-group-text">Uplift</span>
+            <input type="number" class="form-control" id="oil_up_r" step="0.5">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col input-group">
+            <span class="input-group-text">Departure</span>
+            <input type="number" class="form-control" id="dep_oil_l" step="0.5" required tabindex="13">
+        </div>
+        <div class="col input-group">
+            <span class="input-group-text">Departure</span>
+            <input type="number" class="form-control" id="dep_oil_r" step="0.5" required tabindex="14">
+        </div>
+    </div>
+
+    <h5>De-Anti Ice</h5>
+    <div class="row">
+        <div class="col input-group">
+            <span class="input-group-text">TKS</span>
+            <input type="number" class="form-control" id="tks_to" required tabindex="15">
+            <span class="input-group-text">Liters</span>
+        </div>
+        <div class="col input-group">
+            <span class="input-group-text">Type</span>
+            <input type="text" class="form-control" id="anti_ice_type">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col input-group">
+            <span class="input-group-text">Temperature</span>
+            <input type="number" class="form-control" id="temperature">
+            <span class="input-group-text">˚C</span>
+        </div>
+        <div class="col input-group">
+            <span class="input-group-text">Mix</span>
+            <input type="text" class="form-control" id="anti_ice_mix">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col input-group">
+            <span class="input-group-text">Time</span>
+            <input type="time" class="form-control" id="anti_ice_time">
+        </div>
+        <div class="col input-group">
+            <span class="input-group-text">Holdover</span>
+            <input type="time" class="form-control" id="holdover_time">
+        </div>
+    </div>
+
+    <button class="btn btn-dark" type="submit" tabindex="16">Submit</button>
+    <br>
+    <br>
+    <br>
+    <br>
+</form>
+{% endblock %}
+</body>
+<br>
+<br>
+
+<br>
+<br>
+<br>

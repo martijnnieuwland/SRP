@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Macros</title>
+</head>
+<body>
+
+{% macro nav_link(endpoint, name) %}
+{% if request.endpoint.endswith(endpoint) %}
+  <li class="" aria-current="page">
+      <a class="nav-link active" href="{{ url_for(endpoint) }}">{{name}}</a>
+  </li>
+{% else %}
+  <li><a class="nav-link" href="{{ url_for(endpoint) }}">{{name}}</a></li>
+{% endif %}
+{% endmacro %}
+
+</body>
+</html>

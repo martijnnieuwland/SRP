@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="../static/stylesheet.css">
+    <title>{% block title %} Base {% endblock %}</title>
+    {% from "macros.html" import nav_link with context %}
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-black">
+    {% block nav %}
+    <div class="container-fluid">
+
+        <a class="navbar-brand" href="{{ url_for('views.home')}}">
+            <img src="../static/black-dea-sao-logo-big-311x106.png" style="height: 3rem"
+                 class="d-inline-block align-text-top">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse hstack gap-3 position-relative" id="navbarSupportedContent">
+            {% if user.is_authenticated %}
+            <div class="ms-3">
+                <ul class="nav navbar-nav me-auto mb-2 mb-lg-0">
+                    {{ nav_link('views.home', 'Home') }}
+                    {{ nav_link('views.preflight', 'Preflight') }}
+                    {{ nav_link('views.postflight', 'Postflight') }}
+                    {{ nav_link('views.records', 'SRP') }}
+                </ul>
+            </div>
+
+            <div class="row position-absolute bottom-0 end-0">
+                <div class="ms-auto col-md-auto">
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">Search</button>
+                    </form>
+                    {% endif %}
+                </div>
+
+                <div class="d-flex flex-row-reverse nav-item navbar-nav btn-group ms-3 col-md-auto">
+                    <button type="button" class="btn btn-dark nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if user.is_authenticated %}
+                        {{ user.username }}
+                        {% else %}
+                        Sign in
+                        {% endif %}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end"
+                        aria-labelledby="navbarDarkDropdownMenuLink">
+                        {% if user.is_authenticated %}
+                        <li><a class="dropdown-item" id="Logout" href="{{ url_for('auth.logout')}}">Logout</a></li>
+                        {% else %}
+                        <li><a class="dropdown-item" id="Login" href="{{ url_for('auth.login')}}">Login</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" id="Register" href="{{ url_for('auth.register')}}">Register</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %} {% if
+messages %} {% for category, message in messages %} {% if category ==
+'error' %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close">
+        <span aria-hidden="true"></span>
+    </button>
+</div>
+{% else %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert">
+        <span aria-hidden="true"></span>
+    </button>
+</div>
+{% endif %} {% endfor %} {% endif %} {% endwith %}
+
+<div class="container mt-5">{% block content %} {% endblock %}</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
