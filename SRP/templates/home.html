@@ -5,10 +5,47 @@
 
 <div class="container position-absolute top-50 start-50 translate-middle">
 <div class="vstack gap-3 col-6 mx-auto">
-    <a class="row btn btn-dark btn-lg" href="{{ url_for('views.preflight') }}" role="button">Pre-flight</a>
+    <a class="row btn btn-dark btn-lg" href="{{ url_for('views.preflight_ac') }}" role="button">Pre-flight</a>
     <a class="row btn btn-dark btn-lg" href="{{ url_for('views.postflight') }}" role="button">Post-flight</a>
     <a class="row btn btn-dark btn-lg" href="{{ url_for('views.records') }}" role="button">Completed flights</a>
 </div>
 </div>
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Select aircraft to pre-flight:</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post">
+    <div>
+        <h4 class="text-center display-6"></h4>
+    </div>
+    <div class="container position-absolute top-50 start-50 translate-middle">
+        <div class="vstack gap-5 col-6 mx-auto">
+            <select class="form-select" id="aircraft" name="aircraft">
+                {% for ac in ac_list %}
+                <option value="{{ ac.registration }}">{{ ac.registration }}</option>
+                {% endfor %}
+            </select>
+<!--            <button >Enter</button>-->
+        </div>
+    </div>
+</form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-dark" type="submit">Enter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 {% endblock %}

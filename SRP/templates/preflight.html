@@ -8,26 +8,17 @@
     <h1 class="text-center">Pre-flight</h1>
 
     <div class="row">
-        <div class="col">
-            <h5 class="mt-3">Sector</h5>
+        <div class="col text-start">
+            <h4 class="mt-3">{{ac}}</h4>
         </div>
         <div class="col text-end">
-            <!--            <h5 class="mt-3">{# SRP #}</h5>-->
-            <input type="number" class="form-control" name="srp" placeholder="To do: SRP">
+            <h4 class="mt-3">Sector {{srp}}</h4>
         </div>
     </div>
     <div class="row">
-        <div class="input-group col">
-            <span class="input-group-text" id="aircraft-label">Aircraft</span>
-            <select class="form-select" id="aircraft">
-                {% for ac in aircraft %}
-                <option value="{{ ac.registration }}">{{ ac.registration }}</option>
-                {% endfor %}
-            </select>
-        </div>
         <div class="col input-group">
             <span class="input-group-text" id="callsign-label">Callsign</span>
-            <input class="form-control" list="callsigns" id="callsign" tabindex="2">
+            <input class="form-control" list="callsigns" id="callsign" value="{{callsign}}" tabindex="2">
             <datalist id="callsigns">
                 <option value="WKT01">WKT01</option>
                 <option value="WKT02">WKT02</option>
@@ -134,43 +125,46 @@
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text" id="task-label">Task</span>
-            <select class="input-group-text" id="task">
+            <select class="text form-select" id="task" name="task">
                 <option value="CAT">CAT</option>
                 <option value="NCO">NCO</option>
                 <option selected>SPO</option>
             </select>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control w-25" name="task_desc">
         </div>
         <div class="col input-group">
             <span class="input-group-text" id="date-label">Date</span>
-            <input type="date" class="form-control" id="date" required tabindex="3">
+            <input type="date" value={{today}} class="form-control" id="date" required tabindex="3" name="date">
         </div>
     </div>
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text" id="departure-label">Departure</span>
-            <input type="text" class="form-control" id="departure" placeholder="To do" required tabindex="4">
+            <input type="text" value="{{location}}" class="form-control text-uppercase" id="departure"
+                   name="airport_dep" required tabindex="4">
         </div>
         <div class="col input-group">
             <span class="input-group-text" id="destination-label">Destination</span>
-            <input type="text" class="form-control" id="destination" required tabindex="5">
+            <input type="text" class="form-control text-uppercase" id="destination" required tabindex="5"
+                   name="airport_des">
         </div>
     </div>
 
-    <h5 class="mt-3">Crew</h5>
+    <h4 class="mt-3">Crew</h4>
 
     <div class="row">
         <div class="col input-group">
-            <span class="input-group-text" id="pilot1-label">PIC</span>
-            <select class="form-select" id="p1">
+            <span class="input-group-text" id="pic-label">PIC</span>
+            <input type="text" class="form-control" id="pic" list="p1" value="{{ pic }}" required name="p1">
+            <datalist id="p1">
                 {% for pilot in pilot_name %}
                 <option value="{{ pilot.name_last }}">{{ pilot.name_last }}</option>
                 {% endfor %}
-            </select>
+            </datalist>
         </div>
         <div class="col input-group">
             <span class="input-group-text" id="pilot2-label">Pilot 2</span>
-            <input type="text" class="form-control" id="pilot2" list="p2">
+            <input type="text" class="form-control" id="pilot2" list="p2" name="p2">
             <datalist id="p2">
                 {% for pilot in pilot_name %}
                 <option value="{{ pilot.name_last }}">{{ pilot.name_last }}</option>
@@ -183,7 +177,7 @@
             <span class="input-group-text" id="crew-label">Crew</span>
             <input type="text" class="form-control" id="crew" list="ts" name="crew" tabindex="7">
             <datalist id="ts">
-                {% for crew in crew_name %}
+                {% for crew in crew_list %}
                 <option value="{{ crew.name_last }}">{{ crew.name_last }}</option>
                 {% endfor %}
             </datalist>
@@ -194,12 +188,12 @@
         </div>
     </div>
 
-    <h5 class="mt-3">Aircraft</h5>
+    <h4 class="mt-3">Aircraft</h4>
 
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Take-off mass</span>
-            <input type="number" class="form-control" id="tom" required tabindex="8">
+            <input type="number" class="form-control" id="tom" required tabindex="8" min="0" name="tom">
             <select class="input-group-text" id="ac_mass">
                 <option value="Lbs.">Lbs.</option>
                 <option selected>Kg.</option>
@@ -207,7 +201,7 @@
         </div>
     </div>
 
-    <h6>Fuel</h6>
+    <h5 class="text-center">Fuel</h5>
     <div class="row">
         <div class="row">
             <div class="col h6 text-center">Total</div>
@@ -215,83 +209,87 @@
         </div>
         <div class="col input-group">
             <span class="input-group-text">B'Fwd</span>
-            <input type="number" class="form-control" id="fuel_bfwd" tabindex="9" name="fuel_bfwd" value="{{ fuel_bfwd }}">
+            <input type="number" class="form-control" id="fuel_bfwd" tabindex="9" name="fuel_bfwd" value="{{ fuel_bfwd }}" min="0">
         </div>
         <div class="col input-group">
             <span class="input-group-text">Expected</span>
-            <input type="number" class="form-control" id="uplift_exp" tabindex="10" name="uplift_exp">
+            <input type="number" class="form-control" id="uplift_exp" tabindex="10" name="uplift_exp" min="0">
         </div>
     </div>
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Departure</span>
-            <input type="number" class="form-control" id="departure_fuel" required tabindex="12" name="fuel_dep" value="{{ fuel_dep  }}">
+            <input type="number" class="form-control" id="departure_fuel" required tabindex="12" name="fuel_dep" value="{{ fuel_dep  }}" min="0">
         </div>
         <div class="col input-group">
             <span class="input-group-text">Actual</span>
-            <input type="number" class="form-control" id="uplift_act" tabindex="11" name="uplift_act" value="0">
+            <input type="number" class="form-control" id="uplift_act" tabindex="11" name="uplift_act" min="0">
         </div>
     </div>
 
-    <h5>Oil</h5>
+    <h5 class="text-center">Oil</h5>
     <div class="row">
         <div class="row">
-            <div class="col h6 text-center">Total</div>
-            <div class="col h6 text-center">Uplift</div>
+            <div class="col h6 text-center">Left</div>
+            <div class="col h6 text-center">Right</div>
         </div>
         <div class="col input-group">
             <span class="input-group-text">Uplift</span>
-            <input type="number" class="form-control" id="oil_up_l" step="0.5">
+            <input type="number" class="form-control" id="oil_up_l" step="0.5" min="0">
         </div>
         <div class="col input-group">
             <span class="input-group-text">Uplift</span>
-            <input type="number" class="form-control" id="oil_up_r" step="0.5">
+            <input type="number" class="form-control" id="oil_up_r" step="0.5" min="0">
         </div>
     </div>
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Departure</span>
-            <input type="number" class="form-control" id="dep_oil_l" step="0.5" required tabindex="13">
+            <input type="number" class="form-control" id="dep_oil_l" step="0.5" required tabindex="13" min="0"
+                   value="{{ oil_dep_l }}">
         </div>
         <div class="col input-group">
             <span class="input-group-text">Departure</span>
-            <input type="number" class="form-control" id="dep_oil_r" step="0.5" required tabindex="14">
+            <input type="number" class="form-control" id="dep_oil_r" step="0.5" required tabindex="14" min="0"
+                   value="{{ oil_dep_r }}">
         </div>
     </div>
 
-    <h5>De-Anti Ice</h5>
+    <h5 class="text-center">De-Anti Ice</h5>
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">TKS</span>
-            <input type="number" class="form-control" id="tks_to" required tabindex="15">
+            <input type="number" class="form-control" id="tks_to" required tabindex="15" min="0" name="tks"
+                   value="{{ tks }}">
             <span class="input-group-text">Liters</span>
         </div>
         <div class="col input-group">
             <span class="input-group-text">Type</span>
-            <input type="text" class="form-control" id="anti_ice_type">
+            <input type="text" class="form-control" id="anti_ice_type" name="anti_ice_type">
         </div>
     </div>
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Temperature</span>
-            <input type="number" class="form-control" id="temperature">
+            <input type="number" class="form-control" id="temperature" name="temperature" step="1">
             <span class="input-group-text">˚C</span>
         </div>
         <div class="col input-group">
             <span class="input-group-text">Mix</span>
-            <input type="text" class="form-control" id="anti_ice_mix">
+            <input type="text" class="form-control" id="anti_ice_mix" name="anti_ice_mix">
         </div>
     </div>
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Time</span>
-            <input type="time" class="form-control" id="anti_ice_time">
+            <input type="time" class="form-control" id="anti_ice_time" name="anti_ice_time">
         </div>
         <div class="col input-group">
             <span class="input-group-text">Holdover</span>
-            <input type="time" class="form-control" id="holdover_time">
+            <input type="time" class="form-control" id="holdover_time" name="holdover_time">
         </div>
     </div>
+    <br>
 
     <button class="btn btn-dark" type="submit" tabindex="16">Submit</button>
     <br>

@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %} Preflight {% endblock %}
+{% block title %} Postflight {% endblock %}
 <body>
 {% block content %}
 <form class="d-grid gap-3">
 
-    <h1 class="text-center">Post-flight</h1>
+    <h3 class="text-center display-3">Post-flight</h3>
 
-    <h5 class="mt-3">Times</h5>
+    <h6 class="mt-3 display-6 text-center">Times</h6>
     <div class="row">
-        <div class="row">
-            <div class="col h6 text-center">Block</div>
-            <div class="col h6 text-center">Flight</div>
-        </div>
+        <div class="col text-center lead">Blocks</div>
+        <div class="col text-center lead">Flight</div>
+    </div>
+    <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Off</span>
             <input class="form-control" type="time" id="offblock" name="offblock" required>
@@ -34,35 +34,34 @@
     </div>
     <div class="row">
         <div class="col input-group">
-            <span class="input-group-text">Time</span>
+            <span class="input-group-text">Blocktime</span>
             <input class="form-control" type="time" id="block" name="block">
         </div>
         <div class="col input-group">
-            <span class="input-group-text">Time</span>
+            <span class="input-group-text">Flighttime</span>
             <input class="form-control" type="time" id="flight_time" name="flight_time">
         </div>
     </div>
     <div class="row">
-        <div class="row">
-            <div class="col h6 text-center">Total</div>
-            <div class="col h6 text-center">Total</div>
-        </div>
+        <div class="text-center lead">Total</div>
+    </div>
+    <div class="row">
         <div class="col input-group">
             <span class="input-group-text">B'Fwd</span>
             <input type="time" class="form-control" id="ac_hrs_bfwd">
         </div>
         <div class="col input-group">
-            <span class="input-group-text">Aircraft</span>
+            <span class="input-group-text">Current</span>
             <input type="time" class="form-control" id="ac_hrs">
         </div>
     </div>
 
-    <h5 class="mt-3">Fuel</h5>
+    <h6 class="mt-3 display-6 text-center">Fuel</h6>
     <div class="row">
-        <div class="row">
-            <div class="col h6 text-center">Left</div>
-            <div class="col h6 text-center">Right</div>
-        </div>
+        <div class="col text-center lead">Left</div>
+        <div class="col text-center lead">Right</div>
+    </div>
+    <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Main</span>
             <input type="number" class="form-control" id="main_l" required>
@@ -99,11 +98,11 @@
         </div>
     </div>
 
-    <h5 class="mt-3">Aircraft</h5>
+    <h6 class="mt-3 display-6 text-center">Aircraft</h6>
     <div class="row">
-        <div class="row">
-            <div class="col h6">Cycles</div>
-        </div>
+        <div class="text-center lead">Cycles</div>
+    </div>
+    <div class="row">
         <div class="col input-group">
             <span class="input-group-text">B'Fwd</span>
             <input type="number" class="form-control" id="cycles_bfwd">
@@ -114,9 +113,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="row">
-            <div class="col h6">Landings</div>
-        </div>
+        <div class="text-center lead">Landings</div>
+    </div>
+    <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Day</span>
             <input type="number" class="form-control" id="landings_day" required>
@@ -127,9 +126,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="row">
-            <div class="col h6">Service</div>
-        </div>
+        <div class="lead text-center">Service</div>
+    </div>
+    <div class="row">
         <div class="col input-group">
             <span class="input-group-text">TKS</span>
             <input type="number" class="form-control" id="tks" required>

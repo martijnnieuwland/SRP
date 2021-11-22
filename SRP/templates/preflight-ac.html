@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %} Aircraft pre-flight {% endblock %}
+<body>
+
+<div class="">
+    {% block content %}
+    <form action="" method="post">
+        <div class="container position-absolute top-50 start-50 translate-middle">
+
+            <div class="mb-3 pb-3">
+                <h4 class="text-center display-6">Select aircraft to pre-flight:</h4>
+            </div>
+            <br><br><br>
+            <div class="vstack gap-5 col-6 mx-auto">
+                <select class="form-select" id="aircraft" name="aircraft">
+                    {% for ac in ac_list %}
+                    <option value="{{ ac.registration }}">{{ ac.registration }}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn btn-dark" type="submit">Enter</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+{% endblock %}
+</body>
+
+

@@ -8,13 +8,14 @@ CREATE TABLE srp_user
 
 CREATE TABLE aircraft
   (
-     id                  SERIAL PRIMARY KEY,
-     registration        VARCHAR NOT NULL,
+     aircraft_id                  SERIAL PRIMARY KEY,
+     registration        VARCHAR,
      defect              BOOLEAN,
      servicetime         INTERVAL,
-     hours               INTERVAL NOT NULL,
+     hours               INTERVAL,
      landing_day_total   SMALLINT,
-     landing_night_total SMALLINT
+     landing_night_total SMALLINT,
+     status              VARCHAR
   );
 
 CREATE TABLE airport
@@ -22,42 +23,48 @@ CREATE TABLE airport
      icao CHAR(4) PRIMARY KEY
   );
 
+CREATE TABLE employee
+  (
+     employee_id         SERIAL PRIMARY KEY,
+     name_first VARCHAR,
+     name_last  VARCHAR,
+     email      VARCHAR
+  );
+
 CREATE TABLE pilot
   (
-     id         SERIAL PRIMARY KEY,
-     call_sign  VARCHAR,
-     name_first VARCHAR,
-     name_last  VARCHAR
+     pilot_id          SERIAL PRIMARY KEY,
+     employee_id INT REFERENCES employee,
+     call_sign   VARCHAR
   );
 
 CREATE TABLE crew
   (
-     id         SERIAL PRIMARY KEY,
-     name_first VARCHAR,
-     name_last  VARCHAR
+     crew_id          SERIAL PRIMARY KEY,
+     employee_id INT REFERENCES employee
   );
 
 CREATE TABLE passenger
   (
-     id         SERIAL PRIMARY KEY,
+     passenger_id         SERIAL PRIMARY KEY,
      name_first VARCHAR,
      name_last  VARCHAR
   );
 
 CREATE TABLE flight
   (
-     id                   SERIAL PRIMARY KEY,
+     flight_id            SERIAL PRIMARY KEY,
      ac                   INT REFERENCES aircraft,
      p1                   INT REFERENCES pilot,
      p2                   INT REFERENCES pilot,
      airport_dep          VARCHAR REFERENCES airport,
      airport_des          VARCHAR REFERENCES airport,
      srp                  INT,
-     DATE                 DATE NOT NULL,
+     DATE                 DATE,
      TASK                 VARCHAR,
      depfuel_uplift_exp   SMALLINT,
      depfuel_uplift_act   SMALLINT,
-     depfuel_total        SMALLINT NOT NULL,
+     depfuel_total        SMALLINT,
      oil_uplift_l         VARCHAR,
      oil_uplift_r         VARCHAR,
      oil_dep_l            VARCHAR,
@@ -68,24 +75,24 @@ CREATE TABLE flight
      deantiice_time       TIME,
      deantiice_mix        VARCHAR,
      holdovertime         INTERVAL,
-     takeoff_mass         INT NOT NULL,
+     takeoff_mass         INT,
      preflight_signature  VARCHAR,
      preflight_callsign   VARCHAR(5),
-     landfuel_main_l      SMALLINT NOT NULL,
-     landfuel_main_r      SMALLINT NOT NULL,
-     landfuel_aux_l       SMALLINT NOT NULL,
-     landfuel_aux_r       SMALLINT NOT NULL,
-     landfuel_other_l     SMALLINT NOT NULL,
-     landfuel_other_r     SMALLINT NOT NULL,
+     landfuel_main_l      SMALLINT,
+     landfuel_main_r      SMALLINT,
+     landfuel_aux_l       SMALLINT,
+     landfuel_aux_r       SMALLINT,
+     landfuel_other_l     SMALLINT,
+     landfuel_other_r     SMALLINT,
      tks_postflight       SMALLINT,
-     blockoff             TIME[0] NOT NULL,
-     takeoff              TIME[0] NOT NULL,
-     landing              TIME[0] NOT NULL,
-     blockon              TIME[0] NOT NULL,
-     landing_day          SMALLINT NOT NULL,
-     landing_night        SMALLINT NOT NULL,
-     postflight_signature VARCHAR NOT NULL,
-     postflight_callsign  VARCHAR(5) NOT NULL
+     blockoff             TIME[0],
+     takeoff              TIME[0],
+     landing              TIME[0],
+     blockon              TIME[0],
+     landing_day          SMALLINT,
+     landing_night        SMALLINT,
+     postflight_signature VARCHAR,
+     postflight_callsign  VARCHAR(5)
   );
 
 CREATE TABLE operation
