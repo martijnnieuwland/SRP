@@ -7,8 +7,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
         integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous"/>
   <link rel="stylesheet" href="../static/stylesheet.css">
-  <script src="../static/javascript.js"></script>
-  <title>{% block title %} Base {% endblock %}</title>
+  <title>{% block title %} Test {% endblock %}</title>
   {% from "macros.html" import nav_link with context %}
 </head>
 
@@ -65,12 +64,20 @@
 <p>Click the button to display an alert box.</p>
 
 <button onclick="myFunction()">Try it</button>
-
+<br>
+<br>
+<br>
+  <div>
+    <b-form-timepicker v-model="value" locale="" minutes-step="5"></b-form-timepicker>
+    <div class="mt-2">Value: '{{ value }}'</div>
+  </div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
         crossorigin="anonymous"></script>
+  <script src="../static/javascript.js"></script>
+  <script src="../static/test.js"></script>
 
 </body>
 </html>

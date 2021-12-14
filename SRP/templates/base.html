@@ -29,8 +29,8 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
                 {{ nav_link('views.home', 'Home') }}
-                {{ nav_link('views.preflight_ac', 'Preflight') }}
-                {{ nav_link('views.postflight', 'Postflight') }}
+                {{ nav_link('views.preflight', 'Preflight') }}
+                {{ nav_link('views.get_postflight', 'Postflight') }}
                 {{ nav_link('views.records', 'SRP') }}
                 {% endif %}
 

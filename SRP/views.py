@@ -15,23 +15,23 @@ def home():
 
 @views.route('/preflight-ac', methods=["GET", "POST"])
 @login_required
-def preflight_ac():
+def preflight():
     if request.method == "GET":
         ac_list = aircraft.query.all()
         return render_template('preflight-ac.html', ac_list=ac_list, user=current_user)
     else:
         ac = request.form.get("aircraft")
-        aircraft_id = aircraft.query.filter_by(registration=ac).first().aircraft_id
-        ac_sector = flight(ac=aircraft_id)
-        db.session.add(ac_sector)
+        ac_rec = aircraft.query.filter_by(registration=ac).first()
+        ac_srp = aircraft.query.filter_by(registration=ac).first().srp
+        ac_rec.srp = ac_srp + 1
         db.session.commit()
-        return redirect(url_for('views.preflight', ac=ac))
+        return redirect(url_for('views.preflight_ac', ac=ac))
 
 
 @views.route('/preflight/<ac>', methods=["GET", "POST"])
 @login_required
-def preflight(ac):
-    srp = aircraft.query.filter_by(registration=ac).first().srp + 1
+def preflight_ac(ac):
+    srp = aircraft.query.filter_by(registration=ac).first().srp
     callsign = aircraft.query.filter_by(registration=ac).first().callsign
     today = datetime.now()
     location = aircraft.query.filter_by(registration=ac).first().location
@@ -39,8 +39,6 @@ def preflight(ac):
         .filter_by(email=current_user.email).first()
     pic = pic.name_last if pic else srp_user.query.filter_by(username=current_user.username).first().username
     fuel_bfwd = aircraft.query.filter_by(registration=ac).first().fuel
-    uplift_act = 0
-    fuel_dep = fuel_bfwd + uplift_act
     oil_dep_l = aircraft.query.filter_by(registration=ac).first().oil_l
     oil_dep_r = aircraft.query.filter_by(registration=ac).first().oil_r
     tks = aircraft.query.filter_by(registration=ac).first().tks
@@ -57,7 +55,6 @@ def preflight(ac):
                                pic=pic,
                                today=today,
                                fuel_bfwd=fuel_bfwd,
-                               fuel_dep=fuel_dep,
                                pilot_name=pilot_name,
                                crew_list=crew_list,
                                oil_dep_l=oil_dep_l,
@@ -69,6 +66,7 @@ def preflight(ac):
         db.session.add(new_pax)
         db.session.commit()
 
+        aircraft_id = aircraft.query.filter_by(registration=ac).first().aircraft_id
         task = request.form.get("task")
         task_desc = request.form.get("task_desc")
         date = request.form.get("date")
@@ -107,6 +105,7 @@ def preflight(ac):
         preflight_callsign = "x"
 
         preflight_data = flight(srp=srp,
+                                ac=aircraft_id,
                                 callsign=callsign,
                                 task=task,
                                 task_desc=task_desc,
@@ -136,13 +135,44 @@ def preflight(ac):
                                 preflight_callsign=preflight_callsign)
         db.session.add(preflight_data)
         db.session.commit()
-        return redirect(url_for('views.postflight'))
+        return redirect(url_for('views.postflight', ac=ac))
 
 
-@views.route("/postflight", methods=["GET", "POST"])
+@views.route("/postflight/<ac>", methods=["GET", "POST"])
 @login_required
-def postflight():
-    return render_template("postflight.html", page="postflight", user=current_user)
+def postflight(ac):
+    srp = aircraft.query.filter_by(registration=ac).first().srp
+    ac_hrs_bfwd = aircraft.query.filter_by(registration=ac).first().hours
+    ac_hrs_bfwd_hrs = int((ac_hrs_bfwd.total_seconds() / 60) // 60)
+    ac_hrs_bfwd_min = int((ac_hrs_bfwd.total_seconds() / 60) % 60)
+    cycles = aircraft.query.filter_by(registration=ac).first().cycles
+    total_day_ldg = aircraft.query.filter_by(registration=ac).first().landing_day_total
+    total_night_ldg = aircraft.query.filter_by(registration=ac).first().landing_night_total
+    tks_postflight = aircraft.query.filter_by(registration=ac).first().tks
+    servicetime = aircraft.query.filter_by(registration=ac).first().servicetime
+    service_hrs = int((servicetime.total_seconds() / 60) // 60)
+    service_min = int((servicetime.total_seconds() / 60) % 60)
+    rem_hrs = int(((servicetime - ac_hrs_bfwd).total_seconds() / 60) // 60)
+    rem_min = int(((servicetime - ac_hrs_bfwd).total_seconds() / 60) % 60)
+
+    if request.method == "GET":
+        return render_template('postflight.html',
+                               user=current_user,
+                               srp=srp,
+                               ac=ac,
+                               ac_hrs_bfwd_hrs=ac_hrs_bfwd_hrs,
+                               ac_hrs_bfwd_min=ac_hrs_bfwd_min,
+                               cycles=cycles,
+                               total_day_ldg=total_day_ldg,
+                               total_night_ldg=total_night_ldg,
+                               tks=tks_postflight,
+                               service_hrs=service_hrs,
+                               service_min=service_min,
+                               rem_hrs=rem_hrs,
+                               rem_min=rem_min
+                               )
+    else:
+        pass
 
 
 # landfuel_main_l = 1
@@ -178,6 +208,18 @@ def postflight():
 # postflight_callsign = postflight_callsign,
 # postflight_signature = postflight_signature)
 
+
+
+
+
+
+
+
+
+@views.route("/postflight", methods=["GET", "POST"])
+@login_required
+def get_postflight():
+    return render_template('postflight.html', user=current_user)
 
 
 

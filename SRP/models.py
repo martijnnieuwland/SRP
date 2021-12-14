@@ -26,6 +26,7 @@ class aircraft(db.Model):
     srp = db.Column(db.Integer)
     callsign = db.Column(db.String)
     location = db.Column(db.Integer)
+    cycles = db.Column(db.Integer)
 
 
 class airport(db.Model):

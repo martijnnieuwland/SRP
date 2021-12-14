@@ -1,59 +1,172 @@
 {% extends "base.html" %}
 
-{% block title %} Preflight {% endblock %}
+{% block title %} Records {% endblock %}
+
 <body>
 {% block content %}
 
-
+<form>
 <p>Click the button to display an alert box.</p>
 
 <button onclick="myFunction()">Try it</button>
+<br>
+<button onclick="hey()">Hey</button>
 
 <br>
 <br>
+<input type="text" id="input">
 <br>
 <br>
-<div>
 
-<input placeholder="Enter some text" name="name"/>
-<p id="values"></p>
+<div class="row">
+    <div class="col input-group time-selector">
+        <span class="input-group-text">Off</span>
+        <input class="form-control" type="time" id="offblock" name="offblock" required step="300">
+    </div>
+    <p id="values">change</p>
+    <div class="col input-group">
+        <span class="input-group-text">Take-off</span>
+        <input class="form-control" type="time" id="takeoff" name="takeoff" required>
+        <script>
+                if (/Mobi/.test(navigator.userAgent)) {
+  // if mobile device, use native pickers
+  $(".date input").attr("type", "date");
+  $(".time input").attr("type", "time");
+} else {
+  // if desktop device, use DateTimePicker
+  $("#datepicker").datetimepicker({
+    useCurrent: true,
+    format: "L",
+    showTodayButton: true,
+    icons: {
+      next: "fa fa-chevron-right",
+      previous: "fa fa-chevron-left",
+      today: 'todayText',
+    }
+  });
+  $("#timepicker").datetimepicker({
+    format: "LT",
+    icons: {
+      up: "fa fa-chevron-up",
+      down: "fa fa-chevron-down"
+    }
+  });
+}
+
+            </script>
+    </div>
 </div>
 
-<br>
-<br>
-<br>
-<p>Write something in the text field to trigger a function.</p>
 
-Enter no.: <input type="number" id="Input1" value="6">
 <br>
-Enter no.: <input type="number" id="Input2" value="9">
 <br>
 <br>
 <br>
 <br>
 
-this is a record
-<a href="/">Home</a>
-<p>This {{aircraft}} was chosen</p>
-<p>SRP: {{srp}}</p>
-<p>Off Blocks: {{offblocktime}}</p>
-<p>Takeoff: {{takeofftime}}</p>
-<p>Landing: {{landingtime}}</p>
-<p>On Blocks: {{onblocktime}}</p>
-<p>Block Time: {{blocktime}}</p>
-<p>Flight Time: {{flighttime}}</p>
-<p>This is the first item in airport: {{ airports.icao }} </p>
-<p>First name: {{crew_name.name_first}} </p>
-<p>Who's last name do you want to know?</p>
-<input type="text" name="first">
-<p>Last name: </p>
-<ul>
-   {% for names in crew_data %}
-    <li>
-        {{ names.name_last }}
-    </li>
-     {% endfor %}
-</ul>
-<p></p>
-</body>
+
+<h1>Custom<span>Time</span>Picker</h1>
+<div class="time-picker" data-time="00:00">
+    <div class="hour">
+        <div class="hr-up"></div>
+        <input type="number" class="hr" value="00" />
+        <div class="hr-down"></div>
+    </div>
+
+    <div class="separator">:</div>
+
+    <div class="minute">
+        <div class="min-up"></div>
+        <input type="number" class="min" value="00">
+        <div class="min-down"></div>
+    </div>
+</div>
+<script src="main.js"></script>
+
+
+<br>
+<br>
+<br>
+<br>
+
+
+<div class="row">
+    <div class="input-group mb-3 col">
+        <label class="input-group-text" for="offhrs">Off</label>
+        <select class="form-select" id="offhrs">
+            <option selected>--</option>
+            {% for hr in range(0, 24) %}
+            <option value="{{ '%02d' % hr }}">{{ '%02d' % hr }}</option>
+            {% endfor %}
+        </select>
+        <select class="form-select" id="offmin">
+            <option selected>--</option>
+            {% for min in range(0, 60, 5) %}
+            <option value="{{ '%02d' % min }}">{{ '%02d' % min }}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-outline-secondary" type="button" onclick="setOff()"><img src="../static/clock.svg"
+                                                                                         alt="Time"></button>
+    </div>
+    <div class="input-group mb-3 col">
+        <label class="input-group-text" for="tohrs">T/O</label>
+        <select class="form-select" id="tohrs">
+            <option value="" selected>--</option>
+            {% for hr in range(0, 24) %}
+            <option value="{{ '%02d' % hr }}">{{ '%02d' % hr }}</option>
+            {% endfor %}
+        </select>
+        <select class="form-select" id="tomin">
+            <option value="" selected>--</option>
+            {% for min in range(0, 60, 5) %}
+            <option value="{{ '%02d' % min }}">{{ '%02d' % min }}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-outline-secondary" type="button"><img src="../static/clock.svg" alt="Time"
+                                                                     onclick="setTO()"></button>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="input-group mb-3 col">
+        <label class="input-group-text" for="onhrs">On</label>
+        <select class="form-select" id="onhrs">
+            <option selected>--</option>
+            {% for hr in range(0, 24) %}
+            <option value="{{ '%02d' % hr }}">{{ '%02d' % hr }}</option>
+            {% endfor %}
+        </select>
+        <select class="form-select" id="onmin">
+            <option selected>--</option>
+            {% for min in range(0, 60, 5) %}
+            <option value="{{ '%02d' % min }}">{{ '%02d' % min }}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-outline-secondary" type="button" onclick="setOn()"><img src="../static/clock.svg"
+                                                                                         alt="Time"></button>
+    </div>
+    <div class="input-group mb-3 col" id="landing">
+        <label class="input-group-text" for="ldghrs">Ldg</label>
+        <select class="form-select" id="ldghrs">
+            <option value="" selected>--</option>
+            {% for hr in range(0, 24) %}
+            <option value="{{ '%02d' % hr }}">{{ '%02d' % hr }}</option>
+            {% endfor %}
+        </select>
+        <select class="form-select" id="ldgmin">
+            <option value="" selected>--</option>
+            {% for min in range(0, 60, 5) %}
+            <option value="{{ '%02d' % min }}">{{ '%02d' % min }}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-outline-secondary" type="button"><img src="../static/clock.svg" alt="Time"
+                                                                     onclick="setLdg()"></button>
+    </div>
+</div>
+
+
+</form>
 {% endblock %}}
+
+</body>

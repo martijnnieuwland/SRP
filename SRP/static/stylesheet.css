@@ -1,3 +1,13 @@
 element.style, input:required, select:required, .required{
   border: 1px solid #000000;
 }
+
+.time-select{
+background: none;
+padding: 0.375rem 0.75rem 0.375rem 0.75rem;
+border-left: 1px dashed #ced4da;
+border-right: 1px dashed #ced4da;
+text-align: center;
+cursor: text;
+}
+
