@@ -172,7 +172,10 @@ def postflight(ac):
                                rem_min=rem_min
                                )
     else:
-        pass
+        offhrs = request.form.get("offhrs")
+        print(offhrs)
+        return render_template('home.html',
+                               user=current_user)
 
 
 # landfuel_main_l = 1
