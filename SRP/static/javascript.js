@@ -184,6 +184,8 @@ function setAcTime () {
     }
   document.getElementById("ac_hrs").textContent = ac_hrs;
   document.getElementById("ac_min").textContent = ac_min;
+  document.getElementById("ac_hrs_new").value = ac_hrs;
+  document.getElementById("ac_min_new").value = ac_min;
 }
 
 
@@ -218,8 +220,6 @@ function getNightLandings() {
   document.getElementById("total_night_ldg").textContent = +total_night_ldg + +landings_night;
 }
 
-//const ac_time_rem = document.getElementById("ac_hrs");
-//ac_time_rem.addEventListener("load", test)
 
 function test() {
   console.log("testing")

@@ -25,17 +25,17 @@
     <div class="row">
         <div class="input-group mb-3 col">
             <label class="input-group-text" for="offhrs">Off</label>
-            <select class="time-select form-select" id="offhrs" onchange="getBlockTime()">
+            <select class="time-select form-select" id="offhrs" name="offhrs" onchange="getBlockTime()">
                 {% for hr in range(23, -1, -1) %}
                 <option value="{{ '%02d' % hr }}">{{ '%02d' % hr }}</option>
                 {% endfor %}
-                <option value="" selected>--</option>
+                <option value="" selected disabled>--</option>
             </select>
-            <select class="time-select form-select" id="offmin" onchange="getBlockTime()">
+            <select class="time-select form-select" id="offmin" name="offmin" onchange="getBlockTime()">
                 {% for min in range(55, -1, -5) %}
                 <option value="{{ '%02d' % min }}">{{ '%02d' % min }}</option>
                 {% endfor %}
-                <option value="" selected>--</option>
+                <option value="" selected disabled>--</option>
             </select>
             <button class="btn btn-outline-secondary" type="button" onclick="setOff(); getBlockTime()">
                 <img src="../static/clock.svg" alt="Time">
@@ -43,17 +43,17 @@
         </div>
         <div class="input-group mb-3 col">
             <label class="input-group-text" for="tohrs">T/O</label>
-            <select class="time-select form-select" id="tohrs" onchange="getFlightTime(); setAcTime(); getTimeRemaining()">
+            <select class="time-select form-select" id="tohrs" name="tohrs" onchange="getFlightTime(); setAcTime(); getTimeRemaining()">
                 {% for hr in range(23, -1, -1) %}
                 <option value="{{ '%02d' % hr }}">{{ '%02d' % hr }}</option>
                 {% endfor %}
-                <option value="" selected>--</option>
+                <option value="" selected disabled>--</option>
             </select>
-            <select class="time-select form-select" id="tomin" onchange="getFlightTime(); setAcTime(); getTimeRemaining()">
+            <select class="time-select form-select" id="tomin" name="tomin" onchange="getFlightTime(); setAcTime(); getTimeRemaining()">
                 {% for min in range(55, -1, -5) %}
                 <option value="{{ '%02d' % min }}">{{ '%02d' % min }}</option>
                 {% endfor %}
-                <option value="" selected>--</option>
+                <option value="" selected disabled>--</option>
             </select>
             <button class="btn btn-outline-secondary" type="button">
                 <img src="../static/clock.svg" alt="Time" onclick="setTO(); getFlightTime(); setAcTime(); getTimeRemaining()">
@@ -75,34 +75,34 @@
     <div class="row">
         <div class="input-group mb-3 col">
             <label class="input-group-text" for="onhrs">On</label>
-            <select class="time-select form-select" id="onhrs" onchange="getBlockTime()">
+            <select class="time-select form-select" id="onhrs" name="onhrs" onchange="getBlockTime()">
                 {% for hr in range(23, -1, -1) %}
                 <option value="{{ '%02d' % hr }}">{{ '%02d' % hr }}</option>
                 {% endfor %}
-                <option value="" selected>--</option>
+                <option value="" selected disabled>--</option>
             </select>
-            <select class="time-select form-select" id="onmin" onchange="getBlockTime()">
+            <select class="time-select form-select" id="onmin" name="onmin" onchange="getBlockTime()">
                 {% for min in range(55, -1, -5) %}
                 <option value="{{ '%02d' % min }}">{{ '%02d' % min }}</option>
                 {% endfor %}
-                <option value="" selected>--</option>
+                <option value="" selected disabled>--</option>
             </select>
             <button class="btn btn-outline-secondary" type="button" onclick="setOn(); getBlockTime()">
                 <img src="../static/clock.svg" alt="Time"></button>
         </div>
         <div class="input-group mb-3 col" id="landing">
             <label class="input-group-text" for="ldghrs">Ldg</label>
-            <select class="time-select form-select" id="ldghrs" onchange="getFlightTime(); setAcTime(); getTimeRemaining()">
+            <select class="time-select form-select" id="ldghrs" name="ldghrs" onchange="getFlightTime(); setAcTime(); getTimeRemaining()">
                 {% for hr in range(23, -1, -1) %}
                 <option value="{{ '%02d' % hr }}">{{ '%02d' % hr }}</option>
                 {% endfor %}
-                <option value="" selected>--</option>
+                <option value="" selected disabled>--</option>
             </select>
-            <select class="time-select form-select" id="ldgmin" onchange="getFlightTime(); setAcTime(); getTimeRemaining()">
+            <select class="time-select form-select" id="ldgmin" name="ldgmin" onchange="getFlightTime(); setAcTime(); getTimeRemaining()">
                 {% for min in range(55, -1, -5) %}
                 <option value="{{ '%02d' % min }}">{{ '%02d' % min }}</option>
                 {% endfor %}
-                <option value="" selected>--</option>
+                <option value="" selected disabled>--</option>
             </select>
             <button class="btn btn-outline-secondary" type="button">
                 <img src="../static/clock.svg" alt="Time" onclick="setLdg(); getFlightTime(); setAcTime(); getTimeRemaining()">
@@ -158,7 +158,10 @@
                 <p>Current aircraft time: </p>
             </div>
             <div class="d-flex justify-content-end ms-auto">
-                <p id="ac_hrs" onchange="getTimeRemaining()">{{ac_hrs_bfwd_hrs}}</p><p>:</p><p id="ac_min">{{ac_hrs_bfwd_min}}</p>
+                <output type="text" id="ac_hrs" name="ac_hrs" onchange="getTimeRemaining()">{{ac_hrs_bfwd_hrs}}</output>
+                <p>:</p><output type="text" id="ac_min" name="ac_min">{{ac_hrs_bfwd_min}}</output>
+                <input hidden type="text" name="ac_hrs_new" id="ac_hrs_new" value={{ac_hrs_bfwd_hrs}}>
+                <input hidden type="text" name="ac_min_new" id="ac_min_new" value={{ac_hrs_bfwd_min}}>
             </div>
         </div>
     </div>
@@ -202,7 +205,7 @@
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Total</span>
-            <input type="number" class="form-control" id="landing_fuel" min="0">
+            <input type="number" class="form-control" id="landing_fuel" name="landing_fuel" min="0">
         </div>
     </div>
 
@@ -214,7 +217,7 @@
     <div class="row">
         <div class="col input-group d-flex justify-content-evenly me-auto align-self-start">
             <span class="input-group-text">Cycles</span>
-            <input id="cycles" type="number" class="form-control" min="0" onchange="getCurrentCycles()">
+            <input id="cycles" name="cycles" type="number" class="form-control" min="0" onchange="getCurrentCycles()">
         </div>
         <div class="mb-3 col">
             <div class="d-flex justify-content-start me-auto">
@@ -239,11 +242,11 @@
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Day</span>
-            <input type="number" class="form-control" id="landings_day" min="0" onchange="getDayLandings()" required>
+            <input type="number" class="form-control" id="landings_day" name="landings_day" min="0" onchange="getDayLandings()" required>
         </div>
         <div class="col input-group">
             <span class="input-group-text">Night</span>
-            <input type="number" class="form-control" id="landings_night" min="0" onchange="getNightLandings()" required>
+            <input type="number" class="form-control" id="landings_night" name="landings_night" min="0" onchange="getNightLandings()" required>
         </div>
     </div>
 
@@ -270,16 +273,16 @@
         <div class="col-4">
             <div class="input-group">
                 <span class="input-group-text">TKS</span>
-                <input type="number" class="form-control" id="tks" value="{{ tks }}" min="0" required>
+                <input type="number" class="form-control" id="tks" name="tks" value="{{ tks }}" min="0" required>
             </div>
         </div>
         <div class="col">
             <div class="input-group">
                 <div class="input-group-text">
-                    <input class="form-check-input me-3 mt-0" type="checkbox" value=""
-                           aria-label="Checkbox for following text input"
+                    <input class="form-check-input me-3 mt-0" type="checkbox"
+                           aria-label="Checkbox to enable text input"
                            onchange="document.getElementById('defect').disabled = !this.checked;" >Defect:</div>
-                <input type="text" class="form-control" aria-label="Text input with checkbox" id="defect" disabled>
+                <input type="text" class="form-control" aria-label="Text input with checkbox" id="defect" name="defect" disabled>
             </div>
         </div>
     </div>

@@ -13,7 +13,7 @@ class srp_user(db.Model, UserMixin):
 class aircraft(db.Model):
     aircraft_id = db.Column(db.Integer, primary_key=True)
     registration = db.Column(db.String)
-    defect = db.Column(db.Boolean)
+    defect = db.Column(db.String)
     servicetime = db.Column(db.Interval)
     hours = db.Column(db.Interval)
     landing_day_total = db.Column(db.Integer)
@@ -58,7 +58,7 @@ class flight(db.Model):
     date = db.Column(db.Date, default=func.now())
     task = db.Column(db.String)
     task_desc = db.Column(db.String)
-    fuel_bfwd =  db.Column(db.Integer)
+    fuel_bfwd = db.Column(db.Integer)
     depfuel_uplift_exp = db.Column(db.Integer)
     depfuel_uplift_act = db.Column(db.Integer)
     depfuel_total = db.Column(db.Integer)

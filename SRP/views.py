@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time, timedelta
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from SRP.models import aircraft, airport, crew, employee, flight, passenger, pilot, srp_user
@@ -130,7 +130,6 @@ def preflight_ac(ac):
                                 deantiice_mix=anti_ice_mix,
                                 deantiice_time=anti_ice_time,
                                 holdovertime=holdover_time,
-
                                 preflight_signature=preflight_signature,
                                 preflight_callsign=preflight_callsign)
         db.session.add(preflight_data)
@@ -141,15 +140,16 @@ def preflight_ac(ac):
 @views.route("/postflight/<ac>", methods=["GET", "POST"])
 @login_required
 def postflight(ac):
-    srp = aircraft.query.filter_by(registration=ac).first().srp
-    ac_hrs_bfwd = aircraft.query.filter_by(registration=ac).first().hours
-    ac_hrs_bfwd_hrs = int((ac_hrs_bfwd.total_seconds() / 60) // 60)
-    ac_hrs_bfwd_min = int((ac_hrs_bfwd.total_seconds() / 60) % 60)
-    cycles = aircraft.query.filter_by(registration=ac).first().cycles
-    total_day_ldg = aircraft.query.filter_by(registration=ac).first().landing_day_total
-    total_night_ldg = aircraft.query.filter_by(registration=ac).first().landing_night_total
-    tks_postflight = aircraft.query.filter_by(registration=ac).first().tks
-    servicetime = aircraft.query.filter_by(registration=ac).first().servicetime
+    ac_record = aircraft.query.filter_by(registration=ac).first()
+    srp = ac_record.srp
+    ac_hrs_bfwd = ac_record.hours
+    ac_hrs_bfwd_hrs = '%02d' % int((ac_hrs_bfwd.total_seconds() / 60) // 60)
+    ac_hrs_bfwd_min = '%02d' % int((ac_hrs_bfwd.total_seconds() / 60) % 60)
+    cycles = ac_record.cycles
+    total_day_ldg = ac_record.landing_day_total
+    total_night_ldg = ac_record.landing_night_total
+    tks_postflight = ac_record.tks
+    servicetime = ac_record.servicetime
     service_hrs = int((servicetime.total_seconds() / 60) // 60)
     service_min = int((servicetime.total_seconds() / 60) % 60)
     rem_hrs = int(((servicetime - ac_hrs_bfwd).total_seconds() / 60) // 60)
@@ -172,8 +172,41 @@ def postflight(ac):
                                rem_min=rem_min
                                )
     else:
-        offhrs = request.form.get("offhrs")
-        print(offhrs)
+        # -----------  update sector record  ---------------------------------
+        ac_id = aircraft.query.filter_by(srp=srp).first().aircraft_id
+        sector_record = flight.query.filter_by(ac=ac_id, srp=srp).first()
+        offhrs = int(request.form.get("offhrs"))
+        offmin = int(request.form.get("offmin"))
+        tohrs = int(request.form.get("tohrs"))
+        tomin = int(request.form.get("tomin"))
+        ldghrs = int(request.form.get("ldghrs"))
+        ldgmin = int(request.form.get("ldgmin"))
+        onhrs = int(request.form.get("onhrs"))
+        onmin = int(request.form.get("onmin"))
+        blockoff = time(hour=offhrs, minute=offmin)
+        takeoff = time(hour=tohrs, minute=tomin)
+        landing = time(hour=ldghrs, minute=ldgmin)
+        blockon = time(hour=onhrs, minute=onmin)
+        sector_record.blockoff = blockoff
+        sector_record.takeoff = takeoff
+        sector_record.landing = landing
+        sector_record.blockon = blockon
+
+        # -------------  update aircraft  ----------------------------------
+        ac_hrs = int('%02d' % int(request.form.get("ac_hrs_new")))
+        ac_min = int('%02d' % int(request.form.get("ac_min_new")))
+        ac_time = f"{ac_hrs}:{ac_min}"
+        ac_record.hours = ac_time
+        ac_record.fuel = request.form.get("landing_fuel")
+        ac_record.cycles = cycles + int(request.form.get("cycles"))
+        ac_record.landing_day_total = total_day_ldg + int(request.form.get("landings_day"))
+        ac_record.landing_night_total = total_night_ldg + int(request.form.get("landings_night"))
+        ac_record.tks = request.form.get("tks")
+        ac_record.defect = request.form.get("defect")
+
+        db.session.commit()
+
+
         return render_template('home.html',
                                user=current_user)
 
