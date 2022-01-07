@@ -262,15 +262,14 @@ def get_postflight():
 @views.route("/records", methods=["GET", "POST"])
 @login_required
 def records():
-    airports = airport.query.first()
-    crew_name = employee.query.filter_by(name_last='Brown').first()
-    crew_data = crew.query.all()
+    aircraft_data = aircraft.query
+    sector_data = flight.query
     return render_template("records.html",
+                           title="Sector Records",
                            page="records",
                            user=current_user,
-                           airports=airports,
-                           crew_name=crew_name,
-                           crew_data=crew_data)
+                           aircraft_data=aircraft_data,
+                           sector_data=sector_data)
 
 
 @views.route("/test")

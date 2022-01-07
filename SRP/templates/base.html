@@ -2,13 +2,17 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="../static/stylesheet.css">
-
     <title>{% block title %} Base {% endblock %}</title>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+          crossorigin="anonymous"/>
+    <link rel="stylesheet"
+          href="../static/stylesheet.css">
+    <link rel="stylesheet"
+          type="text/css"
+          href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
     {% from "macros.html" import nav_link with context %}
 </head>
 
@@ -58,10 +62,10 @@
 
                 </li>
             </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-light" type="submit">Search</button>
-            </form>
+<!--            <form class="d-flex">-->
+<!--                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
+<!--                <button class="btn btn-outline-light" type="submit">Search</button>-->
+<!--            </form>-->
         </div>
     </div>
     {% endblock %}
@@ -85,11 +89,28 @@ messages %} {% for category, message in messages %} {% if category ==
 </div>
 {% endif %} {% endfor %} {% endif %} {% endwith %}
 
-<div class="container mt-5">{% block content %} div{% endblock %}</div>
+<div class="container mt-5">{% block content %} {% endblock %}</div>
+
+<script type="text/javascript"
+        charset="utf8"
+        src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script type="text/javascript"
+        charset="utf8"
+        src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript"
+        charset="utf8"
+        src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
         crossorigin="anonymous"></script>
+
 <script src="../static/javascript.js"></script>
+
+{% block scripts %}
+{% endblock %}
 </body>
 
 </html>
