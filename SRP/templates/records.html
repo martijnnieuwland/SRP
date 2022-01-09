@@ -5,174 +5,272 @@
 <body>
 {% block content %}
 
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+<link rel="stylesheet"
+      type="text/css"
+      href="../static/records.css">
+
+<h3 class="text-center display-3" >Records</h3>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <div class="sidebar p-3 bg-white">
+                <ul class="nav nav-tabs mt-5 mb-5">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Active</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Dropdown</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="tab-content">
+                <div class="table-responsive mt-5 mb-5" style="font-size: .75em">
+                    <table class="table table-striped table-hover caption-top nowrap" id="sector">
+                        <caption>Sector Records</caption>
+                        <thead class="table-dark align-top nowrap">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Aircraft</th>
+                            <th scope="col">Callsign</th>
+                            <th scope="col">P1</th>
+                            <th scope="col">P2</th>
+                            <th scope="col">Crew</th>
+                            <th scope="col">Departure</th>
+                            <th scope="col">Destination</th>
+                            <th scope="col">SRP</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Task</th>
+                            <th scope="col">Task description</th>
+                            <th scope="col">Fuel brought forward</th>
+                            <th scope="col">Fuel uplift expected</th>
+                            <th scope="col">Fuel uplift actual</th>
+                            <th scope="col">Departure fuel</th>
+                            <th scope="col">Oil uplift expected</th>
+                            <th scope="col">Oil uplift actual</th>
+                            <th scope="col">Departure oil left</th>
+                            <th scope="col">Departure oil right</th>
+                            <th scope="col">TKS pre-flight</th>
+                            <th scope="col">De-Anti-ice type</th>
+                            <th scope="col">De-Anti-ice temperature</th>
+                            <th scope="col">De-Anti-ice time</th>
+                            <th scope="col">De-Anti-ice mix</th>
+                            <th scope="col">Holdover time</th>
+                            <th scope="col">Takeoff mass</th>
+                            <th scope="col">Pre-flight sign-off</th>
+                            <th scope="col">Pre-flight callsign</th>
+                            <th scope="col">Landing fuel main left</th>
+                            <th scope="col">Landing fuel main right</th>
+                            <th scope="col">Landing fuel aux left</th>
+                            <th scope="col">Landing fuel aux right</th>
+                            <th scope="col">Landing fuel other left</th>
+                            <th scope="col">Landing fuel other right</th>
+                            <th scope="col">TKS post-flight</th>
+                            <th scope="col">Blocks off</th>
+                            <th scope="col">Takeoff</th>
+                            <th scope="col">Landing</th>
+                            <th scope="col">Blocks on</th>
+                            <th scope="col">Landings day</th>
+                            <th scope="col">Landings night</th>
+                            <th scope="col">Post-flight sign-off</th>
+                            <th scope="col">Post-flight callsign</th>
+                        </tr>
+                        </thead>
+                        <tbody class="">
+                        {% for sector in sector_data %}
+                        <tr>
+                            <th scope="row">{{sector.flight_id}}</th>
+                            <td>{{sector.ac}}</td>
+                            <td>{{sector.callsign}}</td>
+                            <td>{{sector.p1}}</td>
+                            <td>{{sector.p2}}</td>
+                            <td>{{sector.crew}}</td>
+                            <td>{{sector.airport_dep}}</td>
+                            <td>{{sector.airport_des}}</td>
+                            <td>{{sector.srp}}</td>
+                            <td>{{sector.date}}</td>
+                            <td>{{sector.task}}</td>
+                            <td>{{sector.task_desc}}</td>
+                            <td>{{sector.fuel_bfwd}}</td>
+                            <td>{{sector.depfuel_uplift_exp}}</td>
+                            <td>{{sector.depfuel_uplift_act}}</td>
+                            <td>{{sector.depfuel_total}}</td>
+                            <td>{{sector.oil_uplift_l}}</td>
+                            <td>{{sector.oil_uplift_r}}</td>
+                            <td>{{sector.oil_dep_l}}</td>
+                            <td>{{sector.oil_dep_r}}</td>
+                            <td>{{sector.tks_preflight}}</td>
+                            <td>{{sector.deantiice_type}}</td>
+                            <td>{{sector.deantiice_temp}}</td>
+                            <td>{{sector.deantiice_time}}</td>
+                            <td>{{sector.deantiice_mix}}</td>
+                            <td>{{sector.holdovertime}}</td>
+                            <td>{{sector.takeoff_mass}}</td>
+                            <td>{{sector.preflight_signature}}</td>
+                            <td>{{sector.preflight_callsign}}</td>
+                            <td>{{sector.landfuel_main_l}}</td>
+                            <td>{{sector.landfuel_main_r}}</td>
+                            <td>{{sector.landfuel_aux_l}}</td>
+                            <td>{{sector.landfuel_aux_r}}</td>
+                            <td>{{sector.landfuel_other_l}}</td>
+                            <td>{{sector.landfuel_other_r}}</td>
+                            <td>{{sector.tks_postflight}}</td>
+                            <td>{{sector.blockoff}}</td>
+                            <td>{{sector.takeoff}}</td>
+                            <td>{{sector.landing}}</td>
+                            <td>{{sector.blockon}}</td>
+                            <td>{{sector.landing_day}}</td>
+                            <td>{{sector.landing_night}}</td>
+                            <td>{{sector.postflight_signature}}</td>
+                            <td>{{sector.postflight_callsign}}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-responsive mt-5 mb-5" style="font-size: .75em">
+                    <table class="table table-striped table-hover caption-top nowrap" id="aircraft">
+                        <caption>Aircraft</caption>
+                        <thead class="table-dark align-top">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Aircraft</th>
+                            <th scope="col">Defect</th>
+                            <th scope="col">Service time</th>
+                            <th scope="col">Hours</th>
+                            <th scope="col">Landings day</th>
+                            <th scope="col">Landings night</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Fuel</th>
+                            <th scope="col">Oil left</th>
+                            <th scope="col">Oil right</th>
+                            <th scope="col">TKS</th>
+                            <th scope="col">SRP</th>
+                            <th scope="col">Callsign</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Cycles</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for ac in aircraft_data %}
+                        <tr>
+                            <th scope="row">{{ac.aircraft_id}}</th>
+                            <td>{{ac.registration}}</td>
+                            <td>{{ac.defect}}</td>
+                            <td>{{ac.servicetime}}</td>
+                            <td>{{ac.hours}}</td>
+                            <td>{{ac.landing_day_total}}</td>
+                            <td>{{ac.landing_night_total}}</td>
+                            <td>{{ac.status}}</td>
+                            <td>{{ac.fuel}}</td>
+                            <td>{{ac.oil_l}}</td>
+                            <td>{{ac.oil_r}}</td>
+                            <td>{{ac.tks}}</td>
+                            <td>{{ac.srp}}</td>
+                            <td>{{ac.callsign}}</td>
+                            <td>{{ac.location}}</td>
+                            <td>{{ac.cycles}}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<h3 class="text-center display-3">Records</h3>
-
-<div class="table-responsive mt-5 mb-5">
-    <table class="table table-striped table-hover caption-top" id="sector">
-        <caption>Sector Records</caption>
-        <thead class="table-dark align-top">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Aircraft</th>
-            <th scope="col">Callsign</th>
-            <th scope="col">P1</th>
-            <th scope="col">P2</th>
-            <th scope="col">Crew</th>
-            <th scope="col">Departure</th>
-            <th scope="col">Destination</th>
-            <th scope="col">SRP</th>
-            <th scope="col">Date</th>
-            <th scope="col">Task</th>
-            <th scope="col">Description</th>
-            <th scope="col">Fuel brought forward</th>
-            <th scope="col">Fuel uplift expected</th>
-            <th scope="col">Fuel uplift actual</th>
-            <th scope="col">Departure fuel</th>
-            <th scope="col">Oil uplift expected</th>
-            <th scope="col">Oil uplift actual</th>
-            <th scope="col">Departure oil left</th>
-            <th scope="col">Departure oil right</th>
-            <th scope="col">TKS pre-flight</th>
-            <th scope="col">De-Anti-ice type</th>
-            <th scope="col">De-Anti-ice temperature</th>
-            <th scope="col">De-Anti-ice time</th>
-            <th scope="col">De-Anti-ice mix</th>
-            <th scope="col">Holdover time</th>
-            <th scope="col">Takeoff mass</th>
-            <th scope="col">Pre-flight signature</th>
-            <th scope="col">Pre-flight callsign</th>
-            <th scope="col">Landing fuel main left</th>
-            <th scope="col">Landing fuel main right</th>
-            <th scope="col">Landing fuel aux left</th>
-            <th scope="col">Landing fuel aux right</th>
-            <th scope="col">Landing fuel other left</th>
-            <th scope="col">Landing fuel other right</th>
-            <th scope="col">TKS Postflight</th>
-            <th scope="col">Blocks off</th>
-            <th scope="col">Takeoff</th>
-            <th scope="col">Landing</th>
-            <th scope="col">Blocks on</th>
-            <th scope="col">Landings day</th>
-            <th scope="col">Landings night</th>
-            <th scope="col">Postflight signature</th>
-            <th scope="col">Postflight callsign</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for sector in sector_data %}
-        <tr>
-            <th scope="row">{{sector.flight_id}}</th>
-            <td>{{sector.ac}}</td>
-            <td>{{sector.callsign}}</td>
-            <td>{{sector.p1}}</td>
-            <td>{{sector.p2}}</td>
-            <td>{{sector.crew}}</td>
-            <td>{{sector.airport_dep}}</td>
-            <td>{{sector.airport_des}}</td>
-            <td>{{sector.srp}}</td>
-            <td>{{sector.date}}</td>
-            <td>{{sector.task}}</td>
-            <td>{{sector.task_desc}}</td>
-            <td>{{sector.fuel_bfwd}}</td>
-            <td>{{sector.depfuel_uplift_exp}}</td>
-            <td>{{sector.depfuel_uplift_act}}</td>
-            <td>{{sector.depfuel_total}}</td>
-            <td>{{sector.oil_uplift_l}}</td>
-            <td>{{sector.oil_uplift_r}}</td>
-            <td>{{sector.oil_dep_l}}</td>
-            <td>{{sector.oil_dep_r}}</td>
-            <td>{{sector.tks_preflight}}</td>
-            <td>{{sector.deantiice_type}}</td>
-            <td>{{sector.deantiice_temp}}</td>
-            <td>{{sector.deantiice_time}}</td>
-            <td>{{sector.deantiice_mix}}</td>
-            <td>{{sector.holdovertime}}</td>
-            <td>{{sector.takeoff_mass}}</td>
-            <td>{{sector.preflight_signature}}</td>
-            <td>{{sector.preflight_callsign}}</td>
-            <td>{{sector.landfuel_main_l}}</td>
-            <td>{{sector.landfuel_main_r}}</td>
-            <td>{{sector.landfuel_aux_l}}</td>
-            <td>{{sector.landfuel_aux_r}}</td>
-            <td>{{sector.landfuel_other_l}}</td>
-            <td>{{sector.landfuel_other_r}}</td>
-            <td>{{sector.tks_postflight}}</td>
-            <td>{{sector.blockoff}}</td>
-            <td>{{sector.takeoff}}</td>
-            <td>{{sector.landing}}</td>
-            <td>{{sector.blockon}}</td>
-            <td>{{sector.landing_day}}</td>
-            <td>{{sector.landing_night}}</td>
-            <td>{{sector.postflight_signature}}</td>
-            <td>{{sector.postflight_callsign}}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-<div class="table-responsive mt-5 mb-5">
-    <table class="table table-striped table-hover caption-top" id="aircraft">
-        <caption>Aircraft</caption>
-        <thead class="table-dark align-top">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Aircraft</th>
-            <th scope="col">Defect</th>
-            <th scope="col">Servicetime</th>
-            <th scope="col">Hours</th>
-            <th scope="col">Landings Day</th>
-            <th scope="col">Landings Night</th>
-            <th scope="col">Status</th>
-            <th scope="col">Fuel</th>
-            <th scope="col">Oil Left</th>
-            <th scope="col">Oil Right</th>
-            <th scope="col">TKS</th>
-            <th scope="col">SRP</th>
-            <th scope="col">Callsign</th>
-            <th scope="col">Location</th>
-            <th scope="col">Cycles</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for ac in aircraft_data %}
-        <tr>
-            <th scope="row">{{ac.aircraft_id}}</th>
-            <td>{{ac.registration}}</td>
-            <td>{{ac.defect}}</td>
-            <td>{{ac.servicetime}}</td>
-            <td>{{ac.hours}}</td>
-            <td>{{ac.landing_day_total}}</td>
-            <td>{{ac.landing_night_total}}</td>
-            <td>{{ac.status}}</td>
-            <td>{{ac.fuel}}</td>
-            <td>{{ac.oil_l}}</td>
-            <td>{{ac.oil_r}}</td>
-            <td>{{ac.tks}}</td>
-            <td>{{ac.srp}}</td>
-            <td>{{ac.callsign}}</td>
-            <td>{{ac.location}}</td>
-            <td>{{ac.cycles}}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
-
 {% endblock %}
 
 {% block scripts %}
 <script>
     $(document).ready(function () {
-      $('#sector').DataTable();
+      $('#sector').DataTable({
+        "columns": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {className: "dt-body-nowrap"},
+          null,
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          null,
+          null,
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          null,
+          {orderable: false, searchable: false}]
+      });
     });
+
     $(document).ready(function () {
-      $('#aircraft').DataTable();
+      $('#aircraft').DataTable({
+        columns: [
+          null,
+          null,
+          {orderable: false},
+          {orderable: false, searchable: false},
+          {searchable: false},
+          {searchable: false},
+          {searchable: false},
+          null,
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          {orderable: false, searchable: false},
+          null,
+          null,
+          null,
+          {searchable: false}]
+        });
     });
-  </script>
+</script>
 {% endblock %}
 
 </body>
