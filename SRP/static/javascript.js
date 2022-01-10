@@ -207,15 +207,15 @@ function getCurrentCycles() {
 }
 
 
-let total_day_ldg = document.getElementById("total_day_ldg").textContent;
 function getDayLandings() {
+  let total_day_ldg = document.getElementById("total_day_ldg").textContent;
   let landings_day = document.getElementById("landings_day").value;
   document.getElementById("total_day_ldg").textContent = +total_day_ldg + +landings_day;
 }
 
 
-let total_night_ldg = document.getElementById("total_night_ldg").textContent;
 function getNightLandings() {
+  let total_night_ldg = document.getElementById("total_night_ldg").textContent;
   let landings_night = document.getElementById("landings_night").value;
   document.getElementById("total_night_ldg").textContent = +total_night_ldg + +landings_night;
 }
@@ -263,3 +263,19 @@ function getTimeRemaining () {
         rem_time[e].style.color = "black"}
   }
 }
+
+// -------------------------------  Records  -----------------------------
+function toggleTable () {
+  let selected_table = document.getElementById("table").value;
+  let sectors = (document.getElementById("sector_table"));
+  console.log(sectors)
+  let aircraft = (document.getElementById("aircraft_table"));
+    if (selected_table == "sectors") {
+      sectors.style.display = "block";
+      aircraft.style.display = "none";
+    }
+    else if (selected_table == "aircraft") {
+      aircraft.style.display = "block";
+      sectors.style.display = "none";
+    }
+  }
