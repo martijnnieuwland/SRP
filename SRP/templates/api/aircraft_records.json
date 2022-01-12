@@ -1,0 +1,20 @@
+{
+  "data": [
+    {"aircraft_id": "self.aircraft_id"},
+    {"registration": "self.registration"},
+    {"defect": "self.defect"},
+    {"servicetime": "self.servicetime"},
+    {"hours": "self.hours"},
+    {"landing_day_total": "self.landing_day_total"},
+    {"landing_night_total": "self.landing_night_total"},
+    {"status": "self.status"},
+    {"fuel": "self.fuel"},
+    {"oil_l": "self.oil_l"},
+    {"oil_r": "self.oil_r"},
+    {"tks": "self.tks"},
+    {"srp": "self.srp"},
+    {"callsign": "self.callsign"},
+    {"location": "self.location"},
+    {"cycles": "self.cycles"}
+  ]
+}

@@ -268,7 +268,6 @@ function getTimeRemaining () {
 function toggleTable () {
   let selected_table = document.getElementById("table").value;
   let sectors = (document.getElementById("sector_table"));
-  console.log(sectors)
   let aircraft = (document.getElementById("aircraft_table"));
     if (selected_table == "sectors") {
       sectors.style.display = "block";

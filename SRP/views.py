@@ -1,7 +1,7 @@
-from datetime import datetime, time, timedelta
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from datetime import datetime, time
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
-from SRP.models import aircraft, airport, crew, employee, flight, passenger, pilot, srp_user
+from SRP.models import aircraft, crew, employee, flight, passenger, pilot, srp_user
 from SRP import db
 
 views = Blueprint("views", __name__)
@@ -203,53 +203,9 @@ def postflight(ac):
         ac_record.landing_night_total = total_night_ldg + int(request.form.get("landings_night"))
         ac_record.tks = request.form.get("tks")
         ac_record.defect = request.form.get("defect")
-
         db.session.commit()
-
-
         return render_template('home.html',
                                user=current_user)
-
-
-# landfuel_main_l = 1
-# landfuel_main_r = 1
-# landfuel_aux_l = 1
-# landfuel_aux_r = 1
-# landfuel_other_l = 1
-# landfuel_other_r = 1
-# tks_postflight = 1
-# blockoff = request.form.get("blockoff")
-# takeoff = request.form.get("takeoff")
-# landing = request.form.get("landing")
-# blockon = request.form.get("blockon")
-# landing_day = 1
-# landing_night = 1
-# postflight_callsign = "x"
-# postflight_signature = True
-
-
-# landfuel_main_l = landfuel_main_l,
-# landfuel_main_r = landfuel_main_r,
-# landfuel_aux_l = landfuel_aux_l,
-# landfuel_aux_r = landfuel_aux_r,
-# landfuel_other_l = landfuel_other_l,
-# landfuel_other_r = landfuel_other_r,
-# tks_postflight = tks_postflight,
-# blockoff = blockoff,
-# takeoff = takeoff,
-# landing = landing,
-# blockon = blockon,
-# landing_day = landing_day,
-# landing_night = landing_night,
-# postflight_callsign = postflight_callsign,
-# postflight_signature = postflight_signature)
-
-
-
-
-
-
-
 
 
 @views.route("/postflight", methods=["GET", "POST"])
@@ -258,18 +214,26 @@ def get_postflight():
     return render_template('postflight.html', user=current_user)
 
 
-
 @views.route("/records", methods=["GET", "POST"])
 @login_required
 def records():
-    aircraft_data = aircraft.query
-    sector_data = flight.query
     return render_template("records.html",
-                           title="Sector Records",
+                           title="Records",
                            page="records",
-                           user=current_user,
-                           aircraft_data=aircraft_data,
-                           sector_data=sector_data)
+                           user=current_user
+                           )
+
+
+@views.route("/api/sector_records", methods=["GET"])
+@login_required
+def sector_records():
+    return{'data': [sector.to_dict() for sector in flight.query]}
+
+
+@views.route("/api/aircraft_records", methods=["GET"])
+@login_required
+def aircraft_records():
+    return{'data': [ac.to_dict() for ac in aircraft.query]}
 
 
 @views.route("/test")

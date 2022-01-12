@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Records {% endblock %}
+{% block title %} {{title}} {% endblock %}
 
 <body>
 {% block content %}
@@ -9,7 +9,7 @@
       type="text/css"
       href="../static/records.css">
 
-<h3 class="text-center display-3" >Records</h3>
+<h3 class="text-center display-3" >{{title}}</h3>
 
 <div class="sidebar bg-white">
     <select class="form-select form-select-sm" name="table" id="table"
@@ -71,55 +71,55 @@
                 <th scope="col">Post-flight callsign</th>
             </tr>
             </thead>
-            <tbody class="">
-            {% for sector in sector_data %}
-            <tr>
-                <th scope="row">{{sector.flight_id}}</th>
-                <td>{{sector.ac}}</td>
-                <td>{{sector.callsign}}</td>
-                <td>{{sector.p1}}</td>
-                <td>{{sector.p2}}</td>
-                <td>{{sector.crew}}</td>
-                <td>{{sector.airport_dep}}</td>
-                <td>{{sector.airport_des}}</td>
-                <td>{{sector.srp}}</td>
-                <td>{{sector.date}}</td>
-                <td>{{sector.task}}</td>
-                <td>{{sector.task_desc}}</td>
-                <td>{{sector.fuel_bfwd}}</td>
-                <td>{{sector.depfuel_uplift_exp}}</td>
-                <td>{{sector.depfuel_uplift_act}}</td>
-                <td>{{sector.depfuel_total}}</td>
-                <td>{{sector.oil_uplift_l}}</td>
-                <td>{{sector.oil_uplift_r}}</td>
-                <td>{{sector.oil_dep_l}}</td>
-                <td>{{sector.oil_dep_r}}</td>
-                <td>{{sector.tks_preflight}}</td>
-                <td>{{sector.deantiice_type}}</td>
-                <td>{{sector.deantiice_temp}}</td>
-                <td>{{sector.deantiice_time}}</td>
-                <td>{{sector.deantiice_mix}}</td>
-                <td>{{sector.holdovertime}}</td>
-                <td>{{sector.takeoff_mass}}</td>
-                <td>{{sector.preflight_signature}}</td>
-                <td>{{sector.preflight_callsign}}</td>
-                <td>{{sector.landfuel_main_l}}</td>
-                <td>{{sector.landfuel_main_r}}</td>
-                <td>{{sector.landfuel_aux_l}}</td>
-                <td>{{sector.landfuel_aux_r}}</td>
-                <td>{{sector.landfuel_other_l}}</td>
-                <td>{{sector.landfuel_other_r}}</td>
-                <td>{{sector.tks_postflight}}</td>
-                <td>{{sector.blockoff}}</td>
-                <td>{{sector.takeoff}}</td>
-                <td>{{sector.landing}}</td>
-                <td>{{sector.blockon}}</td>
-                <td>{{sector.landing_day}}</td>
-                <td>{{sector.landing_night}}</td>
-                <td>{{sector.postflight_signature}}</td>
-                <td>{{sector.postflight_callsign}}</td>
-            </tr>
-            {% endfor %}
+            <tbody>
+<!--            {% for sector in sector_data %}-->
+<!--            <tr>-->
+<!--                <th scope="row">{{sector.flight_id}}</th>-->
+<!--                <td>{{sector.ac}}</td>-->
+<!--                <td>{{sector.callsign}}</td>-->
+<!--                <td>{{sector.p1}}</td>-->
+<!--                <td>{{sector.p2}}</td>-->
+<!--                <td>{{sector.crew}}</td>-->
+<!--                <td>{{sector.airport_dep}}</td>-->
+<!--                <td>{{sector.airport_des}}</td>-->
+<!--                <td>{{sector.srp}}</td>-->
+<!--                <td>{{sector.date}}</td>-->
+<!--                <td>{{sector.task}}</td>-->
+<!--                <td>{{sector.task_desc}}</td>-->
+<!--                <td>{{sector.fuel_bfwd}}</td>-->
+<!--                <td>{{sector.depfuel_uplift_exp}}</td>-->
+<!--                <td>{{sector.depfuel_uplift_act}}</td>-->
+<!--                <td>{{sector.depfuel_total}}</td>-->
+<!--                <td>{{sector.oil_uplift_l}}</td>-->
+<!--                <td>{{sector.oil_uplift_r}}</td>-->
+<!--                <td>{{sector.oil_dep_l}}</td>-->
+<!--                <td>{{sector.oil_dep_r}}</td>-->
+<!--                <td>{{sector.tks_preflight}}</td>-->
+<!--                <td>{{sector.deantiice_type}}</td>-->
+<!--                <td>{{sector.deantiice_temp}}</td>-->
+<!--                <td>{{sector.deantiice_time}}</td>-->
+<!--                <td>{{sector.deantiice_mix}}</td>-->
+<!--                <td>{{sector.holdovertime}}</td>-->
+<!--                <td>{{sector.takeoff_mass}}</td>-->
+<!--                <td>{{sector.preflight_signature}}</td>-->
+<!--                <td>{{sector.preflight_callsign}}</td>-->
+<!--                <td>{{sector.landfuel_main_l}}</td>-->
+<!--                <td>{{sector.landfuel_main_r}}</td>-->
+<!--                <td>{{sector.landfuel_aux_l}}</td>-->
+<!--                <td>{{sector.landfuel_aux_r}}</td>-->
+<!--                <td>{{sector.landfuel_other_l}}</td>-->
+<!--                <td>{{sector.landfuel_other_r}}</td>-->
+<!--                <td>{{sector.tks_postflight}}</td>-->
+<!--                <td>{{sector.blockoff}}</td>-->
+<!--                <td>{{sector.takeoff}}</td>-->
+<!--                <td>{{sector.landing}}</td>-->
+<!--                <td>{{sector.blockon}}</td>-->
+<!--                <td>{{sector.landing_day}}</td>-->
+<!--                <td>{{sector.landing_night}}</td>-->
+<!--                <td>{{sector.postflight_signature}}</td>-->
+<!--                <td>{{sector.postflight_callsign}}</td>-->
+<!--            </tr>-->
+<!--            {% endfor %}-->
             </tbody>
         </table>
     </div>
@@ -148,26 +148,26 @@
             </tr>
             </thead>
             <tbody>
-            {% for ac in aircraft_data %}
-            <tr>
-                <th scope="row">{{ac.aircraft_id}}</th>
-                <td>{{ac.registration}}</td>
-                <td>{{ac.defect}}</td>
-                <td>{{ac.servicetime}}</td>
-                <td>{{ac.hours}}</td>
-                <td>{{ac.landing_day_total}}</td>
-                <td>{{ac.landing_night_total}}</td>
-                <td>{{ac.status}}</td>
-                <td>{{ac.fuel}}</td>
-                <td>{{ac.oil_l}}</td>
-                <td>{{ac.oil_r}}</td>
-                <td>{{ac.tks}}</td>
-                <td>{{ac.srp}}</td>
-                <td>{{ac.callsign}}</td>
-                <td>{{ac.location}}</td>
-                <td>{{ac.cycles}}</td>
-            </tr>
-            {% endfor %}
+<!--            {% for ac in aircraft_data %}-->
+<!--            <tr>-->
+<!--                <th scope="row">{{ac.aircraft_id}}</th>-->
+<!--                <td>{{ac.registration}}</td>-->
+<!--                <td>{{ac.defect}}</td>-->
+<!--                <td>{{ac.servicetime}}</td>-->
+<!--                <td>{{ac.hours}}</td>-->
+<!--                <td>{{ac.landing_day_total}}</td>-->
+<!--                <td>{{ac.landing_night_total}}</td>-->
+<!--                <td>{{ac.status}}</td>-->
+<!--                <td>{{ac.fuel}}</td>-->
+<!--                <td>{{ac.oil_l}}</td>-->
+<!--                <td>{{ac.oil_r}}</td>-->
+<!--                <td>{{ac.tks}}</td>-->
+<!--                <td>{{ac.srp}}</td>-->
+<!--                <td>{{ac.callsign}}</td>-->
+<!--                <td>{{ac.location}}</td>-->
+<!--                <td>{{ac.cycles}}</td>-->
+<!--            </tr>-->
+<!--            {% endfor %}-->
             </tbody>
         </table>
     </div>
@@ -179,74 +179,77 @@
 <script>
     $(document).ready(function () {
       $('#sector').DataTable({
-        fixedHeader: true,
+        ajax: "/api/sector_records",
         columns: [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          {className: "dt-body-nowrap"},
-          null,
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          null,
-          null,
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          null,
-          {orderable: false, searchable: false}]
+          {data: "flight_id"},
+          {data: "ac"},
+          {data: "callsign"},
+          {data: "p1"},
+          {data: "p2"},
+          {data: "crew"},
+          {data: "airport_dep"},
+          {data: "airport_des"},
+          {data: "srp"},
+          {data: "date", className: "dt-body-nowrap"},
+          {data: "task"},
+          {data: "task_desc", orderable: false, searchable: false},
+          {data: "fuel_bfwd", orderable: false, searchable: false},
+          {data: "depfuel_uplift_exp", orderable: false, searchable: false},
+          {data: "depfuel_uplift_act", orderable: false, searchable: false},
+          {data: "depfuel_total", orderable: false, searchable: false},
+          {data: "oil_uplift_l", orderable: false, searchable: false},
+          {data: "oil_uplift_r", orderable: false, searchable: false},
+          {data: "oil_dep_l", orderable: false, searchable: false},
+          {data: "oil_dep_r", orderable: false, searchable: false},
+          {data: "tks_preflight", orderable: false, searchable: false},
+          {data: "deantiice_type", orderable: false, searchable: false},
+          {data: "deantiice_temp", orderable: false, searchable: false},
+          {data: "deantiice_time", orderable: false, searchable: false},
+          {data: "deantiice_mix", orderable: false, searchable: false},
+          {data: "holdovertime", orderable: false, searchable: false},
+          {data: "takeoff_mass", orderable: false, searchable: false},
+          {data: "preflight_signature"},
+          {data: "preflight_callsign"},
+          {data: "landfuel_main_l", orderable: false, searchable: false},
+          {data: "landfuel_main_r", orderable: false, searchable: false},
+          {data: "landfuel_aux_l", orderable: false, searchable: false},
+          {data: "landfuel_aux_r", orderable: false, searchable: false},
+          {data: "landfuel_other_l", orderable: false, searchable: false},
+          {data: "landfuel_other_r", orderable: false, searchable: false},
+          {data: "tks_postflight", orderable: false, searchable: false},
+          {data: "blockoff", orderable: false, searchable: false},
+          {data: "takeoff", orderable: false, searchable: false},
+          {data: "landing", orderable: false, searchable: false},
+          {data: "blockon", orderable: false, searchable: false},
+          {data: "landing_day", orderable: false, searchable: false},
+          {data: "landing_night", orderable: false, searchable: false},
+          {data: "postflight_signature"},
+          {data: "postflight_callsign", orderable: false, searchable: false}
+          ],
       });
     });
 
     $(document).ready(function () {
       $('#aircraft').DataTable({
+        ajax: "/api/aircraft_records",
         columns: [
-          null,
-          null,
-          {orderable: false},
-          {orderable: false, searchable: false},
-          {searchable: false},
-          {searchable: false},
-          {searchable: false},
-          null,
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          {orderable: false, searchable: false},
-          null,
-          null,
-          null,
-          {searchable: false}]
+          {data: "aircraft_id"},
+          {data: "registration"},
+          {data: "defect", orderable: false},
+          {data: "servicetime", orderable: false, searchable: false},
+          {data: "hours", searchable: false},
+          {data: "landing_day_total", searchable: false},
+          {data: "landing_night_total", searchable: false},
+          {data: "status"},
+          {data: "fuel", orderable: false, searchable: false},
+          {data: "oil_l", orderable: false, searchable: false},
+          {data: "oil_r", orderable: false, searchable: false},
+          {data: "tks", orderable: false, searchable: false},
+          {data: "srp"},
+          {data: "callsign"},
+          {data: "location"},
+          {data: "cycles", searchable: false}
+          ],
         });
     });
 </script>

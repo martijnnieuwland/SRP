@@ -28,6 +28,26 @@ class aircraft(db.Model):
     location = db.Column(db.Integer)
     cycles = db.Column(db.Integer)
 
+    def to_dict(self):
+        return{
+            "aircraft_id": self.aircraft_id,
+            "registration": self.registration,
+            "defect": self.defect,
+            "servicetime": str(self.servicetime),
+            "hours": str(self.hours),
+            "landing_day_total": self.landing_day_total,
+            "landing_night_total": self.landing_night_total,
+            "status": self.status,
+            "fuel": self.fuel,
+            "oil_l": self.oil_l,
+            "oil_r": self.oil_r,
+            "tks": self.tks,
+            "srp": str(self.srp),
+            "callsign": self.callsign,
+            "location": self.location,
+            "cycles": self.cycles
+        }
+
 
 class airport(db.Model):
     icao = db.Column(db.String, primary_key=True)
@@ -90,6 +110,54 @@ class flight(db.Model):
     landing_night = db.Column(db.Integer)
     postflight_signature = db.Column(db.Boolean)
     postflight_callsign = db.Column(db.String(5))
+
+    def to_dict(self):
+        return {
+            "flight_id": self.flight_id,
+            "ac": self.ac,
+            "callsign": self.callsign,
+            "p1": self.p1,
+            "p2": self.p2,
+            "crew": self.crew,
+            "airport_dep": self.airport_dep,
+            "airport_des": self.airport_des,
+            "srp": self.srp,
+            "date": self.date,
+            "task": self.task,
+            "task_desc": self.task_desc,
+            "fuel_bfwd": self.fuel_bfwd,
+            "depfuel_uplift_exp": self.depfuel_uplift_exp,
+            "depfuel_uplift_act": self.depfuel_uplift_act,
+            "depfuel_total": self.depfuel_total,
+            "oil_uplift_l": self.oil_uplift_l,
+            "oil_uplift_r": self.oil_uplift_r,
+            "oil_dep_l": self.oil_dep_l,
+            "oil_dep_r": self.oil_dep_r,
+            "tks_preflight": self.tks_preflight,
+            "deantiice_type": self.deantiice_type,
+            "deantiice_temp": self.deantiice_temp,
+            "deantiice_time": str(self.deantiice_time),
+            "deantiice_mix": self.deantiice_mix,
+            "holdovertime": str(self.holdovertime),
+            "takeoff_mass": self.takeoff_mass,
+            "preflight_signature": self.preflight_signature,
+            "preflight_callsign": self.preflight_callsign,
+            "landfuel_main_l": self.landfuel_main_l,
+            "landfuel_main_r": self.landfuel_main_r,
+            "landfuel_aux_l": self.landfuel_aux_l,
+            "landfuel_aux_r": self.landfuel_aux_r,
+            "landfuel_other_l": self.landfuel_other_l,
+            "landfuel_other_r": self.landfuel_other_r,
+            "tks_postflight": self.tks_postflight,
+            "blockoff": str(self.blockoff),
+            "takeoff": str(self.takeoff),
+            "landing": str(self.landing),
+            "blockon": str(self.blockon),
+            "landing_day": self.landing_day,
+            "landing_night": self.landing_night,
+            "postflight_signature": self.postflight_signature,
+            "postflight_callsign": self.postflight_callsign
+        }
 
 
 operation = db.Table('operation',
