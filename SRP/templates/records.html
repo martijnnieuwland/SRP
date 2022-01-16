@@ -9,23 +9,284 @@
       type="text/css"
       href="../static/records.css">
 
-<h3 class="text-center display-3" >{{title}}</h3>
-
-<div class="sidebar bg-white">
-    <select class="form-select form-select-sm" name="table" id="table"
-            onchange="toggleTable()">
-        <option value="sectors" selected>Sectors</option>
-        <option value="aircraft">Aircraft</option>
-    </select>
+<div class="h3">
+    <h3 class="text-center display-3" >{{title}}</h3>
 </div>
 
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Select table data:</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+
+
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                        Sector
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="flight_id" data-column="0" data-name="flight_id">
+                            <label class="form-check-label" for="flight_id">ID</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="callsign" data-column="2" checked>
+                            <label class="form-check-label" for="callsign">Aircraft callsign</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="airport_dep" data-column="6" checked>
+                            <label class="form-check-label" for="airport_dep">Departure</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="airport_des" data-column="7" checked>
+                            <label class="form-check-label" for="airport_des">Destination</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="srp" data-column="8" checked>
+                            <label class="form-check-label" for="srp">SRP number</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="date" data-column="9" checked>
+                            <label class="form-check-label" for="date">Date</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="task" data-column="10">
+                            <label class="form-check-label" for="task">Task</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="task_desc" data-column="11">
+                            <label class="form-check-label" for="task_desc">Task description</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="blockoff" data-column="36" checked>
+                            <label class="form-check-label" for="blockoff">Blocks off</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="takeoff" data-column="37" checked>
+                            <label class="form-check-label" for="takeoff">Takeoff</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="landing" data-column="38" checked>
+                            <label class="form-check-label" for="landing">Landing</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="blockon" data-column="39" checked>
+                            <label class="form-check-label" for="blockon">Blocks on</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="preflight_signature" data-column="27">
+                            <label class="form-check-label" for="preflight_signature">Pre-flight sign-off</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="preflight_callsign" data-column="28">
+                            <label class="form-check-label" for="preflight_callsign">Pre-flight callsign</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="postflight_signature" data-column="42">
+                            <label class="form-check-label" for="postflight_signature">Post-flight sign-off</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="postflight_callsign" data-column="43">
+                            <label class="form-check-label" for="postflight_callsign">Post-flight callsign</label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                        Aircraft
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                    <div class="accordion-body">
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="ac" data-column="1" checked>
+                            <label class="form-check-label" for="ac">Registration</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="takeoff_mass" data-column="26" checked>
+                            <label class="form-check-label" for="takeoff_mass">Takeoff mass</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="landing_day" data-column="40">
+                            <label class="form-check-label" for="landing_day">Landings day</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="landing_night" data-column="41">
+                            <label class="form-check-label" for="landing_night">Landings night</label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                        Persons On Board
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                    <div class="accordion-body">
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="p1" data-column="3" checked>
+                            <label class="form-check-label" for="p1">P1</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="p2" data-column="4" checked>
+                            <label class="form-check-label" for="p2">P2</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="crew" data-column="5" checked>
+                            <label class="form-check-label" for="crew">Crew</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                        Fuel / Oil
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
+                    <div class="accordion-body">
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="fuel_bfwd" data-column="12">
+                            <label class="form-check-label" for="fuel_bfwd">Fuel brought forward</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="depfuel_uplift_exp" data-column="13">
+                            <label class="form-check-label" for="depfuel_uplift_exp">Fuel uplift expected</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="depfuel_uplift_act" data-column="14">
+                            <label class="form-check-label" for="depfuel_uplift_act">Fuel uplift actual</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="depfuel_total" data-column="15">
+                            <label class="form-check-label" for="depfuel_total">Departure fuel</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="oil_uplift_l" data-column="16">
+                            <label class="form-check-label" for="oil_uplift_l">Oil uplift expected</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="oil_uplift_r" data-column="17">
+                            <label class="form-check-label" for="oil_uplift_r">Oil uplift actual</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="oil_dep_l" data-column="18">
+                            <label class="form-check-label" for="oil_dep_l">Departure oil left</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="oil_dep_r" data-column="19">
+                            <label class="form-check-label" for="oil_dep_r">Departure oil right</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="landfuel_main_l" data-column="29">
+                            <label class="form-check-label" for="landfuel_main_l">Landing fuel main left</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="landfuel_main_r" data-column="30">
+                            <label class="form-check-label" for="landfuel_main_r">Landing fuel main right</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="landfuel_aux_l" data-column="31">
+                            <label class="form-check-label" for="landfuel_aux_l">Landing fuel aux left</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="landfuel_aux_r" data-column="32">
+                            <label class="form-check-label" for="landfuel_aux_r">Landing fuel aux right</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="landfuel_other_l" data-column="33">
+                            <label class="form-check-label" for="landfuel_other_l">Landing fuel other left</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="landfuel_other_r" data-column="34">
+                            <label class="form-check-label" for="landfuel_other_r">Landing fuel other right</label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingFive">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
+                        Anti-icing
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFive">
+                    <div class="accordion-body">
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="tks_preflight" data-column="20">
+                            <label class="form-check-label" for="tks_preflight">TKS pre-flight</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="deantiice_type" data-column="21">
+                            <label class="form-check-label" for="deantiice_type">De-Anti-ice type</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="deantiice_temp" data-column="22">
+                            <label class="form-check-label" for="deantiice_temp">De-Anti-ice temperature</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="deantiice_time" data-column="23">
+                            <label class="form-check-label" for="deantiice_time">De-Anti-ice time</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="deantiice_mix" data-column="24">
+                            <label class="form-check-label" for="deantiice_mix">De-Anti-ice mix</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="holdovertime" data-column="25">
+                            <label class="form-check-label" for="holdovertime">Holdover time</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="toggle-vis form-check-input" type="checkbox" id="tks_postflight" data-column="35">
+                            <label class="form-check-label" for="tks_postflight">TKS post-flight</label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
 <div class="content">
-    <div class="sector table-responsive mt-5 mb-5" style="font-size: .75em" id="sector_table">
-        <table class="table table-striped table-hover caption-top nowrap" id="sector">
-            <caption>Sectors</caption>
+    <div class="input-group input-group-sm col-2 ms-auto" style="width:200px">
+
+        <select class="form-select col-1" required name="table" id="table"
+                onchange="toggleTable()" style="font-size: 0.75em">
+            <option value="sectors" selected>Sector</option>
+            <option value="aircraft">Aircraft</option>
+        </select>
+        <button class="col-1 btn btn-outline-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+                aria-controls="offcanvasScrolling" style="font-size: 0.75em; width:85px">Data</button>
+    </div>
+
+    <div class="sector table-responsive mt-1" id="sector_table" style="font-size: 0.75em">
+        <table class="table table-striped table-hover caption-top nowrap compact" id="sector">
             <thead class="table-dark align-top nowrap">
             <tr>
-                <th scope="col">ID</th>
+                <th scope="col" >ID</th>
                 <th scope="col">Aircraft</th>
                 <th scope="col">Callsign</th>
                 <th scope="col">P1</th>
@@ -72,61 +333,12 @@
             </tr>
             </thead>
             <tbody>
-<!--            {% for sector in sector_data %}-->
-<!--            <tr>-->
-<!--                <th scope="row">{{sector.flight_id}}</th>-->
-<!--                <td>{{sector.ac}}</td>-->
-<!--                <td>{{sector.callsign}}</td>-->
-<!--                <td>{{sector.p1}}</td>-->
-<!--                <td>{{sector.p2}}</td>-->
-<!--                <td>{{sector.crew}}</td>-->
-<!--                <td>{{sector.airport_dep}}</td>-->
-<!--                <td>{{sector.airport_des}}</td>-->
-<!--                <td>{{sector.srp}}</td>-->
-<!--                <td>{{sector.date}}</td>-->
-<!--                <td>{{sector.task}}</td>-->
-<!--                <td>{{sector.task_desc}}</td>-->
-<!--                <td>{{sector.fuel_bfwd}}</td>-->
-<!--                <td>{{sector.depfuel_uplift_exp}}</td>-->
-<!--                <td>{{sector.depfuel_uplift_act}}</td>-->
-<!--                <td>{{sector.depfuel_total}}</td>-->
-<!--                <td>{{sector.oil_uplift_l}}</td>-->
-<!--                <td>{{sector.oil_uplift_r}}</td>-->
-<!--                <td>{{sector.oil_dep_l}}</td>-->
-<!--                <td>{{sector.oil_dep_r}}</td>-->
-<!--                <td>{{sector.tks_preflight}}</td>-->
-<!--                <td>{{sector.deantiice_type}}</td>-->
-<!--                <td>{{sector.deantiice_temp}}</td>-->
-<!--                <td>{{sector.deantiice_time}}</td>-->
-<!--                <td>{{sector.deantiice_mix}}</td>-->
-<!--                <td>{{sector.holdovertime}}</td>-->
-<!--                <td>{{sector.takeoff_mass}}</td>-->
-<!--                <td>{{sector.preflight_signature}}</td>-->
-<!--                <td>{{sector.preflight_callsign}}</td>-->
-<!--                <td>{{sector.landfuel_main_l}}</td>-->
-<!--                <td>{{sector.landfuel_main_r}}</td>-->
-<!--                <td>{{sector.landfuel_aux_l}}</td>-->
-<!--                <td>{{sector.landfuel_aux_r}}</td>-->
-<!--                <td>{{sector.landfuel_other_l}}</td>-->
-<!--                <td>{{sector.landfuel_other_r}}</td>-->
-<!--                <td>{{sector.tks_postflight}}</td>-->
-<!--                <td>{{sector.blockoff}}</td>-->
-<!--                <td>{{sector.takeoff}}</td>-->
-<!--                <td>{{sector.landing}}</td>-->
-<!--                <td>{{sector.blockon}}</td>-->
-<!--                <td>{{sector.landing_day}}</td>-->
-<!--                <td>{{sector.landing_night}}</td>-->
-<!--                <td>{{sector.postflight_signature}}</td>-->
-<!--                <td>{{sector.postflight_callsign}}</td>-->
-<!--            </tr>-->
-<!--            {% endfor %}-->
             </tbody>
         </table>
     </div>
 
-    <div class="table-responsive mt-5 mb-5" style="font-size: .75em; display: none" id="aircraft_table">
+    <div class="table-responsive mt-3" style="display: none" id="aircraft_table">
         <table class="table table-striped table-hover caption-top nowrap" id="aircraft">
-            <caption>Aircraft</caption>
             <thead class="table-dark align-top">
             <tr>
                 <th scope="col">ID</th>
@@ -148,26 +360,6 @@
             </tr>
             </thead>
             <tbody>
-<!--            {% for ac in aircraft_data %}-->
-<!--            <tr>-->
-<!--                <th scope="row">{{ac.aircraft_id}}</th>-->
-<!--                <td>{{ac.registration}}</td>-->
-<!--                <td>{{ac.defect}}</td>-->
-<!--                <td>{{ac.servicetime}}</td>-->
-<!--                <td>{{ac.hours}}</td>-->
-<!--                <td>{{ac.landing_day_total}}</td>-->
-<!--                <td>{{ac.landing_night_total}}</td>-->
-<!--                <td>{{ac.status}}</td>-->
-<!--                <td>{{ac.fuel}}</td>-->
-<!--                <td>{{ac.oil_l}}</td>-->
-<!--                <td>{{ac.oil_r}}</td>-->
-<!--                <td>{{ac.tks}}</td>-->
-<!--                <td>{{ac.srp}}</td>-->
-<!--                <td>{{ac.callsign}}</td>-->
-<!--                <td>{{ac.location}}</td>-->
-<!--                <td>{{ac.cycles}}</td>-->
-<!--            </tr>-->
-<!--            {% endfor %}-->
             </tbody>
         </table>
     </div>
@@ -176,83 +368,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-    $(document).ready(function () {
-      $('#sector').DataTable({
-        ajax: "/api/sector_records",
-        columns: [
-          {data: "flight_id"},
-          {data: "ac"},
-          {data: "callsign"},
-          {data: "p1"},
-          {data: "p2"},
-          {data: "crew"},
-          {data: "airport_dep"},
-          {data: "airport_des"},
-          {data: "srp"},
-          {data: "date", className: "dt-body-nowrap"},
-          {data: "task"},
-          {data: "task_desc", orderable: false, searchable: false},
-          {data: "fuel_bfwd", orderable: false, searchable: false},
-          {data: "depfuel_uplift_exp", orderable: false, searchable: false},
-          {data: "depfuel_uplift_act", orderable: false, searchable: false},
-          {data: "depfuel_total", orderable: false, searchable: false},
-          {data: "oil_uplift_l", orderable: false, searchable: false},
-          {data: "oil_uplift_r", orderable: false, searchable: false},
-          {data: "oil_dep_l", orderable: false, searchable: false},
-          {data: "oil_dep_r", orderable: false, searchable: false},
-          {data: "tks_preflight", orderable: false, searchable: false},
-          {data: "deantiice_type", orderable: false, searchable: false},
-          {data: "deantiice_temp", orderable: false, searchable: false},
-          {data: "deantiice_time", orderable: false, searchable: false},
-          {data: "deantiice_mix", orderable: false, searchable: false},
-          {data: "holdovertime", orderable: false, searchable: false},
-          {data: "takeoff_mass", orderable: false, searchable: false},
-          {data: "preflight_signature"},
-          {data: "preflight_callsign"},
-          {data: "landfuel_main_l", orderable: false, searchable: false},
-          {data: "landfuel_main_r", orderable: false, searchable: false},
-          {data: "landfuel_aux_l", orderable: false, searchable: false},
-          {data: "landfuel_aux_r", orderable: false, searchable: false},
-          {data: "landfuel_other_l", orderable: false, searchable: false},
-          {data: "landfuel_other_r", orderable: false, searchable: false},
-          {data: "tks_postflight", orderable: false, searchable: false},
-          {data: "blockoff", orderable: false, searchable: false},
-          {data: "takeoff", orderable: false, searchable: false},
-          {data: "landing", orderable: false, searchable: false},
-          {data: "blockon", orderable: false, searchable: false},
-          {data: "landing_day", orderable: false, searchable: false},
-          {data: "landing_night", orderable: false, searchable: false},
-          {data: "postflight_signature"},
-          {data: "postflight_callsign", orderable: false, searchable: false}
-          ],
-      });
-    });
-
-    $(document).ready(function () {
-      $('#aircraft').DataTable({
-        ajax: "/api/aircraft_records",
-        columns: [
-          {data: "aircraft_id"},
-          {data: "registration"},
-          {data: "defect", orderable: false},
-          {data: "servicetime", orderable: false, searchable: false},
-          {data: "hours", searchable: false},
-          {data: "landing_day_total", searchable: false},
-          {data: "landing_night_total", searchable: false},
-          {data: "status"},
-          {data: "fuel", orderable: false, searchable: false},
-          {data: "oil_l", orderable: false, searchable: false},
-          {data: "oil_r", orderable: false, searchable: false},
-          {data: "tks", orderable: false, searchable: false},
-          {data: "srp"},
-          {data: "callsign"},
-          {data: "location"},
-          {data: "cycles", searchable: false}
-          ],
-        });
-    });
-</script>
+<script src="../static/records.js"></script>
 {% endblock %}
 
 </body>

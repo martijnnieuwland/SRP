@@ -1,27 +1,3 @@
-// ----------------------------- Preflight ------------------------------------
-
-let upliftAct = document.getElementById("uplift_act");
-let fuelBfwd = document.getElementById("fuel_bfwd");
-let depFuel = document.getElementById("departure_fuel");
-
-
-function updateUpliftExp() {
-  document.getElementById("uplift_exp").value = upliftAct.value;
-}
-
-
-function updateDepFuel() {
-  document.getElementById("departure_fuel").value = +upliftAct.value + +fuelBfwd.value;
-}
-
-
-function updateUpliftAct() {
-  document.getElementById("uplift_act").value = +depFuel.value - +fuelBfwd.value;
-}
-
-
-// ----------------------------- Postflight ------------------------------------
-
 function setOff() {
   let off_date = new Date();
   let hrs = off_date.getUTCHours();
@@ -220,12 +196,6 @@ function getNightLandings() {
   document.getElementById("total_night_ldg").textContent = +total_night_ldg + +landings_night;
 }
 
-
-function test() {
-  console.log("testing")
-}
-
-
 function getTimeRemaining () {
   let service_hrs = document.getElementById("service_hrs").innerHTML;
   let service_min = document.getElementById("service_min").innerHTML;
@@ -263,18 +233,3 @@ function getTimeRemaining () {
         rem_time[e].style.color = "black"}
   }
 }
-
-// -------------------------------  Records  -----------------------------
-function toggleTable () {
-  let selected_table = document.getElementById("table").value;
-  let sectors = (document.getElementById("sector_table"));
-  let aircraft = (document.getElementById("aircraft_table"));
-    if (selected_table == "sectors") {
-      sectors.style.display = "block";
-      aircraft.style.display = "none";
-    }
-    else if (selected_table == "aircraft") {
-      aircraft.style.display = "block";
-      sectors.style.display = "none";
-    }
-  }

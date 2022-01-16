@@ -182,3 +182,26 @@ transport = db.Table('transport',
                      db.Column('flight', db.Integer, db.ForeignKey('flight.flight_id'), primary_key=True),
                      db.Column('pax', db.Integer, db.ForeignKey('passenger.pax_id'), primary_key=True)
                      )
+
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+16
+21
+27
+28
+36
+37
+38
+39
+40
+41
+42
+43

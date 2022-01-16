@@ -25,7 +25,7 @@
 </head>
 
 <body>
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-black">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-black" id="navbar">
     {% block nav %}
     <div class="container-fluid">
 
@@ -43,7 +43,7 @@
                 {{ nav_link('views.home', 'Home') }}
                 {{ nav_link('views.preflight', 'Preflight') }}
                 {{ nav_link('views.get_postflight', 'Postflight') }}
-                {{ nav_link('views.records', 'SRP') }}
+                {{ nav_link('views.records', 'Records') }}
                 {% endif %}
 
                 <li class="nav-item dropdown">
@@ -118,7 +118,7 @@ messages %} {% for category, message in messages %} {% if category ==
 <script type="text/javascript"
         src="https://cdn.datatables.net/fixedheader/3.2.1/js/dataTables.fixedHeader.min.js"></script>
 
-<script src="../static/javascript.js"></script>
+<!--<script src="../static/javascript.js"></script>-->
 
 {% block scripts %}
 {% endblock %}

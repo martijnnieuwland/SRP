@@ -3,6 +3,8 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from SRP.models import aircraft, crew, employee, flight, passenger, pilot, srp_user
 from SRP import db
+from sqlalchemy.sql import cast
+from sqlalchemy.types import String
 
 views = Blueprint("views", __name__)
 
@@ -35,7 +37,7 @@ def preflight_ac(ac):
     callsign = aircraft.query.filter_by(registration=ac).first().callsign
     today = datetime.now()
     location = aircraft.query.filter_by(registration=ac).first().location
-    pic = employee.query.join(srp_user, employee.email == srp_user.email)\
+    pic = employee.query.join(srp_user, employee.email == srp_user.email) \
         .filter_by(email=current_user.email).first()
     pic = pic.name_last if pic else srp_user.query.filter_by(username=current_user.username).first().username
     fuel_bfwd = aircraft.query.filter_by(registration=ac).first().fuel
@@ -73,7 +75,7 @@ def preflight_ac(ac):
         airport_dep = request.form.get("airport_dep").upper()
         airport_des = request.form.get("airport_des").upper()
         pic = request.form.get("p1")
-        p1 = pilot.query.join(employee, pilot.employee_id == employee.employee_id)\
+        p1 = pilot.query.join(employee, pilot.employee_id == employee.employee_id) \
             .filter_by(name_last=pic).first().pilot_id
         pm = request.form.get("p2")
         p2 = pilot.query.join(employee, pilot.employee_id == employee.employee_id) \
@@ -224,16 +226,136 @@ def records():
                            )
 
 
-@views.route("/api/sector_records", methods=["GET"])
+@views.route("/api/sector_records")
 @login_required
 def sector_records():
-    return{'data': [sector.to_dict() for sector in flight.query]}
+    query = flight.query
+
+    # search filter
+    search = request.args.get('search[value]')
+    if search:
+        query = query.filter(db.or_(
+            cast(flight.flight_id, String).like(f"%{search}%"),
+            cast(flight.ac, String).like(f"%{search}%"),
+            flight.callsign.like(f"%{search}%"),
+            cast(flight.p1, String).like(f"%{search}%"),
+            cast(flight.p2, String).like(f"%{search}%"),
+            cast(flight.crew, String).like(f"%{search}%"),
+            flight.airport_dep.like(f"%{search}%"),
+            flight.airport_des.like(f"%{search}%"),
+            cast(flight.srp, String).like(f"%{search}%"),
+            flight.task.like(f"%{search}%"),
+            flight.preflight_signature.like(f"%{search}%"),
+            flight.preflight_callsign.like(f"%{search}%"),
+            flight.postflight_signature.like(f"%{search}%"),
+            flight.postflight_callsign.like(f"%{search}%")
+        ))
+    total_filtered = query.count()
+
+    # sorting
+    order = []
+    i = 0
+    while True:
+        col_index = request.args.get(f"order[{i}][column]")
+        if col_index is None:
+            break
+        col_name = request.args.get(f"columns[{col_index}][data]")
+        if col_name not in ["flight_id",
+                            "ac",
+                            "callsign",
+                            "p1",
+                            "p2",
+                            "crew",
+                            "airport_dep",
+                            "airport_des",
+                            "srp",
+                            "date",
+                            "task",
+                            "preflight_signature",
+                            "preflight_callsign",
+                            "postflight_signature",
+                            "postflight_callsign"]:
+            col_name = "flight_id"
+        descending = request.args.get(f"order[{i}][dir]") == "desc"
+        col = getattr(flight, col_name)
+        if descending:
+            col = col.desc()
+        order.append(col)
+        i += 1
+    if order:
+        query = query.order_by(*order)
+
+    # pagination
+    start = request.args.get("start", type=int)
+    length = request.args.get("length", type=int)
+    query = query.offset(start).limit(length)
+
+    # response
+    return {"data": [sector.to_dict() for sector in query],
+            "recordsFiltered": total_filtered,
+            "recordsTotal": flight.query.count(),
+            "draw": request.args.get("draw", type=int)
+            }
 
 
-@views.route("/api/aircraft_records", methods=["GET"])
+@views.route("/api/aircraft_records")
 @login_required
 def aircraft_records():
-    return{'data': [ac.to_dict() for ac in aircraft.query]}
+    query = aircraft.query
+
+    # search filter
+    search = request.args.get("search[value]")
+    if search:
+        query = query.filter(db.or_(
+            cast(aircraft.aircraft_id, String).like(f"search{search}"),
+            aircraft.registration.like(f"search{search}"),
+            aircraft.defect.like(f"search{search}"),
+            aircraft.status.like(f"search{search}"),
+            cast(aircraft.srp, String).like(f"search{search}"),
+            aircraft.callsign.like(f"search{search}"),
+            aircraft.location.like(f"search{search}")
+        ))
+    total_filtered = query.count()
+
+    # sorting
+    order = []
+    i = 0
+    while True:
+        col_index = request.args.get(f"order[{i}][column]")
+        if col_index is None:
+            break
+        col_name = request.args.get(f"columns[{col_index}][data]")
+        if col_name not in ["aircraft_id",
+                            "registration",
+                            "hours",
+                            "landing_day_total",
+                            "landing_night_total",
+                            "status",
+                            "srp",
+                            "callsign",
+                            "location",
+                            "cycles"]:
+            col_name = "registration"
+        descending = request.args.get(f"order[{i}][dir]") == "desc"
+        col = getattr(aircraft, col_name)
+        if descending:
+            col = col.desc()
+        order.append(col)
+        i += 1
+    if order:
+        query = query.order_by(*order)
+
+    # pagination
+    start = request.args.get("start", type=int)
+    length = request.args.get("length", type=int)
+    query = query.offset(start).limit(length)
+
+    # response
+    return {'data': [ac.to_dict() for ac in query],
+            "recordsFiltered": total_filtered,
+            "recordsTotal": aircraft.query.count(),
+            "draw": request.args.get("draw", type=int)
+            }
 
 
 @views.route("/test")

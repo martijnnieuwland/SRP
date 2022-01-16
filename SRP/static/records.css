@@ -1,4 +1,4 @@
-.main {
+/* .main {
    padding-left: 0px;
    margin-left: 0px;
    max-width: 100%;
@@ -12,12 +12,31 @@
    top: 0;
    left: 0;
    background-color: grey;
-   overflow-x: hidden;
-   padding: 200px 20px;
+   overflow-x: scroll;
+   padding-top: 200px;
    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
    }
 
-.content{
-   margin-left: 160px;
-   padding: 0px 20px;
+.content {
+   height: 100%;
+   margin-left: 180px;
+} */
+
+.page-item.active .page-link {
+  background-color: #323539;
+  border: 1px solid #323539;
+  font: bold;
+  font color: white;
+}
+
+.page-link {
+    color: #6e6e75;
+}
+
+.page-link:active {
+}
+
+.page-link:hover {
+    color: white;
+    background-color: #323539
 }
