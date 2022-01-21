@@ -19,8 +19,11 @@ $(document).ready(function () {
     serverSide: true,
     scrollX: true,
     scrollY: "55vh",
-    fixedHeader: {
-       headerOffset: $("#navbar").outerHeight()},
+    bStateSave: true,
+    fixedHeader: true,
+    dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4 tableSelect'><'col-sm-12 col-md-4'f>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
     columns: [
       {data: "flight_id", visible: false},
       {data: "ac"},
@@ -69,29 +72,28 @@ $(document).ready(function () {
       ],
   });
 
-//    $(this).setVis() {
-//      var column = sectorTable.column( $(this).attr('data-column').is(":checked") );
-//      console.log(column)
-//      if ($(this).is(":checked")) {
-//        return true;
-//      } else {
-//        return false;
-//        }
-//    })
+  $(".tableSelect").append($("#tableSelect"))
 
-//    setVis()
-
-    $("input").on("click", function () {
-      var column = sectorTable.column( $(this).attr('data-column') );
-      if ($(this).is(":checked")) {
-        column.visible(true);
-      } else {
-        column.visible(false);
-        }
-    } )
-
-    $("div.toolbar").$("#table");
+  $("input").on("click", function () {
+    var column = sectorTable.column( $(this).attr('data-column') );
+    if ($(this).is(":checked")) {
+      column.visible(true);
+    } else {
+      column.visible(false);
+      }
+  } )
 })
+
+
+//    var vis = function () {
+//      var column = sectorTable.column( $(this).attr('data-column') );
+//      if (column.visible(true)) {
+//        $(this).is(":checked")
+//      } else {
+//        $(this).is(":!checked");
+//        }
+//    }
+
 
 //    function setVis() {
 //    let col = $( document.getElementById("flight_id") ).data( "name" )
@@ -109,6 +111,10 @@ $(document).ready(function () {
     severSide: true,
     scrollX: true,
     scrollY: "55vh",
+    bStateSave: true,
+    dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4 tableSelect'><'col-sm-12 col-md-4'f>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
     fixedHeader: true,
     columns: [
       {data: "aircraft_id", visible: false},
@@ -129,4 +135,5 @@ $(document).ready(function () {
       {data: "cycles", searchable: false}
       ],
     });
+    $(".tableSelect").append($("#tableSelect"))
 })
