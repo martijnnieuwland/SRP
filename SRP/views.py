@@ -291,7 +291,7 @@ def sector_records():
     query = query.offset(start).limit(length)
 
     # response
-    return {"data": [sector.to_dict() for sector in query],
+    return {"data": [sector_data.to_dict() for sector_data in query],
             "recordsFiltered": total_filtered,
             "recordsTotal": flight.query.count(),
             "draw": request.args.get("draw", type=int)
