@@ -175,31 +175,31 @@
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Main</span>
-            <input type="number" class="form-control" id="main_l" min="0" onchange="getFuel()" required>
+            <input type="number" class="form-control" id="main_l" name="main_l" min="0" onchange="getFuel()" required>
         </div>
         <div class="col input-group">
             <span class="input-group-text">Main</span>
-            <input type="number" class="form-control" id="main_r" min="0" onchange="getFuel()" required>
+            <input type="number" class="form-control" id="main_r" name="main_r" min="0" onchange="getFuel()" required>
         </div>
     </div>
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Aux</span>
-            <input type="number" class="form-control" id="aux_l" min="0" onchange="getFuel()" required>
+            <input type="number" class="form-control" id="aux_l" name="aux_l" min="0" onchange="getFuel()" required>
         </div>
         <div class="col input-group">
             <span class="input-group-text">Aux</span>
-            <input type="number" class="form-control" id="aux_r" min="0" onchange="getFuel()" required>
+            <input type="number" class="form-control" id="aux_r" name="aux_r" min="0" onchange="getFuel()" required>
         </div>
     </div>
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Other</span>
-            <input type="number" class="form-control" id="other_l" min="0" onchange="getFuel()" required>
+            <input type="number" class="form-control" id="other_l" name="other_l" min="0" onchange="getFuel()" required>
         </div>
         <div class="col input-group">
             <span class="input-group-text">Other</span>
-            <input type="number" class="form-control" id="other_r" min="0" onchange="getFuel()" required>
+            <input type="number" class="form-control" id="other_r" name="other_r" min="0" onchange="getFuel()" required>
         </div>
     </div>
     <div class="row">
@@ -254,13 +254,13 @@
         <div class="mb-3 col d-flex justify-content-evenly me-auto">
             <p>Total day: </p>
             <div class="d-flex">
-                <p id="total_day_ldg">{{total_day_ldg}}</p>
+                <p id="total_day_ldg" data-name="total_day_ldg">{{total_day_ldg}}</p>
             </div>
         </div>
         <div class="mb-3 col d-flex justify-content-evenly me-auto">
             <p>Total night: </p>
             <div class="d-flex">
-                <p id="total_night_ldg">{{total_night_ldg}}</p>
+                <p id="total_night_ldg" data-name="total_night_ldg">{{total_night_ldg}}</p>
             </div>
         </div>
     </div>

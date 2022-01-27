@@ -4,7 +4,7 @@
 
 <body>
 {% block content %}
-<form class="d-grid gap-3" method="post">
+<form class="d-grid gap-3 pb-5 mb-5" method="post">
 
     <h3 class="text-center display-3">Pre-flight</h3>
 
@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text" id="callsign-label">Callsign</span>
-            <input class="form-control" list="callsigns" id="callsign" value="{{callsign}}" tabindex="2">
+            <input class="form-control" list="callsigns" id="callsign" name="callsign" value="{{callsign}}" tabindex="2">
             <datalist id="callsigns">
                 <option value="WKT01">WKT01</option>
                 <option value="WKT02">WKT02</option>
@@ -193,9 +193,9 @@
 
     <div class="row">
         <div class="col input-group">
-            <span class="input-group-text">Take-off mass</span>
+            <span class="input-group-text" id="tom-label">Take-off mass</span>
             <input type="number" class="form-control" id="tom" required tabindex="8" min="0" name="tom">
-            <select class="input-group-text" id="ac_mass">
+            <select class="form-select" id="ac_mass" required>
                 <option value="Lbs.">Lbs.</option>
                 <option selected>Kg.</option>
             </select>
@@ -239,22 +239,22 @@
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Uplift</span>
-            <input type="number" class="form-control" id="oil_up_l" step="0.5" min="0">
+            <input type="number" class="form-control" id="oil_up_l" name="oil_up_l" step="0.5" min="0">
         </div>
         <div class="col input-group">
             <span class="input-group-text">Uplift</span>
-            <input type="number" class="form-control" id="oil_up_r" step="0.5" min="0">
+            <input type="number" class="form-control" id="oil_up_r" name="oil_up_r" step="0.5" min="0">
         </div>
     </div>
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Departure</span>
-            <input type="number" class="form-control" id="dep_oil_l" step="0.5" required tabindex="13" min="0"
+            <input type="number" class="form-control" id="dep_oil_l" name="dep_oil_l" step="0.5" required tabindex="13" min="0"
                    value="{{ oil_dep_l }}">
         </div>
         <div class="col input-group">
             <span class="input-group-text">Departure</span>
-            <input type="number" class="form-control" id="dep_oil_r" step="0.5" required tabindex="14" min="0"
+            <input type="number" class="form-control" id="dep_oil_r" name="dep_oil_r" step="0.5" required tabindex="14" min="0"
                    value="{{ oil_dep_r }}">
         </div>
     </div>
@@ -293,13 +293,8 @@
             <input type="time" class="form-control" id="holdover_time" name="holdover_time">
         </div>
     </div>
-    <br>
 
-    <button class="btn btn-dark" type="submit" tabindex="16">Submit</button>
-    <br>
-    <br>
-    <br>
-    <br>
+    <button class="btn btn-dark m-5" type="submit" tabindex="16">Submit</button>
 </form>
 {% endblock %}
 

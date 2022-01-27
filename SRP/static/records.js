@@ -1,18 +1,3 @@
-function toggleTable () {
-  let selected_table = document.getElementById("table").value;
-  let sectors = (document.getElementById("sector_table"));
-  let aircraft = (document.getElementById("aircraft_table"));
-    if (selected_table == "sectors") {
-      sectors.style.display = "block";
-      aircraft.style.display = "none";
-    }
-    else if (selected_table == "aircraft") {
-      aircraft.style.display = "block";
-      sectors.style.display = "none";
-    }
-  }
-
-
 $(document).ready(function () {
   var sectorTable = $('#sector').DataTable({
     ajax: "/api/sector_records",
@@ -72,50 +57,72 @@ $(document).ready(function () {
       ],
   });
 
-  $(".tableSelect").append($("#tableSelect"))
+//  ---------------------  Variables  -----------------------------------------
+  let totalSectorColumns = sectorTable.columns().nodes();
+  let visibleSectorColumns = [];
+  let allCB = document.getElementById("sector_data").getElementsByClassName("toggle-vis");
+  $("#checkall").prop("indeterminate", true);
 
-  $("input").on("click", function () {
-    var column = sectorTable.column( $(this).attr('data-column') );
-    if ($(this).is(":checked")) {
-      column.visible(true);
+//  ----------  sync checkboxes with column visibility -----------
+  sectorTable.columns().visible().each(function(value, index){
+    if (value === true){
+      visibleSectorColumns.push(index)
+    }
+  });
+
+  for (let col = 0; col < totalSectorColumns.length; col++) {
+    if (visibleSectorColumns.includes(parseInt(allCB[col].getAttribute("data-column")))) {
+      $(allCB[col]).prop("checked", true);
     } else {
-      column.visible(false);
+      $(allCB[col]).prop("checked", false);
+    }
+  }
+
+//  ------------  set visibility to checked boxes  -------------------------
+  $(".toggle-vis").change(function(){
+    $("#checkall").prop("indeterminate", true);
+    let colId = parseInt($(this).attr("data-column"))
+    if ($(this).is(":checked")) {
+      visibleSectorColumns.push(colId)
+      console.log(visibleSectorColumns)
+      sectorTable.columns(visibleSectorColumns).visible(true);
+    } else {
+      visibleSectorColumns.splice(visibleSectorColumns.indexOf(colId), 1)
+      console.log(visibleSectorColumns)
+      sectorTable.column(colId).visible(false);
       }
-  } )
-})
+  });
 
+  $('#checkall').on("click", function () {
+    for (let col=0; col < totalSectorColumns.length; col+=1){
+      if (!visibleSectorColumns.includes(col)) {
+        visibleSectorColumns.push(col);
+      };
+    };
+    if (($(this).is(":checked")) && (!$(this).is("indeterminate"))) {
+      $('.toggle-vis').each(function () {this.checked = true;});
+      console.log(visibleSectorColumns);
+      sectorTable.columns(visibleSectorColumns).visible(true);
+    } else if (!$(this).is(":checked")) {
+      $('.toggle-vis').each(function () {this.checked = false; });
+      sectorTable.columns(visibleSectorColumns).visible(false);
+      visibleSectorColumns.splice(0);
+      console.log(visibleSectorColumns);
+    } else {
+    }
+  });
 
-//    var vis = function () {
-//      var column = sectorTable.column( $(this).attr('data-column') );
-//      if (column.visible(true)) {
-//        $(this).is(":checked")
-//      } else {
-//        $(this).is(":!checked");
-//        }
-//    }
-
-
-//    function setVis() {
-//    let col = $( document.getElementById("flight_id") ).data( "name" )
-////    var col = sectorTable.column( $(this ).attr( "data-name" ));
-//    console.log(col)
-//    bool = document.getElementById(col).checked
-//    return bool
-//    }
-//console.log(setVis())
-
-
-$(document).ready(function () {
-  $('#aircraft').DataTable({
+//  ----------- Aircraft data  -------------------------------------------------------------
+  var aircraftTable = $('#aircraft').DataTable({
     ajax: "/api/aircraft_records",
     severSide: true,
     scrollX: true,
     scrollY: "55vh",
     bStateSave: true,
+    fixedHeader: true,
     dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4 tableSelect'><'col-sm-12 col-md-4'f>>" +
         "<'row'<'col-sm-12'tr>>" +
         "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-    fixedHeader: true,
     columns: [
       {data: "aircraft_id", visible: false},
       {data: "registration"},
@@ -135,5 +142,26 @@ $(document).ready(function () {
       {data: "cycles", searchable: false}
       ],
     });
-    $(".tableSelect").append($("#tableSelect"))
 })
+
+sectorTable = $("#sector").DataTable
+
+function toggleTable () {
+let selected_table = document.getElementById("table").value;
+let sectors = (document.getElementById("sector_table"));
+let aircraft = (document.getElementById("aircraft_table"));
+let sector_data = (document.getElementById("sector_data"));
+let aircraft_data = (document.getElementById("aircraft_data"));
+  if (selected_table == "sector") {
+    sectors.style.display = "block";
+    aircraft.style.display = "none";
+    aircraft_data.style.display = "none";
+    sector_data.style.display = "block";
+  } else if (selected_table == "aircraft") {
+      aircraft.style.display = "block";
+      sectors.style.display = "none";
+      sector_data.style.display = "none";
+      aircraft_data.style.display = "block";
+    }
+}
+

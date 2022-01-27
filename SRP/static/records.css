@@ -6,6 +6,10 @@
   width: 200px;
 }
 
+#aircraft_table, #aircraft_data {
+  display: none;
+}
+
 .page-item.active .page-link {
   font: bold;
   font color: white;

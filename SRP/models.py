@@ -114,11 +114,13 @@ class flight(db.Model):
     def to_dict(self):
         return {
             "flight_id": self.flight_id,
-            "ac": self.ac,
+            "ac": aircraft.query.filter_by(aircraft_id=self.ac).first().registration,
             "callsign": self.callsign,
-            "p1": self.p1,
-            "p2": self.p2,
-            "crew": self.crew,
+            "p1": employee.query.join(pilot, pilot.employee_id == employee.employee_id).filter_by
+            (pilot_id=self.p1).first().name_last,
+            "p2": employee.query.join(pilot, pilot.employee_id == employee.employee_id).filter_by
+            (pilot_id=self.p2).first().name_last,
+            "crew": employee.query.join(crew, employee.employee_id == crew.employee_id).filter_by(crew_id=self.crew).first().name_last,
             "airport_dep": self.airport_dep,
             "airport_des": self.airport_des,
             "srp": self.srp,
