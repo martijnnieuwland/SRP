@@ -1,3 +1,5 @@
+import datetime
+
 from flask_login import UserMixin
 from sqlalchemy.sql import func
 from SRP import db
@@ -29,12 +31,14 @@ class aircraft(db.Model):
     cycles = db.Column(db.Integer)
 
     def to_dict(self):
-        return{
+        return {
             "aircraft_id": self.aircraft_id,
             "registration": self.registration,
             "defect": self.defect,
-            "servicetime": str(self.servicetime),
-            "hours": str(self.hours),
+            "servicetime": str('%02d' % int((self.servicetime.total_seconds() / 60) // 60) + ":" +
+                               '%02d' % int((self.servicetime.total_seconds() / 60) % 60)),
+            "hours": str('%02d' % int((self.hours.total_seconds() / 60) // 60) + ":" +
+                         '%02d' % int((self.hours.total_seconds() / 60) % 60)),
             "landing_day_total": self.landing_day_total,
             "landing_night_total": self.landing_night_total,
             "status": self.status,
@@ -68,7 +72,7 @@ class employee(db.Model):
 class flight(db.Model):
     flight_id = db.Column(db.Integer, primary_key=True)
     ac = db.Column(db.Integer, db.ForeignKey('aircraft.aircraft_id'))
-    callsign = db.Column(db.String,)
+    callsign = db.Column(db.String, )
     p1 = db.Column(db.Integer, db.ForeignKey('pilot.pilot_id'))
     p2 = db.Column(db.Integer, db.ForeignKey('pilot.pilot_id'))
     crew = db.Column(db.Integer)
@@ -120,11 +124,12 @@ class flight(db.Model):
             (pilot_id=self.p1).first().name_last,
             "p2": employee.query.join(pilot, pilot.employee_id == employee.employee_id).filter_by
             (pilot_id=self.p2).first().name_last,
-            "crew": employee.query.join(crew, employee.employee_id == crew.employee_id).filter_by(crew_id=self.crew).first().name_last,
+            "crew": employee.query.join(crew, employee.employee_id == crew.employee_id).filter_by(
+                crew_id=self.crew).first().name_last,
             "airport_dep": self.airport_dep,
             "airport_des": self.airport_des,
             "srp": self.srp,
-            "date": self.date,
+            "date": datetime.datetime.strftime(self.date, "%Y-%m-%d"),
             "task": self.task,
             "task_desc": self.task_desc,
             "fuel_bfwd": self.fuel_bfwd,
@@ -138,9 +143,10 @@ class flight(db.Model):
             "tks_preflight": self.tks_preflight,
             "deantiice_type": self.deantiice_type,
             "deantiice_temp": self.deantiice_temp,
-            "deantiice_time": str(self.deantiice_time),
+            "deantiice_time": datetime.time.strftime(self.deantiice_time, "%H:%M") if self.deantiice_time else "-",
             "deantiice_mix": self.deantiice_mix,
-            "holdovertime": str(self.holdovertime),
+            "holdovertime": str('%02d' % int((self.holdovertime.total_seconds() / 60) // 60) + ":" +
+                                '%02d' % int((self.holdovertime.total_seconds() / 60) % 60)),
             "takeoff_mass": self.takeoff_mass,
             "preflight_signature": self.preflight_signature,
             "preflight_callsign": self.preflight_callsign,
@@ -151,10 +157,10 @@ class flight(db.Model):
             "landfuel_other_l": self.landfuel_other_l,
             "landfuel_other_r": self.landfuel_other_r,
             "tks_postflight": self.tks_postflight,
-            "blockoff": str(self.blockoff),
-            "takeoff": str(self.takeoff),
-            "landing": str(self.landing),
-            "blockon": str(self.blockon),
+            "blockoff": datetime.time.strftime(self.blockoff, "%H:%M"),
+            "takeoff": datetime.time.strftime(self.takeoff, "%H:%M"),
+            "landing": datetime.time.strftime(self.landing, "%H:%M"),
+            "blockon": datetime.time.strftime(self.blockon, "%H:%M"),
             "landing_day": self.landing_day,
             "landing_night": self.landing_night,
             "postflight_signature": self.postflight_signature,

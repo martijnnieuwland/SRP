@@ -246,8 +246,7 @@ def records():
 @views.route("/api/sector_records")
 @login_required
 def sector_records():
-    query = flight.query.join(aircraft, aircraft.aircraft_id == flight.ac)  # + aircraft.query
-    # reg_query = aircraft.query
+    query = flight.query.join(aircraft, aircraft.aircraft_id == flight.ac)
 
     # search filter
     search = request.args.get('search[value]')
@@ -255,7 +254,6 @@ def sector_records():
         query = query.filter(db.or_(
             cast(flight.flight_id, String).like(f"%{search}%"),
             aircraft.registration.like(f"%{search}%"),
-            # flight.join(aircraft, aircraft.aircraft_id == flight.ac).registration.like(f"%{search}%"),
             flight.callsign.like(f"%{search}%"),
             cast(flight.p1, String).like(f"%{search}%"),
             cast(flight.p2, String).like(f"%{search}%"),
