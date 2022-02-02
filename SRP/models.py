@@ -97,7 +97,7 @@ class flight(db.Model):
     deantiice_mix = db.Column(db.String)
     holdovertime = db.Column(db.Interval)
     takeoff_mass = db.Column(db.Integer)
-    preflight_signature = db.Column(db.Boolean)
+    preflight_signature = db.Column(db.String)
     preflight_callsign = db.Column(db.String)
     landfuel_main_l = db.Column(db.Integer)
     landfuel_main_r = db.Column(db.Integer)
@@ -112,10 +112,33 @@ class flight(db.Model):
     blockon = db.Column(db.DateTime)
     landing_day = db.Column(db.Integer)
     landing_night = db.Column(db.Integer)
-    postflight_signature = db.Column(db.Boolean)
+    postflight_signature = db.Column(db.String)
     postflight_callsign = db.Column(db.String(5))
 
     def to_dict(self):
+        if self.crew:
+            crew_name = employee.query.join(crew, employee.employee_id == crew.employee_id).filter_by(
+                crew_id=self.crew).first().name_last
+        else:
+            crew_name = "-"
+
+        if self.holdovertime:
+            holdovertime = str('%02d' % int((self.holdovertime.total_seconds() / 60) // 60) + ":" +
+                               '%02d' % int((self.holdovertime.total_seconds() / 60) % 60))
+        else:
+            holdovertime = "--:--"
+
+        if self.postflight_signature:
+            blockoff = datetime.time.strftime(self.blockoff, "%H:%M")
+            takeoff = datetime.time.strftime(self.takeoff, "%H:%M")
+            landing = datetime.time.strftime(self.landing, "%H:%M")
+            blockon = datetime.time.strftime(self.blockon, "%H:%M")
+        else:
+            blockoff = "--:--"
+            takeoff = "--:--"
+            landing = "--:--"
+            blockon = "--:--"
+
         return {
             "flight_id": self.flight_id,
             "ac": aircraft.query.filter_by(aircraft_id=self.ac).first().registration,
@@ -124,8 +147,7 @@ class flight(db.Model):
             (pilot_id=self.p1).first().name_last,
             "p2": employee.query.join(pilot, pilot.employee_id == employee.employee_id).filter_by
             (pilot_id=self.p2).first().name_last,
-            "crew": employee.query.join(crew, employee.employee_id == crew.employee_id).filter_by(
-                crew_id=self.crew).first().name_last,
+            "crew": crew_name,
             "airport_dep": self.airport_dep,
             "airport_des": self.airport_des,
             "srp": self.srp,
@@ -145,8 +167,7 @@ class flight(db.Model):
             "deantiice_temp": self.deantiice_temp,
             "deantiice_time": datetime.time.strftime(self.deantiice_time, "%H:%M") if self.deantiice_time else "-",
             "deantiice_mix": self.deantiice_mix,
-            "holdovertime": str('%02d' % int((self.holdovertime.total_seconds() / 60) // 60) + ":" +
-                                '%02d' % int((self.holdovertime.total_seconds() / 60) % 60)),
+            "holdovertime": holdovertime,
             "takeoff_mass": self.takeoff_mass,
             "preflight_signature": self.preflight_signature,
             "preflight_callsign": self.preflight_callsign,
@@ -157,10 +178,10 @@ class flight(db.Model):
             "landfuel_other_l": self.landfuel_other_l,
             "landfuel_other_r": self.landfuel_other_r,
             "tks_postflight": self.tks_postflight,
-            "blockoff": datetime.time.strftime(self.blockoff, "%H:%M"),
-            "takeoff": datetime.time.strftime(self.takeoff, "%H:%M"),
-            "landing": datetime.time.strftime(self.landing, "%H:%M"),
-            "blockon": datetime.time.strftime(self.blockon, "%H:%M"),
+            "blockoff": blockoff,
+            "takeoff": takeoff,
+            "landing": landing,
+            "blockon": blockon,
             "landing_day": self.landing_day,
             "landing_night": self.landing_night,
             "postflight_signature": self.postflight_signature,

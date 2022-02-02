@@ -4,7 +4,7 @@
 
 <body>
 {% block content %}
-<form class="d-grid gap-3 pb-5 mb-5" method="post">
+<form class="d-grid gap-3 pb-5 mb-5" method="post" id="preflightForm">
 
     <h3 class="text-center display-3">Pre-flight</h3>
 
@@ -156,7 +156,7 @@
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text" id="pic-label">PIC</span>
-            <input type="text" class="form-control" id="pic" list="p1" value="{{ pic }}" required name="p1">
+            <input type="text" class="form-control" id="pic" list="p1" value="{{ pic_name }}" required name="p1">
             <datalist id="p1">
                 {% for pilot in pilot_name %}
                 <option value="{{ pilot.name_last }}">{{ pilot.name_last }}</option>
@@ -165,7 +165,7 @@
         </div>
         <div class="col input-group">
             <span class="input-group-text" id="pilot2-label">Pilot 2</span>
-            <input type="text" class="form-control" id="pilot2" list="p2" name="p2">
+            <input type="text" class="form-control" id="pilot2" list="p2" name="p2" value="">
             <datalist id="p2">
                 {% for pilot in pilot_name %}
                 <option value="{{ pilot.name_last }}">{{ pilot.name_last }}</option>
@@ -294,12 +294,74 @@
         </div>
     </div>
 
-    <button class="btn btn-dark m-5" type="submit" tabindex="16">Submit</button>
+    <button class="btn btn-dark m-5" type="button" tabindex="15" data-bs-toggle="modal" data-bs-target="#preflightSign"
+            id="preflightSubmit">Submit</button>
+    <div class="modal fade" id="preflightSign" tabindex="-1" aria-labelledby="preflightSignLabel" aria-hidden="true"
+         data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="preflightSignLabel">Pre-flight Submission</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body container">
+                    <dl class="row">
+                        <dt class="col-6">Aircraft:</dt>
+                        <dd class="col-6">{{ac}}</dd>
+                        <dt class="col-6">SRP:</dt>
+                        <dd class="col-6">{{srp}}</dd>
+                        <dt class="col-6">Date:</dt>
+                        <dd class="col-6" id="date_input"></dd>
+                        <dt class="col-6">Departure:</dt>
+                        <dd class="col-6" id="departure_input"></dd>
+                        <dt class="col-6">Destination:</dt>
+                        <dd class="col-6" id="destination_input"></dd>
+                        <dt class="col-6">PIC:</dt>
+                        <dd class="col-6" id="pic_input"></dd>
+                        <dt class="col-6">P2:</dt>
+                        <dd class="col-6" id="p2_input"></dd>
+                        <dt class="col-6">Crew:</dt>
+                        <dd class="col-6" id="crew_input"></dd>
+                        <dt class="col-6">Pax:</dt>
+                        <dd class="col-6" id="pax_input"></dd>
+                        <dt class="col-6">Take-off Mass:</dt>
+                        <dd class="col-6" id="tom_input"></dd>
+                        <dt class="col-6">Oil left:</dt>
+                        <dd class="col-6" id="oil_l_input"></dd>
+                        <dt class="col-6">Oil right:</dt>
+                        <dd class="col-6" id="oil_r_input"></dd>
+                        <dt class="col-6">TKS:</dt>
+                        <dd class="col-6" id="tks_input"></dd>
+                    </dl>
+                    <p><small><b>Pre-flight Acceptance:</b><br>Acceptance signature confirms completion of
+                        Pre-Flight inspection, Aircraft Technical Status
+                        / De-Icing / Defect state and sufficient fuel and oil for the planned flight.</small></p>
+                    <dl class="row">
+                        <dt class="col me-auto">Accepted by:</dt>
+                        <dd class="form-check col ms-auto">
+                            <input class="form-check-input" type="checkbox" value="" id="preflightConfirmCb">
+                            <label class="form-check-label" for="preflightConfirmCb">
+                                <span data-name="srp_user_name">{{ srp_user_name }}</span>
+                                <span data-name="srp_user_initial">{{ srp_user_initial }}.</span>
+                                <span data-name="srp_user_callsign"> / {{ srp_user_callsign }}</span>
+                            </label>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-dark" disabled id="preflightConfirmBtn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </form>
 {% endblock %}
 
 {% block scripts %}
 <script src="../static/preflight.js"></script>
+
 {% endblock %}
 
 </body>

@@ -16,3 +16,65 @@ function updateDepFuel() {
 function updateUpliftAct() {
   document.getElementById("uplift_act").value = +depFuel.value - +fuelBfwd.value;
 }
+
+$("#preflightConfirmCb").change (function() {
+  $("#preflightConfirmBtn").attr("disabled", !this.checked)
+});
+
+$('#preflightSubmit').on('click', function(){
+  let date = new Date($('#date').val());
+  let day = date.getDate().toString().padStart(2, 0);
+  let month = (date.getMonth() + 1).toString().padStart(2, 0);
+  let year = date.getFullYear();
+  $("#date_input").text([year, month, day].join('-'));
+  if ($("#departure").val()!="") {
+    $("#departure_input").text($("#departure").val().toUpperCase()).css("color", "initial");
+  } else {
+    $("#departure_input").text("This data is required").css("color", "red");
+    };
+  if ($("#destination").val()!="") {
+    $("#destination_input").text($("#destination").val().toUpperCase()).css("color", "initial");
+  } else {
+    $("#destination_input").text("This data is required").css("color", "red");
+    };
+  if ($("#pic").val()!="") {
+    $("#pic_input").text($("#pic").val().toUpperCase()).css("color", "initial");
+  } else {
+    $("#pic_input").text("This data is required").css("color", "red");
+    };
+  if ($("#pilot2").val()!="") {
+    $("#p2_input").text($("#pilot2").val().toUpperCase()).css("color", "initial");
+  } else {
+    $("#p2_input").text("---");
+    };
+  if ($("#crew").val()!="") {
+    $("#crew_input").text($("#crew").val().toUpperCase()).css("color", "initial");
+  } else {
+    $("#crew_input").text("---");
+    };
+  if ($("#pax").val()!="") {
+    $("#pax_input").text($("#pax").val().toUpperCase()).css("color", "initial");
+  } else {
+    $("#pax_input").text("---");
+    };
+  if ($("#tom").val()!="") {
+    $("#tom_input").text($("#tom").val().toUpperCase()).css("color", "initial");
+  } else {
+    $("#tom_input").text("This data is required").css("color", "red");
+    };
+  if ($("#dep_oil_l").val()!="") {
+    $("#oil_l_input").text($("#dep_oil_l").val().toUpperCase()).css("color", "initial");
+  } else {
+    $("#oil_l_input").text("This data is required").css("color", "red");
+    };
+  if ($("#dep_oil_r").val()!="") {
+    $("#oil_r_input").text($("#dep_oil_r").val().toUpperCase()).css("color", "initial");
+  } else {
+    $("#oil_r_input").text("This data is required").css("color", "red");
+    };
+  if ($("#tks_to").val()!="") {
+    $("#tks_input").text($("#tks_to").val().toUpperCase()).css("color", "initial");
+  } else {
+    $("#tks_input").text("This data is required").css("color", "red");
+    };
+});

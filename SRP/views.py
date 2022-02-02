@@ -12,7 +12,21 @@ views = Blueprint("views", __name__)
 @views.route('/', methods=["GET", "POST"])
 @login_required
 def home():
-    return render_template('home.html', page="home", user=current_user)
+    if request.method == "GET":
+        ac_list = aircraft.query.all()
+        return render_template('home.html', ac_list=ac_list, user=current_user)
+    else:
+        ac = request.form.get("aircraft")
+        ac_rec = aircraft.query.filter_by(registration=ac).first()
+        ac_srp = aircraft.query.filter_by(registration=ac).first().srp
+        ac_rec.srp = ac_srp + 1
+        db.session.commit()
+        return redirect(url_for('views.preflight_ac', ac=ac))
+    # ac_list = aircraft.query.all()
+    # return render_template('home.html',
+    #                        page="home",
+    #                        user=current_user,
+    #                        ac_list=ac_list)
 
 
 @views.route('/preflight-ac', methods=["GET", "POST"])
@@ -39,7 +53,14 @@ def preflight_ac(ac):
     location = aircraft.query.filter_by(registration=ac).first().location
     pic = employee.query.join(srp_user, employee.email == srp_user.email) \
         .filter_by(email=current_user.email).first()
-    pic = pic.name_last if pic else srp_user.query.filter_by(username=current_user.username).first().username
+    srp_user_name = employee.query.join(srp_user, srp_user.email == employee.email).filter_by(
+        email=current_user.email).first().name_last
+    srp_user_initial = employee.query.join(srp_user, srp_user.email == employee.email).filter_by(
+        email=current_user.email).first().name_first[0]
+    srp_user_callsign = pilot.query.filter_by(
+        employee_id=(employee.query.join(srp_user, employee.email == srp_user.email).filter_by(
+            email=current_user.email).first().employee_id)).first().call_sign
+    pic_name = pic.name_last if pic else srp_user.query.filter_by(username=current_user.username).first().username
     fuel_bfwd = aircraft.query.filter_by(registration=ac).first().fuel
     oil_dep_l = aircraft.query.filter_by(registration=ac).first().oil_l
     oil_dep_r = aircraft.query.filter_by(registration=ac).first().oil_r
@@ -54,14 +75,19 @@ def preflight_ac(ac):
                                srp=srp,
                                callsign=callsign,
                                location=location,
-                               pic=pic,
+                               pic_name=pic_name,
+                               srp_user_name=srp_user_name,
                                today=today,
                                fuel_bfwd=fuel_bfwd,
                                pilot_name=pilot_name,
                                crew_list=crew_list,
                                oil_dep_l=oil_dep_l,
                                oil_dep_r=oil_dep_r,
-                               tks=tks)
+                               tks=tks,
+                               srp_user_initial=srp_user_initial,
+                               srp_user_callsign=srp_user_callsign,
+                               date=today
+                               )
     else:
         pax = request.form.get("pax")
         new_pax = passenger(name_first=pax, name_last=pax)
@@ -76,9 +102,9 @@ def preflight_ac(ac):
         date = request.form.get("date")
         airport_dep = request.form.get("airport_dep").upper()
         airport_des = request.form.get("airport_des").upper()
-        pic = request.form.get("p1")
+        pic_name = request.form.get("p1")
         p1 = pilot.query.join(employee, pilot.employee_id == employee.employee_id) \
-            .filter_by(name_last=pic).first().pilot_id
+            .filter_by(name_last=pic_name).first().pilot_id
         pm = request.form.get("p2")
         p2 = pilot.query.join(employee, pilot.employee_id == employee.employee_id) \
             .filter_by(name_last=pm).first().pilot_id if pm else 0
@@ -89,13 +115,15 @@ def preflight_ac(ac):
         fuel_bfwd = request.form.get("fuel_bfwd")
         depfuel_total = request.form.get("fuel_dep")
         depfuel_uplift_exp = request.form.get("uplift_exp")
-        depfuel_uplift_exp = depfuel_uplift_exp if depfuel_uplift_exp else None
+        depfuel_uplift_exp = depfuel_uplift_exp if depfuel_uplift_exp else 0
         depfuel_uplift_act = request.form.get("uplift_act")
-        depfuel_uplift_act = depfuel_uplift_act if depfuel_uplift_act else None
+        depfuel_uplift_act = depfuel_uplift_act if depfuel_uplift_act else 0
         oil_dep_l = request.form.get("dep_oil_l")
         oil_dep_r = request.form.get("dep_oil_r")
         oil_uplift_l = request.form.get("oil_up_l")
-        oil_uplift_r = request.form.get("oil_up_r")
+        oil_uplift_l = oil_uplift_l if oil_uplift_l else 0
+        oil_uplift_r = request.form.get("oil_up_l")
+        oil_uplift_r = oil_uplift_r if oil_uplift_r else 0
         tks_preflight = request.form.get("tks")
         anti_ice_type = request.form.get("anti_ice_type")
         temperature = request.form.get("temperature")
@@ -105,9 +133,6 @@ def preflight_ac(ac):
         anti_ice_time = anti_ice_time if anti_ice_time else None
         holdover_time = request.form.get("holdover_time")
         holdover_time = holdover_time if holdover_time else None
-
-        preflight_signature = True
-        preflight_callsign = "x"
 
         preflight_data = flight(srp=srp,
                                 ac=aircraft_id,
@@ -135,8 +160,9 @@ def preflight_ac(ac):
                                 deantiice_mix=anti_ice_mix,
                                 deantiice_time=anti_ice_time,
                                 holdovertime=holdover_time,
-                                preflight_signature=preflight_signature,
-                                preflight_callsign=preflight_callsign)
+                                preflight_signature=srp_user_name,
+                                preflight_callsign=srp_user_callsign
+                                )
         db.session.add(preflight_data)
         db.session.commit()
         return redirect(url_for('views.postflight', ac=ac))
@@ -150,7 +176,7 @@ def postflight(ac):
     ac_hrs_bfwd = ac_record.hours
     ac_hrs_bfwd_hrs = '%02d' % int((ac_hrs_bfwd.total_seconds() / 60) // 60)
     ac_hrs_bfwd_min = '%02d' % int((ac_hrs_bfwd.total_seconds() / 60) % 60)
-    cycles = ac_record.cycles
+    total_cycles = ac_record.cycles
     total_day_ldg = ac_record.landing_day_total
     total_night_ldg = ac_record.landing_night_total
     tks = ac_record.tks
@@ -159,6 +185,18 @@ def postflight(ac):
     service_min = int((servicetime.total_seconds() / 60) % 60)
     rem_hrs = int(((servicetime - ac_hrs_bfwd).total_seconds() / 60) // 60)
     rem_min = int(((servicetime - ac_hrs_bfwd).total_seconds() / 60) % 60)
+    ac_id = aircraft.query.filter_by(srp=srp).first().aircraft_id
+    sector_record = flight.query.filter_by(ac=ac_id, srp=srp).first()
+
+    # -----------------  Postflight submission  ----------------------
+    date = sector_record.date
+    srp_user_name = employee.query.join(srp_user, srp_user.email == employee.email).filter_by(
+        email=current_user.email).first().name_last
+    srp_user_initial = employee.query.join(srp_user, srp_user.email == employee.email).filter_by(
+        email=current_user.email).first().name_first[0]
+    srp_user_callsign = pilot.query.filter_by(
+        employee_id=(employee.query.join(srp_user, employee.email == srp_user.email).filter_by(
+            email=current_user.email).first().employee_id)).first().call_sign
 
     if request.method == "GET":
         return render_template('postflight.html',
@@ -167,19 +205,21 @@ def postflight(ac):
                                ac=ac,
                                ac_hrs_bfwd_hrs=ac_hrs_bfwd_hrs,
                                ac_hrs_bfwd_min=ac_hrs_bfwd_min,
-                               cycles=cycles,
+                               total_cycles=total_cycles,
                                total_day_ldg=total_day_ldg,
                                total_night_ldg=total_night_ldg,
                                tks=tks,
                                service_hrs=service_hrs,
                                service_min=service_min,
                                rem_hrs=rem_hrs,
-                               rem_min=rem_min
+                               rem_min=rem_min,
+                               date=date,
+                               srp_user_name=srp_user_name,
+                               srp_user_initial=srp_user_initial,
+                               srp_user_callsign=srp_user_callsign
                                )
     else:
         # -----------  update sector record  ---------------------------------
-        ac_id = aircraft.query.filter_by(srp=srp).first().aircraft_id
-        sector_record = flight.query.filter_by(ac=ac_id, srp=srp).first()
         offhrs = int(request.form.get("offhrs"))
         offmin = int(request.form.get("offmin"))
         tohrs = int(request.form.get("tohrs"))
@@ -192,23 +232,35 @@ def postflight(ac):
         takeoff = time(hour=tohrs, minute=tomin)
         landing = time(hour=ldghrs, minute=ldgmin)
         blockon = time(hour=onhrs, minute=onmin)
+        print(blockoff)
 
-        sector_record.landfuel_main_l = request.form.get("main_l")
-        sector_record.landfuel_main_r = request.form.get("main_r")
-        sector_record.landfuel_aux_l = request.form.get("aux_l")
-        sector_record.landfuel_aux_r = request.form.get("aux_r")
-        sector_record.landfuel_other_l = request.form.get("other_l")
-        sector_record.landfuel_other_r = request.form.get("other_r")
-        sector_record.tks_postflight = request.form.get("tks")
-        sector_record.landing_day = request.form.get("landings_day")
-        sector_record.landing_night = request.form.get("landings_night")
-        # sector_record.postflight_signature = request.form.get("postflight_signature")
-        # sector_record.postflight_callsign = request.form.get("postflight_callsign")
+        landfuel_main_l = request.form.get("main_l") if request.form.get("main_l") else 0
+        landfuel_main_r = request.form.get("main_r") if request.form.get("main_r") else 0
+        landfuel_aux_l = request.form.get("aux_l") if request.form.get("aux_l") else 0
+        landfuel_aux_r = request.form.get("aux_r") if request.form.get("aux_r") else 0
+        landfuel_other_l = request.form.get("other_l") if request.form.get("other_l") else 0
+        landfuel_other_r = request.form.get("other_r") if request.form.get("other_r") else 0
+        tks_postflight = request.form.get("tks") if request.form.get("tks") else 0
+        landing_day = int(request.form.get("landings_day")) if request.form.get("landings_day") else 0
+        landing_night = int(request.form.get("landings_night")) if request.form.get("landings_night") else 0
+        cycles = int(request.form.get("cycles")) if request.form.get("cycles") else 0
 
         sector_record.blockoff = blockoff
         sector_record.takeoff = takeoff
         sector_record.landing = landing
         sector_record.blockon = blockon
+
+        sector_record.landfuel_main_l = landfuel_main_l
+        sector_record.landfuel_main_r = landfuel_main_r
+        sector_record.landfuel_aux_l = landfuel_aux_l
+        sector_record.landfuel_aux_r = landfuel_aux_r
+        sector_record.landfuel_other_l = landfuel_other_l
+        sector_record.landfuel_other_r = landfuel_other_r
+        sector_record.tks_postflight = tks_postflight
+        sector_record.landing_day = landing_day
+        sector_record.landing_night = landing_night
+        sector_record.postflight_signature = srp_user_name
+        sector_record.postflight_callsign = srp_user_callsign
 
 
         # -------------  update aircraft  ----------------------------------
@@ -217,14 +269,17 @@ def postflight(ac):
         ac_time = f"{ac_hrs}:{ac_min}"
         ac_record.hours = ac_time
         ac_record.fuel = request.form.get("landing_fuel")
-        ac_record.cycles = cycles + int(request.form.get("cycles"))
-        ac_record.landing_day_total = total_day_ldg + int(request.form.get("landings_day"))
-        ac_record.landing_night_total = total_night_ldg + int(request.form.get("landings_night"))
+        ac_record.cycles = total_cycles + cycles
+        ac_record.landing_day_total = total_day_ldg + landing_day
+        ac_record.landing_night_total = total_night_ldg + landing_night
         ac_record.tks = request.form.get("tks")
         ac_record.defect = request.form.get("defect")
+
         db.session.commit()
+
         return render_template('home.html',
-                               user=current_user)
+                               user=current_user,
+                               )
 
 
 @views.route("/postflight", methods=["GET", "POST"])

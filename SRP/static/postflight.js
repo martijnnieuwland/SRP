@@ -172,7 +172,7 @@ function getFuel() {
   let aux_r = document.getElementById("aux_r").value;
   let other_l = document.getElementById("other_l").value;
   let other_r = document.getElementById("other_r").value;
-  document.getElementById("landing_fuel").value = +main_l + +main_r + +aux_l + +aux_r + +other_l + +other_r;
+  $("#landing_fuel").text(+main_l + +main_r + +aux_l + +aux_r + +other_l + +other_r);
 }
 
 
@@ -233,3 +233,87 @@ function getTimeRemaining () {
         rem_time[e].style.color = "black"}
   }
 }
+
+$("#defectCb").change (function() {
+  $("#defect").attr("disabled", !this.checked);
+});
+
+$("#postflightConfirmCb").change (function() {
+  $("#postflightConfirmBtn").attr("disabled", !this.checked)
+});
+
+$('#postflightSubmit').on('click', function(){
+  let offhrs = $("#offhrs").val()
+  let offmin = $("#offmin").val()
+  let tohrs = $("#tohrs").val()
+  let tomin = $("#tomin").val()
+  let ldghrs = $("#ldghrs").val()
+  let ldgmin = $("#ldgmin").val()
+  let onhrs = $("#onhrs").val()
+  let onmin = $("#onmin").val()
+  let block_hrs = $("#block_hrs").text()
+  let block_min = $("#block_min").text()
+  let flt_hrs = $("#flt_hrs").text()
+  let flt_min = $("#flt_min").text()
+  let current_hrs = $("#ac_hrs").text()
+  let current_min = $("#ac_min").text()
+  let rem_hrs = $("#rem_hrs").text()
+  let rem_min = $("#rem_min").text()
+  landing_fuel = $("#landing_fuel").text()
+
+  if ((offhrs != null) && (offmin != null)) {
+    $("#off_time").text(offhrs + ":" + offmin).css("color", "initial");
+  } else {
+    $("#off_time").text("This data is required").css("color", "red");
+    };
+  if ((tohrs != null) && (tomin != null)) {
+    $("#to_time").text(tohrs + ":" + tomin).css("color", "initial");
+  } else {
+    $("#to_time").text("This data is required").css("color", "red");
+    };
+
+  if ((ldghrs != null) && (ldgmin != null)) {
+    $("#ldg_time").text(ldghrs + ":" + ldgmin).css("color", "initial");
+  } else {
+    $("#ldg_time").text("This data is required").css("color", "red");
+    };
+  if ((onhrs != null) && (onmin != null)) {
+    $("#on_time").text(onhrs + ":" + onmin).css("color", "initial");
+  } else {
+    $("#on_time").text("This data is required").css("color", "red");
+    };
+
+  if ((block_hrs != "--") && (block_min != "--" )) {
+    $("#block_time").text(block_hrs + ":" + block_min).css("color", "initial");
+  } else {
+    $("#block_time").text("This data is required").css("color", "red");
+    };
+  if ((flt_hrs != "--") && (flt_min != "--")) {
+    $("#flight_time").text(flt_hrs + ":" + flt_min).css("color", "initial");
+  } else {
+    $("#flight_time").text("This data is required").css("color", "red");
+    };
+
+  $("#time_current").text(current_hrs + ":" + current_min);
+  $("#time_remaining").text(rem_hrs + ":" + rem_min);
+  if (landing_fuel != 0) {
+    $("#landing_fuel_total").text(landing_fuel).css("color", "initial");
+  } else {
+    $("#landing_fuel_total").text("This data is required").css("color", "red");
+  }
+
+  $("#landing_fuel_req").val(landing_fuel);
+
+  if (($("#defect")).val() != "") {
+      $("#defect_data").text($("#defect").val());
+  } else {
+    $("#defect_data").text("None");
+  }
+
+
+//  if ($("#pax").val()!="") {
+//    $("#pax_input").text($("#pax").val().toUpperCase()).css("color", "initial");
+//  } else {
+//    $("#pax_input").text("---");
+//    };
+});

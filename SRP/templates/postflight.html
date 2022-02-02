@@ -4,7 +4,7 @@
 
 <body>
 {% block content %}
-<form class="d-grid gap-3" method="post">
+<form class="d-grid gap-3 pb-5 mb-5" method="post">
 
     <h3 class="text-center display-3">Post-flight</h3>
 
@@ -70,8 +70,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="row">
         <div class="input-group mb-3 col">
             <label class="input-group-text" for="onhrs">On</label>
@@ -128,7 +126,7 @@
     <div class="row">
         <div class="mb-3 col d-flex justify-content-evenly me-auto">
             <p>Blocktime: </p>
-            <div class="blocktime d-flex">
+            <div class="blocktime d-flex" id="blocktime">
                 <p id="block_hrs">--</p><p>:</p><p id="block_min">--</p>
             </div>
         </div>
@@ -175,39 +173,38 @@
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Main</span>
-            <input type="number" class="form-control" id="main_l" name="main_l" min="0" onchange="getFuel()" required>
+            <input type="number" class="form-control" id="main_l" name="main_l" min="0" onchange="getFuel()">
         </div>
         <div class="col input-group">
             <span class="input-group-text">Main</span>
-            <input type="number" class="form-control" id="main_r" name="main_r" min="0" onchange="getFuel()" required>
+            <input type="number" class="form-control" id="main_r" name="main_r" min="0" onchange="getFuel()">
         </div>
     </div>
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Aux</span>
-            <input type="number" class="form-control" id="aux_l" name="aux_l" min="0" onchange="getFuel()" required>
+            <input type="number" class="form-control" id="aux_l" name="aux_l" min="0" onchange="getFuel()">
         </div>
         <div class="col input-group">
             <span class="input-group-text">Aux</span>
-            <input type="number" class="form-control" id="aux_r" name="aux_r" min="0" onchange="getFuel()" required>
+            <input type="number" class="form-control" id="aux_r" name="aux_r" min="0" onchange="getFuel()">
         </div>
     </div>
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Other</span>
-            <input type="number" class="form-control" id="other_l" name="other_l" min="0" onchange="getFuel()" required>
+            <input type="number" class="form-control" id="other_l" name="other_l" min="0" onchange="getFuel()">
         </div>
         <div class="col input-group">
             <span class="input-group-text">Other</span>
-            <input type="number" class="form-control" id="other_r" name="other_r" min="0" onchange="getFuel()" required>
+            <input type="number" class="form-control" id="other_r" name="other_r" min="0" onchange="getFuel()">
         </div>
     </div>
-    <div class="row">
-        <div class="col input-group">
-            <span class="input-group-text">Total</span>
-            <input type="number" class="form-control" id="landing_fuel" name="landing_fuel" min="0">
-        </div>
-    </div>
+    <dl class="row">
+        <dt class="col">Total landing fuel:</dt>
+        <dd class="col" id="landing_fuel"></dd>
+    </dl>
+        <input type="text" hidden id="landing_fuel_req" required>
 
     <h6 class="mt-3 display-6 text-center">Aircraft</h6>
     <div class="row">
@@ -223,13 +220,13 @@
             <div class="d-flex justify-content-start me-auto">
                 <p>Cycles brought forward: </p>
                 <div class="d-flex ms-auto">
-                    <p id="cycles_bfwd">{{cycles}}</p>
+                    <p id="cycles_bfwd">{{total_cycles}}</p>
                 </div>
             </div>
             <div class="col d-flex justify-content-start me-auto">
                 <p>Current cycles: </p>
                 <div class="d-flex ms-auto">
-                    <p id="current_cycles">{{cycles}}</p>
+                    <p id="current_cycles">{{total_cycles}}</p>
                 </div>
             </div>
         </div>
@@ -242,11 +239,13 @@
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text">Day</span>
-            <input type="number" class="form-control" id="landings_day" name="landings_day" min="0" onchange="getDayLandings()" required>
+            <input type="number" class="form-control" id="landings_day" name="landings_day" min="0"
+                   onchange="getDayLandings()">
         </div>
         <div class="col input-group">
             <span class="input-group-text">Night</span>
-            <input type="number" class="form-control" id="landings_night" name="landings_night" min="0" onchange="getNightLandings()" required>
+            <input type="number" class="form-control" id="landings_night" name="landings_night" min="0"
+                   onchange="getNightLandings()">
         </div>
     </div>
 
@@ -279,10 +278,10 @@
         <div class="col">
             <div class="input-group">
                 <div class="input-group-text">
-                    <input class="form-check-input me-3 mt-0" type="checkbox"
-                           aria-label="Checkbox to enable text input"
-                           onchange="document.getElementById('defect').disabled = !this.checked;" >Defect:</div>
-                <input type="text" class="form-control" aria-label="Text input with checkbox" id="defect" name="defect" disabled>
+                    <input class="form-check-input me-3 mt-0" type="checkbox" id="defectCb"
+                           aria-label="Checkbox to enable defect input">Defect:</div>
+                <input type="text" class="form-control" aria-label="Text input with checkbox" id="defect" name="defect"
+                       disabled>
             </div>
         </div>
     </div>
@@ -303,13 +302,69 @@
         </div>
     </div>
 
-
-    <br>
-    <button class="btn btn-dark" type="submit" tabindex="16">Submit</button>
-    <br>
-    <br>
-    <br>
-    <br>
+    <button class="btn btn-dark m-5" type="button" tabindex="16" data-bs-toggle="modal" data-bs-target="#postflightSign"
+            id="postflightSubmit">Submit</button>
+    <div class="modal fade" id="postflightSign" tabindex="-1" aria-labelledby="postflightSignLabel" aria-hidden="true"
+         data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postflightSignLabel">Post-flight Submission</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body container">
+                    <dl class="row">
+                        <dt class="col-6">Aircraft:</dt>
+                        <dd class="col-6">{{ac}}</dd>
+                        <dt class="col-6">SRP:</dt>
+                        <dd class="col-6">{{srp}}</dd>
+                        <dt class="col-6">Date:</dt>
+                        <dd class="col-6" >{{date}}</dd>
+                        <dt class="col-6">Off Blocks:</dt>
+                        <dd class="col-6" id="off_time"></dd>
+                        <dt class="col-6">Take-off:</dt>
+                        <dd class="col-6" id="to_time"></dd>
+                        <dt class="col-6">Landing:</dt>
+                        <dd class="col-6" id="ldg_time"></dd>
+                        <dt class="col-6">On Blocks:</dt>
+                        <dd class="col-6" id="on_time"></dd>
+                        <dt class="col-6">Block Time:</dt>
+                        <dd class="col-6" id="block_time"></dd>
+                        <dt class="col-6">Air Time:</dt>
+                        <dd class="col-6" id="flight_time"></dd>
+                        <dt class="col-6">Current Aircraft Hours:</dt>
+                        <dd class="col-6" id="time_current"></dd>
+                        <dt class="col-6">Next service item required at:</dt>
+                        <dd class="col-6" id="next_item">{{service_hrs}}:{{service_min}}</dd>
+                        <dt class="col-6">Time remaining:</dt>
+                        <dd class="col-6" id="time_remaining"></dd>
+                        <dt class="col-6">Landing Fuel:</dt>
+                        <dd class="col-6" id="landing_fuel_total"></dd>
+                        <dt class="col-6">Defect:</dt>
+                        <dd class="col-6" id="defect_data"></dd>
+                    </dl>
+<!--                    <p><small><b>Pre-flight Acceptance:</b><br>Acceptance signature confirms completion of-->
+<!--                        Pre-Flight inspection, Aircraft Technical Status-->
+<!--                        / De-Icing / Defect state and sufficient fuel and oil for the planned flight.</small></p>-->
+                    <dl class="row">
+                        <dt class="col me-auto">Accepted by:</dt>
+                        <dd class="form-check col ms-auto">
+                            <input class="form-check-input" type="checkbox" value="" id="postflightConfirmCb">
+                            <label class="form-check-label" for="postflightConfirmCb">
+                                <span data-name="srp_user_name">{{ srp_user_name }}</span>
+                                <span data-name="srp_user_initial">{{ srp_user_initial }}.</span>
+                                <span data-name="srp_user_callsign"> / {{ srp_user_callsign }}</span>
+                            </label>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-dark" disabled id="postflightConfirmBtn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </form>

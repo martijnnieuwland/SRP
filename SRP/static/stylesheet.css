@@ -2,7 +2,7 @@ element.style, input:required, select:required, .required{
   border: 1px solid #000000;
 }
 
-.time-select{
+.time-select {
 background: none;
 padding: 0.375rem 0.75rem 0.375rem 0.75rem;
 border-left: 1px dashed #ced4da;
@@ -17,8 +17,4 @@ cursor: text;
 
 #tom-label {
   width: 8rem;
-}
-/*
-.input-group-text {
-  width: 6rem;
 }

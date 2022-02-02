@@ -51,13 +51,14 @@
         <!--        </li>-->
       </ul>
 
+      {% endblock %}
+      {% block content %}
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
     </div>
   </div>
-      {% endblock %}
 
 </nav>
 
@@ -67,17 +68,64 @@
 <br>
 <br>
 <br>
-  <div>
-    <b-form-timepicker v-model="value" locale="" minutes-step="5"></b-form-timepicker>
-    <div class="mt-2">Value: '{{ value }}'</div>
-  </div>
+<br>
+<br>
+<br>
+<br>
+<br>
 
+
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#preFlight">
+  Pre-flight
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="preFlight" tabindex="-1" aria-labelledby="preFlightLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="preFlightLabel">Select aircraft to pre-flight:</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post">
+          <!--        <div class="container position-absolute top-50 start-50 translate-middle">-->
+
+          <!--            <div class="mb-3 pb-3">-->
+          <!--                <h4 class="text-center display-6">Select aircraft to pre-flight:</h4>-->
+          <!--            </div>-->
+          <!--            <br><br><br>-->
+          <!--            <div class="vstack gap-5 col-6 mx-auto">-->
+          <select class="form-select" id="aircraft" name="aircraft">
+            {% for ac in ac_list %}
+            <option value="{{ ac.registration }}">{{ ac.registration }}</option>
+            {% endfor %}
+          </select>
+          <!--                <button class="btn btn-dark" type="submit">Enter</button>-->
+          <!--            </div>-->
+          <!--        </div>-->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-dark" type="submit">Pre-flight</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
         crossorigin="anonymous"></script>
-  <script src="../static/javascript.js"></script>
-  <script src="../static/test.js"></script>
+<script src="../static/test.js"></script>
 
 </body>
 </html>
