@@ -302,7 +302,8 @@ $('#postflightSubmit').on('click', function(){
     $("#landing_fuel_total").text("This data is required").css("color", "red");
   }
 
-  $("#landing_fuel_req").val(landing_fuel);
+//  $("#landing_fuel_req").text(landing_fuel);
+  $("#landing_fuel_req").val(parseInt(landing_fuel));
 
   if (($("#defect")).val() != "") {
       $("#defect_data").text($("#defect").val());

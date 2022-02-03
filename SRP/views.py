@@ -112,7 +112,7 @@ def preflight_ac(ac):
         crew_id = crew.query.join(employee, crew.employee_id == employee.employee_id) \
             .filter_by(name_last=crew_name).first().crew_id if crew_name else None
         takeoff_mass = request.form.get("tom")
-        fuel_bfwd = request.form.get("fuel_bfwd")
+        fuel_bfwd = request.form.get("fuel_bfwd") if request.form.get("fuel_bfwd") else 0
         depfuel_total = request.form.get("fuel_dep")
         depfuel_uplift_exp = request.form.get("uplift_exp")
         depfuel_uplift_exp = depfuel_uplift_exp if depfuel_uplift_exp else 0
@@ -232,7 +232,6 @@ def postflight(ac):
         takeoff = time(hour=tohrs, minute=tomin)
         landing = time(hour=ldghrs, minute=ldgmin)
         blockon = time(hour=onhrs, minute=onmin)
-        print(blockoff)
 
         landfuel_main_l = request.form.get("main_l") if request.form.get("main_l") else 0
         landfuel_main_r = request.form.get("main_r") if request.form.get("main_r") else 0
@@ -240,6 +239,7 @@ def postflight(ac):
         landfuel_aux_r = request.form.get("aux_r") if request.form.get("aux_r") else 0
         landfuel_other_l = request.form.get("other_l") if request.form.get("other_l") else 0
         landfuel_other_r = request.form.get("other_r") if request.form.get("other_r") else 0
+
         tks_postflight = request.form.get("tks") if request.form.get("tks") else 0
         landing_day = int(request.form.get("landings_day")) if request.form.get("landings_day") else 0
         landing_night = int(request.form.get("landings_night")) if request.form.get("landings_night") else 0
@@ -249,7 +249,6 @@ def postflight(ac):
         sector_record.takeoff = takeoff
         sector_record.landing = landing
         sector_record.blockon = blockon
-
         sector_record.landfuel_main_l = landfuel_main_l
         sector_record.landfuel_main_r = landfuel_main_r
         sector_record.landfuel_aux_l = landfuel_aux_l
@@ -262,13 +261,13 @@ def postflight(ac):
         sector_record.postflight_signature = srp_user_name
         sector_record.postflight_callsign = srp_user_callsign
 
-
         # -------------  update aircraft  ----------------------------------
         ac_hrs = int('%02d' % int(request.form.get("ac_hrs_new")))
         ac_min = int('%02d' % int(request.form.get("ac_min_new")))
         ac_time = f"{ac_hrs}:{ac_min}"
         ac_record.hours = ac_time
-        ac_record.fuel = request.form.get("landing_fuel")
+        ac_record.fuel = int(request.form.get("landing_fuel"))
+
         ac_record.cycles = total_cycles + cycles
         ac_record.landing_day_total = total_day_ldg + landing_day
         ac_record.landing_night_total = total_night_ldg + landing_night
