@@ -43,17 +43,17 @@ $('#preflightSubmit').on('click', function(){
     $("#pic_input").text("This data is required").css("color", "red");
     };
   if ($("#pilot2").val()!="") {
-    $("#p2_input").text($("#pilot2").val().toUpperCase()).css("color", "initial");
+    $("#p2_input").text($("#pilot2").val().toUpperCase());
   } else {
     $("#p2_input").text("---");
     };
   if ($("#crew").val()!="") {
-    $("#crew_input").text($("#crew").val().toUpperCase()).css("color", "initial");
+    $("#crew_input").text($("#crew").val().toUpperCase());
   } else {
     $("#crew_input").text("---");
     };
   if ($("#pax").val()!="") {
-    $("#pax_input").text($("#pax").val().toUpperCase()).css("color", "initial");
+    $("#pax_input").text($("#pax").val().toUpperCase());
   } else {
     $("#pax_input").text("---");
     };
@@ -72,9 +72,10 @@ $('#preflightSubmit').on('click', function(){
   } else {
     $("#oil_r_input").text("This data is required").css("color", "red");
     };
+
   if ($("#tks_to").val()!="") {
-    $("#tks_input").text($("#tks_to").val().toUpperCase()).css("color", "initial");
+    $("#tks_input").text($("#tks_to").val().toUpperCase());
   } else {
-    $("#tks_input").text("This data is required").css("color", "red");
+    $("#tks_input").text("---");
     };
 });

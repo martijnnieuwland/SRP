@@ -30,7 +30,8 @@
             <img src="../static/black-dea-sao-logo-big-311x106.png" style="height: 3rem">
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -39,12 +40,14 @@
                 {% if user.is_authenticated %}
                 {{ nav_link('views.home', 'Home') }}
                 {{ nav_link('views.preflight', 'Preflight') }}
-                {{ nav_link('views.get_postflight', 'Postflight') }}
+                <li><a class="postflight_route postflightBtn" href="{{ url_for('views.get_preflight') }}">{{ nav_link('views.get_preflight', 'Postflight') }}</a></li>
+<!--                <li><a class="postflight_route postflightBtn" href="{{ url_for('views.get_preflight') }}">{{ nav_link('views.get_preflight', 'Postflight') }}</a></li>-->
                 {{ nav_link('views.records', 'Records') }}
                 {% endif %}
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         {% if user.is_authenticated %}
                         {{ user.username }}
                         {% else %}
@@ -63,14 +66,8 @@
                         </li>
                         {% endif %}
                     </ul>
-
-
                 </li>
             </ul>
-<!--            <form class="d-flex">-->
-<!--                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
-<!--                <button class="btn btn-outline-light" type="submit">Search</button>-->
-<!--            </form>-->
         </div>
     </div>
     {% endblock %}
@@ -115,7 +112,9 @@ messages %} {% for category, message in messages %} {% if category ==
 <script type="text/javascript"
         src="https://cdn.datatables.net/fixedheader/3.2.1/js/dataTables.fixedHeader.min.js"></script>
 
+<script src="../static/home.js"></script>
 {% block scripts %}
+
 {% endblock %}
 </body>
 

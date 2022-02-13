@@ -129,10 +129,10 @@ class flight(db.Model):
             holdovertime = "--:--"
 
         if self.postflight_signature:
-            blockoff = datetime.time.strftime(self.blockoff, "%H:%M")
-            takeoff = datetime.time.strftime(self.takeoff, "%H:%M")
-            landing = datetime.time.strftime(self.landing, "%H:%M")
-            blockon = datetime.time.strftime(self.blockon, "%H:%M")
+            blockoff = datetime.time.strftime(self.blockoff, "%H:%M") if self.blockoff else "--:--"
+            takeoff = datetime.time.strftime(self.takeoff, "%H:%M") if self.takeoff else "--:--"
+            landing = datetime.time.strftime(self.landing, "%H:%M") if self.landing else "--:--"
+            blockon = datetime.time.strftime(self.blockon, "%H:%M") if self.blockon else "--:--"
         else:
             blockoff = "--:--"
             takeoff = "--:--"

@@ -302,7 +302,6 @@ $('#postflightSubmit').on('click', function(){
     $("#landing_fuel_total").text("This data is required").css("color", "red");
   }
 
-//  $("#landing_fuel_req").text(landing_fuel);
   $("#landing_fuel_req").val(parseInt(landing_fuel));
 
   if (($("#defect")).val() != "") {
@@ -310,11 +309,4 @@ $('#postflightSubmit').on('click', function(){
   } else {
     $("#defect_data").text("None");
   }
-
-
-//  if ($("#pax").val()!="") {
-//    $("#pax_input").text($("#pax").val().toUpperCase()).css("color", "initial");
-//  } else {
-//    $("#pax_input").text("---");
-//    };
 });
