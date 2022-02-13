@@ -40,8 +40,7 @@
                 {% if user.is_authenticated %}
                 {{ nav_link('views.home', 'Home') }}
                 {{ nav_link('views.preflight', 'Preflight') }}
-                <li><a class="postflight_route postflightBtn" href="{{ url_for('views.get_preflight') }}">{{ nav_link('views.get_preflight', 'Postflight') }}</a></li>
-<!--                <li><a class="postflight_route postflightBtn" href="{{ url_for('views.get_preflight') }}">{{ nav_link('views.get_preflight', 'Postflight') }}</a></li>-->
+                {{ nav_link('views.get_preflight', 'Postflight') }}
                 {{ nav_link('views.records', 'Records') }}
                 {% endif %}
 
@@ -112,7 +111,7 @@ messages %} {% for category, message in messages %} {% if category ==
 <script type="text/javascript"
         src="https://cdn.datatables.net/fixedheader/3.2.1/js/dataTables.fixedHeader.min.js"></script>
 
-<script src="../static/home.js"></script>
+<script src="../static/base.js" type="module"></script>
 {% block scripts %}
 
 {% endblock %}

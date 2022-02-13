@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %} Aircraft post-flight {% endblock %}
+<body>
+
+<main class="">
+    {% block content %}
+    <form action="" method="post">
+        <div class="container position-absolute top-50 start-50 translate-middle">
+
+            <div class="mb-3 pb-3">
+                <h4 class="text-center display-6">Select aircraft to post-flight:</h4>
+            </div>
+            <div style="text-align: center">
+                <p>Hello {{user_name_first}},</p>
+                <p>We don't have any pre-flight data on record under your name.</p>
+                <p>Please submit a <a href="preflight-ac" style="color: initial">Pre-flight</a> first.</p>
+                <p>Or select an aircraft to Post-flight here:</p>
+            </div>
+            <div class="vstack gap-5 col-6 mx-auto">
+                <select class="form-select" name="preflight_ac" id="preflight_ac">
+                    {% for ac in prefl_ac %}
+                    <option value="{{ ac.registration }}">{{ ac.registration }}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn btn-dark" type="submit">Enter</button>
+
+            </div>
+        </div>
+    </form>
+
+</main>
+{% endblock %}
+
+{% block scripts %}{% endblock %}
+</body>

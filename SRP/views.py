@@ -15,20 +15,17 @@ def home():
     if request.method == "GET":
         ac_list = aircraft.query.all()
         user_employee = employee.query.filter_by(email=current_user.email).first()
-        user_name_last = user_employee.name_last
         user_name_first = user_employee.name_first
+        user_name_last = user_employee.name_last
         active_preflights = flight.query.filter_by(postflight_signature=None).all()
         signed_ac = {}
         for pf in active_preflights:
             signed_ac.update({pf.preflight_signature: pf.ac})
+        prefl_ac = aircraft.query.filter(aircraft.aircraft_id.in_(signed_ac.values())).all()
         if user_name_last in signed_ac:
             postflight_ac = aircraft.query.filter_by(aircraft_id=signed_ac[user_name_last]).first().registration
         else:
             postflight_ac = ""
-        print(postflight_ac)
-        prefl_ac = aircraft.query.filter(aircraft.aircraft_id.in_(signed_ac.values())).all()
-        print(user_name_last)
-        print(current_user.email)
         return render_template('home.html',
                                ac_list=ac_list,
                                user=current_user,
@@ -40,7 +37,6 @@ def home():
                                )
     else:
         ac = request.form.get("aircraft")
-
         ac_rec = aircraft.query.filter_by(registration=ac).first()
         ac_srp = aircraft.query.filter_by(registration=ac).first().srp
         ac_rec.srp = ac_srp + 1
@@ -196,6 +192,7 @@ def preflight_ac(ac):
 @login_required
 def postflight(ac):
     ac_record = aircraft.query.filter_by(registration=ac).first()
+    print(ac)
     srp = ac_record.srp
     ac_hrs_bfwd = ac_record.hours
     ac_hrs_bfwd_hrs = '%02d' % int((ac_hrs_bfwd.total_seconds() / 60) // 60)
@@ -305,24 +302,31 @@ def postflight(ac):
 @views.route("/postflight", methods=["GET", "POST"])
 @login_required
 def get_preflight():
-    # if current user has preflight signed return postflight for ac
-    # if current user has no preflight signed redirect to preflight page or select ac for postflight page
-    srp_user_name = employee.query.join(srp_user, srp_user.email == employee.email).filter_by(
-        email=current_user.email).first().name_last
-    active_preflights = flight.query.filter_by(postflight_signature=None).all()
-    usr = "martijn"
-    ac = "G-DJET"
-    if usr == "martijn":  # user needs to have a preflight signed-off
-        return redirect(url_for("views.postflight", user=current_user, ac=ac))
-        # return render_template("postflight-ac.html", user=current_user, ac=ac)
+    if request.method == "GET":
+        user_employee = employee.query.filter_by(email=current_user.email).first()
+        user_name_first = user_employee.name_first
+        user_name_last = user_employee.name_last
+        active_preflights = flight.query.filter_by(postflight_signature=None).all()
+        signed_ac = {}
+        for pf in active_preflights:
+            signed_ac.update({pf.preflight_signature: pf.ac})
+        prefl_ac = aircraft.query.filter(aircraft.aircraft_id.in_(signed_ac.values())).all()
+        if user_name_last in signed_ac:
+            ac = aircraft.query.filter_by(aircraft_id=signed_ac[user_name_last]).first().registration
+            return redirect(url_for("views.postflight", user=current_user, ac=ac))
+        else:
+            return render_template('postflight-ac.html',
+                                   user=current_user,
+                                   active_preflights=active_preflights,
+                                   user_name_first=user_name_first,
+                                   prefl_ac=prefl_ac
+                                   )
     else:
-        #     print(current_user)
-        return render_template('test.html',
-                               user=current_user,
-                               srp_user_name=srp_user_name,
-                               active_preflights=active_preflights
-                               )
-    #     pass
+        preflight_ac = request.form.get("preflight_ac")
+        return redirect(url_for("views.postflight",
+                                user=current_user,
+                                ac=preflight_ac
+                                ))
 
 
 @views.route("/records", methods=["GET", "POST"])

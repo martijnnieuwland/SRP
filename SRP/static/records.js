@@ -1,3 +1,6 @@
+import "./home.js";
+
+
 $(document).ready(function () {
   var sectorTable = $('#sector').DataTable({
     ajax: "/api/sector_records",
@@ -214,4 +217,3 @@ function toggleTable () {
       aircraftTable.fixedHeader.adjust().draw();
     }
   }
-
