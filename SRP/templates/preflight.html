@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Preflight {% endblock %}
+{% block title %} Preflight {{ ac }} {% endblock %}
 
 <body>
 {% block content %}
@@ -131,11 +131,11 @@
                 <option value="NCO">NCO</option>
                 <option selected>SPO</option>
             </select>
-            <input type="text" class="form-control w-25" name="task_desc">
+            <input type="text" class="form-control w-25" name="task_desc" value="{{ task_desc }}">
         </div>
         <div class="col input-group">
             <span class="input-group-text" id="date-label">Date</span>
-            <input type="date" value={{today}} class="form-control" id="date" required tabindex="3" name="date">
+            <input type="date" value={{dof}} class="form-control" id="date" required tabindex="3" name="date">
         </div>
     </div>
     <div class="row">
@@ -146,8 +146,8 @@
         </div>
         <div class="col input-group">
             <span class="input-group-text" id="destination-label">Destination</span>
-            <input type="text" class="form-control text-uppercase" id="destination" required tabindex="5"
-                   name="airport_des">
+            <input type="text" value="{{destination}}" class="form-control text-uppercase" id="destination" required
+                   tabindex="5" name="airport_des">
         </div>
     </div>
 
@@ -165,7 +165,7 @@
         </div>
         <div class="col input-group">
             <span class="input-group-text" id="pilot2-label">Pilot 2</span>
-            <input type="text" class="form-control" id="pilot2" list="p2" name="p2" value="">
+            <input type="text" class="form-control" id="pilot2" list="p2" name="p2" value="{{ p2 }}">
             <datalist id="p2">
                 {% for pilot in pilot_name %}
                 <option value="{{ pilot.name_last }}">{{ pilot.name_last }}</option>
@@ -176,7 +176,7 @@
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text" id="crew-label">Crew</span>
-            <input type="text" class="form-control" id="crew" list="ts" name="crew" tabindex="7">
+            <input type="text" class="form-control" id="crew" list="ts" name="crew" tabindex="7" value="{{ crew_name }}">
             <datalist id="ts">
                 {% for crew in crew_list %}
                 <option value="{{ crew.name_last }}">{{ crew.name_last }}</option>
@@ -185,7 +185,7 @@
         </div>
         <div class="col input-group">
             <span class="input-group-text" id="pax-label">Passenger</span>
-            <input type="text" class="form-control" id="pax" name="pax">
+            <input type="text" class="form-control" id="pax" name="pax" value="{{ pax }}">
         </div>
     </div>
 
@@ -194,7 +194,8 @@
     <div class="row">
         <div class="col input-group">
             <span class="input-group-text" id="tom-label">Take-off mass</span>
-            <input type="number" class="form-control" id="tom" required tabindex="8" min="0" name="tom">
+            <input type="number" class="form-control" id="tom" required tabindex="8" min="0" name="tom"
+                   value="{{ tom }}">
             <select class="form-select" id="ac_mass" required>
                 <option value="Lbs.">Lbs.</option>
                 <option selected>Kg.</option>
@@ -350,17 +351,57 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-dark" disabled id="preflightConfirmBtn">Confirm</button>
+                    <button type="submit" class="btn btn-dark" disabled id="preflightConfirmBtn">Submit Pre-flight</button>
                 </div>
             </div>
         </div>
     </div>
-
 </form>
+
+
+
+<div class="modal fade" id="getPreflight" aria-hidden="true" aria-labelledby="getPreflightLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="getPreflightLabel">Edit existing Pre-flight?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Hello {{username}}, <span id="user_name_last"></span></p>
+                <p>A Pre-flight for <span id="ac">{{ ac }}</span> was already signed off by
+                    <span id="preflight_signee">{{preflight_signee_first}} {{preflight_signee}}</span>.</p>
+                <p>Do you wish to <a href="preflight-ac" style="color: initial" data-bs-dismiss="modal">edit</a>
+                    the existing Pre-flight?</p>
+                <p>Or select a different aircraft to Pre-flight here:</p>
+                <form action="" method="post">
+                    <select class="form-select" name="preflight_aircraft" id="preflight_aircraft">
+                        {% for ac in ac_list %}
+                        <option value="{{ ac.registration }}">{{ ac.registration }}</option>
+                        {% endfor %}
+                    </select>
+                    <ul hidden id="active_preflight_regs">
+                        {% for reg in active_preflight_regs %}
+                        <li type="text" value="{{ reg }}">{{ reg }}</li>
+                        {% endfor %}
+                    </ul>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-outline-dark" aria-label="Close" role="button"
+                        id="cancel" href="{{ url_for('views.home') }}">Cancel</a>
+                <button data-bs-dismiss="modal" class="btn btn-outline-dark">Continue</button>
+                <a href="preflight.html" class="btn btn-dark preflight_route" role="button">
+                    Pre-flight <span id="selected2" class="selected_aircraft"></span></a>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block scripts %}
-<script src="../static/preflight.js"></script>
+<script src="{{url_for('static', filename='preflight.js')}}"></script>
 
 {% endblock %}
 

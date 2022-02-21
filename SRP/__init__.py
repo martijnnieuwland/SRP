@@ -37,4 +37,3 @@ def create_app():
 def create_database(app):
     if not conn:
         db.create_all(app=app)
-        print("Created database!")

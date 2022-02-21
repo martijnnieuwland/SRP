@@ -1,6 +1,6 @@
-export function getPostflight () {
+function getPostflight () {
   let postflightModal = new bootstrap.Modal($("#getPostflight"));
-  let user_name_last = $("#user_name_last").text();
+  let user_name_last = document.getElementById("user_name_last").ariaLabel;
   let preflight_items = document.getElementById("preflight_names").getElementsByTagName("li");
   let preflight_count = Object.values(preflight_items).length;
   let preflight_names = [];
@@ -10,7 +10,6 @@ export function getPostflight () {
 }
   if ($.inArray(user_name_last, preflight_names) > -1) {
     postflightModal.hide();
-//    $(".postflight_route").attr("href", {{ url_for('views.postflight(postflight_ac)') }});
     $(".postflight_route").attr("href", "postflight/" + postflight_ac);
   } else {
     event.preventDefault();
@@ -28,3 +27,17 @@ $(document).ready(function () {
   setPostflight();
 })
 $("#postflight_aircraft").change(setPostflight);
+
+$("#cancel").on("click", function(){
+  $('.modal').remove();
+  $('.modal-backdrop').remove();
+});
+
+$(document).ready(function () {
+  setPreflight();
+})
+function setPreflight () {
+  let ac = $("#aircraft").val();
+  $("#preflightBtn").text(ac);
+}
+$("#aircraft").change(setPreflight);

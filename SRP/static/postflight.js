@@ -296,7 +296,8 @@ $('#postflightSubmit').on('click', function(){
 
   $("#time_current").text(current_hrs + ":" + current_min);
   $("#time_remaining").text(rem_hrs + ":" + rem_min);
-  if (landing_fuel != 0) {
+  console.log(landing_fuel)
+  if (landing_fuel != "") {
     $("#landing_fuel_total").text(landing_fuel).css("color", "initial");
   } else {
     $("#landing_fuel_total").text("This data is required").css("color", "red");

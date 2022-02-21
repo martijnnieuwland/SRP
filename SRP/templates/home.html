@@ -9,15 +9,15 @@
     <div class="vstack gap-3 col-6 mx-auto">
         <a class="row btn btn-dark btn-lg" href="{{ url_for('views.preflight') }}" role="button"
            data-bs-toggle="modal" data-bs-target="#preflight">Pre-flight</a>
-        <a class="row btn btn-dark btn-lg postflight_route postflightBtn" href="{{ url_for('views.get_preflight') }}"
+        <a class="row btn btn-dark btn-lg" href="{{ url_for('views.get_preflight') }}"
            role="button" id="postflightBtn">Post-flight</a>
         <a class="row btn btn-dark btn-lg" href="{{ url_for('views.records') }}" role="button">Records</a>
         <input type="text" hidden value="{{ postflight_ac }}" id="postflight_ac" name="postflight_ac">
     </div>
 </div>
 
-<div class="modal fade" id="preflight" tabindex="-1" aria-labelledby="preflightLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<section class="modal fade" id="preflight" tabindex="-1" aria-labelledby="preflightLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <form class="modal-content" method="post">
             <div class="modal-header">
                 <h5 class="modal-title" id="preflightLabel">Select aircraft to pre-flight:</h5>
@@ -32,14 +32,14 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-dark" type="submit">Pre-flight</button>
+                <button class="btn btn-dark" type="submit">Pre-flight <span id="preflightBtn">text</span></button>
             </div>
         </form>
     </div>
-</div>
+</section>
 
 
-<div class="modal fade" id="getPostflight" aria-hidden="true" aria-labelledby="getPostflightLabel" tabindex="-1">
+<section class="modal fade" id="getPostflight" aria-hidden="true" aria-labelledby="getPostflightLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -47,7 +47,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Hello {{user_name_first}} <span id="user_name_last">{{user_name_last}}</span>,</p>
+                <p id="user_name_last" aria-label="{{user_name_last}}">Hello {{username}},</p>
                 <p>We don't have any pre-flight data on record under your name.</p>
                 <p>Please submit a <a href="preflight-ac" style="color: initial">Pre-flight</a> first.</p>
                 <p>Or select an aircraft to Post-flight here:</p>
@@ -65,18 +65,18 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
-                <a href="" class="btn btn-dark postflight_route" role="button" id="">
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal" aria-label="Close"
+                        id="cancel">Cancel</button>
+                <a href="" class="btn btn-dark postflight_route" role="button">
                     Post-flight <span id="selected_aircraft"></span></a>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 {% endblock %}
+
 {% block scripts %}
-
-<script src="../static/home.js" type="module"></script>
-
+<script src="{{url_for('static', filename='home.js')}}"></script>
 {% endblock %}
 </body>

@@ -434,8 +434,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="../static/records.js" type="module"></script>
-<!--<script src="../static/base.js" type="module"></script>-->
+<script src="{{url_for('static', filename='records.js')}}"></script>
 {% endblock %}
 
 </body>

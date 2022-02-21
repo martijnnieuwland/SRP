@@ -1,5 +1,3 @@
-import "./home.js";
-
 
 $(document).ready(function () {
   var sectorTable = $('#sector').DataTable({

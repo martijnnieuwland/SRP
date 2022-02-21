@@ -12,7 +12,7 @@
                 <h4 class="text-center display-6">Select aircraft to post-flight:</h4>
             </div>
             <div style="text-align: center">
-                <p>Hello {{user_name_first}},</p>
+                <p>Hello {{username}},</p>
                 <p>We don't have any pre-flight data on record under your name.</p>
                 <p>Please submit a <a href="preflight-ac" style="color: initial">Pre-flight</a> first.</p>
                 <p>Or select an aircraft to Post-flight here:</p>
@@ -23,7 +23,10 @@
                     <option value="{{ ac.registration }}">{{ ac.registration }}</option>
                     {% endfor %}
                 </select>
-                <button class="btn btn-dark" type="submit">Enter</button>
+                <div class="footer m-auto">
+                <a href="/" class="btn btn-outline-dark" role="button">Cancel</a>
+                <button class="btn btn-dark" type="submit">Post-flight <span id="selected_aircraft"></span></button>
+                    </div>
 
             </div>
         </div>
@@ -32,5 +35,7 @@
 </main>
 {% endblock %}
 
-{% block scripts %}{% endblock %}
+{% block scripts %}
+<script src="{{url_for('static', filename='postflight-ac.js')}}"></script>
+{% endblock %}
 </body>

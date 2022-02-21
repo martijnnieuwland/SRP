@@ -8,26 +8,27 @@
     {% block content %}
     <form action="" method="post">
         <div class="container position-absolute top-50 start-50 translate-middle">
-
             <div class="mb-3 pb-3">
                 <h4 class="text-center display-6">Select aircraft to pre-flight:</h4>
             </div>
-
             <div class="vstack gap-5 col-6 mx-auto">
                 <select class="form-select" id="aircraft" name="aircraft">
                     {% for ac in ac_list %}
                     <option value="{{ ac.registration }}">{{ ac.registration }}</option>
                     {% endfor %}
                 </select>
-                <button class="btn btn-dark" type="submit">Enter</button>
+                <button class="btn btn-dark" type="submit" id="selected1Btn">Pre-flight
+                    <span id="selected1" class="selected_aircraft"></span>
+                </button>
             </div>
         </div>
     </form>
 
 </main>
 {% endblock %}
-
-{% block scripts %}{% endblock %}
+{% block scripts %}
+<script src="{{url_for('static', filename='preflight-ac.js')}}"></script>
+{% endblock %}
 </body>
 
 

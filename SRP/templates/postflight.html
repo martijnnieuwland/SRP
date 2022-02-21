@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Postflight {% endblock %}
+{% block title %} Postflight {{ ac }}{% endblock %}
 
 <body>
 {% block content %}
@@ -371,7 +371,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="../static/postflight.js"></script>
+<script src="{{url_for('static', filename='postflight.js')}}"></script>
 {% endblock %}
 
 </body>

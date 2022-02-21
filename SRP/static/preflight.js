@@ -79,3 +79,34 @@ $('#preflightSubmit').on('click', function(){
     $("#tks_input").text("---");
     };
 });
+
+function getPreflight () {
+  let preflight_signee = $("#preflight_signee").text();
+  let ac = $("#ac").text();
+  let active_preflight_regs = document.getElementById("active_preflight_regs").getElementsByTagName("li");
+  let preflight_count = Object.values(active_preflight_regs).length;
+  let preflight_regs = [];
+  for (let i=0; i<preflight_count; ++i) {
+    preflight_regs.push((active_preflight_regs)[i].innerText);
+  }
+  if ((preflight_signee != "") && ($.inArray(ac, preflight_regs) > -1)) {
+    let preflightModal = new bootstrap.Modal($("#getPreflight"));
+    preflightModal.show();
+  }
+};
+$(document).ready(function () {
+  getPreflight();
+})
+
+$("#preflight_aircraft").change(getPreflight);
+
+
+$(document).ready(function () {
+  setPreflight();
+})
+function setPreflight () {
+  let ac = $("#preflight_aircraft").val();
+  $(".selected_aircraft").text(ac);
+  $(".preflight_route").attr("href", ac);
+}
+$("#preflight_aircraft").change(setPreflight);
