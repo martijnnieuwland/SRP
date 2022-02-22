@@ -5,6 +5,7 @@ from SRP.models import aircraft, crew, employee, flight, passenger, pilot, srp_u
 from SRP import db
 from sqlalchemy.sql import cast
 from sqlalchemy.types import String
+import yagmail
 
 views = Blueprint("views", __name__)
 
@@ -99,7 +100,6 @@ def preflight_ac(ac):
     if ac_id in signed_ac:
         preflight_rec = flight.query.filter_by(postflight_signature=None, ac=ac_id).first()
 
-        # srp = preflight_rec.srp
         callsign = preflight_rec.callsign
         location = preflight_rec.airport_dep
         destination = preflight_rec.airport_des
@@ -139,7 +139,6 @@ def preflight_ac(ac):
                                    pic_name=pic_name,
                                    p2=p2,
                                    crew_name=crew_name,
-                                   # pax=pax,
                                    current_srp_user_name=current_srp_user_name,
                                    dof=dof,
                                    fuel_bfwd=fuel_bfwd,
@@ -151,7 +150,6 @@ def preflight_ac(ac):
                                    tks=tks,
                                    current_srp_user_initial=current_srp_user_initial,
                                    current_srp_user_callsign=current_srp_user_callsign,
-                                   # date=dof,
                                    username=username,
                                    ac_list=ac_list,
                                    )
@@ -217,7 +215,6 @@ def preflight_ac(ac):
                                    location=location,
                                    pic_name=pic_name,
                                    current_srp_user_name=current_srp_user_name,
-                                   # today=dof,
                                    fuel_bfwd=fuel_bfwd,
                                    pilot_name=pilot_name,
                                    crew_list=crew_list,
@@ -296,6 +293,36 @@ def preflight_ac(ac):
                                     preflight_signature=current_srp_user_name,
                                     preflight_callsign=current_srp_user_callsign
                                     )
+
+            # --------------------  send email  -----------------------
+            data = vars(preflight_data)
+            mail = []
+            for i in data.items():
+                mail.append("%s: %s" % i)
+            body = ('\n'.join(map(str, mail[1:])))
+            # print(body)
+            yag = yagmail.SMTP("hcpieck", "")
+
+            receiver = current_user.email
+            # print(receiver)
+            body = [f"""
+            Thanks, we have received your email!
+ 
+            The following data have been added to the database:
+            
+            {body}
+            
+            Thank you for your continued support and co-operation. 
+ 
+             regards,
+             CAMO Office.
+            """]
+
+            yag.send(
+                to=receiver,
+                subject="test",
+                contents=body,
+            )
             db.session.add(preflight_data)
 
             # -------------------  update aircraft  ---------------------------------
@@ -306,14 +333,46 @@ def preflight_ac(ac):
             ac_rec.tks = tks_preflight
             ac_rec.callsign = callsign
             ac_rec.srp = srp_next
-            print(ac_rec.srp)
 
             db.session.commit()
 
             return redirect(url_for('views.records',
-                                    # ac=ac,
                                     user=current_user
                                     ))
+
+
+@views.route("/postflight", methods=["GET", "POST"])
+@login_required
+def get_preflight():
+    if request.method == "GET":
+        username = current_user.username
+        user_employee = employee.query.filter_by(email=current_user.email).first()
+        user_name_last = user_employee.name_last
+        active_preflights = flight.query.filter_by(postflight_signature=None).all()
+        signed_ac = {}
+        for pf in active_preflights:
+            signed_ac.update({pf.preflight_signature: pf.ac})
+        prefl_ac = aircraft.query.filter(aircraft.aircraft_id.in_(signed_ac.values())).all()
+        if user_name_last in signed_ac:
+            ac = aircraft.query.filter_by(aircraft_id=signed_ac[user_name_last]).first().registration
+            return redirect(url_for("views.postflight", user=current_user, ac=ac))
+        else:
+            return render_template('postflight-ac.html',
+                                   user=current_user,
+                                   active_preflights=active_preflights,
+                                   username=username,
+                                   prefl_ac=prefl_ac
+                                   )
+    else:
+        ac = request.form.get("preflight_ac")
+        if ac:
+            return redirect(url_for("views.postflight",
+                                    user=current_user,
+                                    ac=ac
+                                    ))
+        else:
+            return render_template("home.html",
+                                   user=current_user)
 
 
 @views.route("/postflight/<ac>", methods=["GET", "POST"])
@@ -322,7 +381,6 @@ def postflight(ac):
     ac_record = aircraft.query.filter_by(registration=ac).first()
     ac_id = aircraft.query.filter_by(registration=ac).first().aircraft_id
     srp = ac_record.srp
-    print(ac, srp)
     sector_record = flight.query.filter_by(ac=ac_id, srp=srp).first()
     ac_hrs_bfwd = ac_record.hours
     ac_hrs_bfwd_hrs = '%02d' % int((ac_hrs_bfwd.total_seconds() / 60) // 60)
@@ -423,41 +481,36 @@ def postflight(ac):
 
         db.session.commit()
 
+        # --------------------  send email  -----------------------
+        postflight_data = flight.query.filter_by(ac=ac_id, srp=srp).first()
+        data = vars(postflight_data)
+        mail = []
+        for i in data.items():
+            mail.append("%s: %s" % i)
+        body = ('\n'.join(map(str, mail[1:])))
+        yag = yagmail.SMTP("hcpieck", "")
+
+        receiver = current_user.email
+        body = [f"""
+        Thanks, we have received your email!
+
+        The following data have been added to the database:
+
+        {body}
+
+        Thank you for your continued support and co-operation. 
+
+         regards,
+         CAMO Office.
+        """]
+
+        yag.send(
+            to=receiver,
+            subject="test",
+            contents=body,
+        )
+
         return redirect(url_for("views.records", user=current_user))
-
-
-@views.route("/postflight", methods=["GET", "POST"])
-@login_required
-def get_preflight():
-    if request.method == "GET":
-        username = current_user.username
-        user_employee = employee.query.filter_by(email=current_user.email).first()
-        user_name_last = user_employee.name_last
-        active_preflights = flight.query.filter_by(postflight_signature=None).all()
-        signed_ac = {}
-        for pf in active_preflights:
-            signed_ac.update({pf.preflight_signature: pf.ac})
-        prefl_ac = aircraft.query.filter(aircraft.aircraft_id.in_(signed_ac.values())).all()
-        if user_name_last in signed_ac:
-            ac = aircraft.query.filter_by(aircraft_id=signed_ac[user_name_last]).first().registration
-            return redirect(url_for("views.postflight", user=current_user, ac=ac))
-        else:
-            return render_template('postflight-ac.html',
-                                   user=current_user,
-                                   active_preflights=active_preflights,
-                                   username=username,
-                                   prefl_ac=prefl_ac
-                                   )
-    else:
-        ac = request.form.get("preflight_ac")
-        if ac:
-            return redirect(url_for("views.postflight",
-                                    user=current_user,
-                                    ac=ac
-                                    ))
-        else:
-            return render_template("home.html",
-                                   user=current_user)
 
 
 @views.route("/records", methods=["GET", "POST"])
@@ -604,4 +657,18 @@ def aircraft_records():
 
 @views.route("/test")
 def test():
+    # yagmail.register("hcpieck", "")
+    # yag = yagmail.SMTP("hcpieck")
+    #
+    # receiver = "martijn.nieuwland@dea.aero"
+    # body = ["This will be email text"]
+    #
+    # yag.send(
+    #     to=receiver,
+    #     subject="test",
+    #     contents=body,
+    #          )
+
     return render_template("test.html")
+
+
