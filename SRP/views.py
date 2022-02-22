@@ -6,6 +6,7 @@ from SRP import db
 from sqlalchemy.sql import cast
 from sqlalchemy.types import String
 import yagmail
+import SRP.cred as cred
 
 views = Blueprint("views", __name__)
 
@@ -300,11 +301,9 @@ def preflight_ac(ac):
             for i in data.items():
                 mail.append("%s: %s" % i)
             body = ('\n'.join(map(str, mail[1:])))
-            # print(body)
-            yag = yagmail.SMTP("hcpieck", "")
+            yag = yagmail.SMTP(cred.username, cred.password)
 
             receiver = current_user.email
-            # print(receiver)
             body = [f"""
             Thanks, we have received your email!
  
@@ -320,7 +319,7 @@ def preflight_ac(ac):
 
             yag.send(
                 to=receiver,
-                subject="test",
+                subject=f"Preflight {ac} {date} {current_srp_user_callsign}",
                 contents=body,
             )
             db.session.add(preflight_data)
@@ -488,7 +487,8 @@ def postflight(ac):
         for i in data.items():
             mail.append("%s: %s" % i)
         body = ('\n'.join(map(str, mail[1:])))
-        yag = yagmail.SMTP("hcpieck", "")
+        # yagmail.register(cred.username, cred.password)
+        yag = yagmail.SMTP(cred.username, cred.password)
 
         receiver = current_user.email
         body = [f"""
@@ -506,7 +506,7 @@ def postflight(ac):
 
         yag.send(
             to=receiver,
-            subject="test",
+            subject=f"Postflight {ac} {date} {srp_user_callsign}",
             contents=body,
         )
 
