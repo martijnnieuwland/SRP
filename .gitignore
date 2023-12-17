@@ -1,0 +1,14 @@
+# Credentials
+SRP/cred.py
+
+# Unused files
+SRP/old
+
+# Environment
+venv/
+SRP/__pycache__/
+.DS_Store
+.idea/
+.vscode/
+ToDo
+__pycache__/
