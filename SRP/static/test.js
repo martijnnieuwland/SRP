@@ -18,3 +18,8 @@ $("#getPostflightBtn").on("click", function () {
 //    $("#getPostflight").show();
   }
 })
+
+$("#uplift-l").on("change", function () {
+  $("#uplift-l-text").text($("#uplift-l").val());
+  console.log($("#uplift-l-text").text())
+})

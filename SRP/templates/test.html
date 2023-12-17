@@ -51,6 +51,7 @@
         <!--        </li>-->
       </ul>
 
+
       {% endblock %}
       {% block content %}
       <form class="d-flex">
@@ -59,7 +60,6 @@
       </form>
     </div>
   </div>
-
 </nav>
 
 <p>Click the button to display an alert box.</p>
@@ -67,11 +67,14 @@
 <button onclick="getPostflight()">Try it</button>
 <br>
 <br>
-<br>
-<br>
-<br>
-<br>
-<br>
+
+
+<span class="form-label">Uplift: </span><span id="uplift-l-text">0.0</span>
+<div class="input-group mt-3 align-items-center">
+  <button class="btn btn-outline-dark" type="button">Reset</button>
+  <span class="ms-2 me-2"><input id="uplift-l" type="range" class="form-range" min="0" max="0.9" step="0.1" value="0" required></span>
+  <button class="btn btn-outline-dark" type="button">+ 1</button>
+</div>
 <br>
 
 <div class="modal fade" id="getPostflight" aria-hidden="true" aria-labelledby="getPostflightLabel" tabindex="-1">
@@ -85,7 +88,7 @@
         <p>Hello {Pilot}, we don't have any pre-flight data on record under your name.</p>
         <p>Please submit a <a href="preflight-ac">Pre-flight </a>first.</p>
         <p>Or select an aircraft to Post-flight here:</p>
-                <form action="" method="post">
+        <form action="" method="post">
           <select class="form-select" id="aircraft" name="aircraft">
             {% for ac in ac_list %}
             <option value="{{ ac.registration }}">{{ ac.registration }}</option>

@@ -371,7 +371,7 @@
                 <p>Hello {{username}}, <span id="user_name_last"></span></p>
                 <p>A Pre-flight for <span id="ac">{{ ac }}</span> was already signed off by
                     <span id="preflight_signee">{{preflight_signee_first}} {{preflight_signee}}</span>.</p>
-                <p>Do you wish to <a href="preflight-ac" style="color: initial" data-bs-dismiss="modal">edit</a>
+                <p>Do you wish to <a href="preflight-ac" style="color: initial; font-weight: bold" data-bs-dismiss="modal">edit</a>
                     the existing Pre-flight?</p>
                 <p>Or select a different aircraft to Pre-flight here:</p>
                 <form action="" method="post">
@@ -390,7 +390,7 @@
             <div class="modal-footer">
                 <a class="btn btn-outline-dark" aria-label="Close" role="button"
                         id="cancel" href="{{ url_for('views.home') }}">Cancel</a>
-                <button data-bs-dismiss="modal" class="btn btn-outline-dark">Continue</button>
+<!--                <button data-bs-dismiss="modal" class="btn btn-outline-dark">Continue</button>-->
                 <a href="preflight.html" class="btn btn-dark preflight_route" role="button">
                     Pre-flight <span id="selected2" class="selected_aircraft"></span></a>
             </div>

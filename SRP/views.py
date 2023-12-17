@@ -487,7 +487,6 @@ def postflight(ac):
         for i in data.items():
             mail.append("%s: %s" % i)
         body = ('\n'.join(map(str, mail[1:])))
-        # yagmail.register(cred.username, cred.password)
         yag = yagmail.SMTP(cred.username, cred.password)
 
         receiver = current_user.email
@@ -670,5 +669,3 @@ def test():
     #          )
 
     return render_template("test.html")
-
-

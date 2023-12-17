@@ -13,7 +13,7 @@
     <h3 class="text-center display-3" >{{title}}</h3>
 </div>
 
-<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Select record data to display:</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -257,78 +257,80 @@
                 </div>
             </div>
         </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="panelsStayOpen-aircraft">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseAircraft" aria-expanded="true" aria-controls="panelsStayOpen-collapseAircraft">
-                    Aircraft
-                </button>
-            </h2>
-            <div id="panelsStayOpen-collapseAircraft" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-aircraft">
-                <div class="accordion-body">
-                    <div id="aircraft_data">
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="aircraft_id" data-column="0">
-                            <label class="form-check-label" for="aircraft_id">ID</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="registration" data-column="1">
-                            <label class="form-check-label" for="registration">Registration</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="defect" data-column="2">
-                            <label class="form-check-label" for="defect">Defect</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="servicetime" data-column="3">
-                            <label class="form-check-label" for="servicetime">Next service-item time</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="hours" data-column="4">
-                            <label class="form-check-label" for="hours">Aircraft time</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="landing_day_total" data-column="5">
-                            <label class="form-check-label" for="landing_day_total">Day landings</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="landing_night_total" data-column="6">
-                            <label class="form-check-label" for="landing_night_total">Night landings</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="status" data-column="7">
-                            <label class="form-check-label" for="status">Status</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="fuel" data-column="8">
-                            <label class="form-check-label" for="fuel">Fuel</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="oil_l" data-column="9">
-                            <label class="form-check-label" for="oil_l">Oil left</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="oil_r" data-column="10">
-                            <label class="form-check-label" for="oil_r">Oil right</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="tks" data-column="11">
-                            <label class="form-check-label" for="tks">TKS</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="srp_ac" data-column="12">
-                            <label class="form-check-label" for="srp_ac">SRP</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="callsign_ac" data-column="13">
-                            <label class="form-check-label" for="callsign_ac">Last callsign</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="location" data-column="14">
-                            <label class="form-check-label" for="location">Last location</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="toggle-vis form-check-input" type="checkbox" id="cycles" data-column="15">
-                            <label class="form-check-label" for="cycles">Cycles</label>
+        <div class="accordion" id="aircraft_data">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-aircraft">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseAircraft" aria-expanded="true" aria-controls="panelsStayOpen-collapseAircraft">
+                        Aircraft
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseAircraft" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-aircraft">
+                    <div class="accordion-body">
+                        <div id="ac_data">
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="aircraft_id" data-column="0">
+                                <label class="form-check-label" for="aircraft_id">ID</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="registration" data-column="1">
+                                <label class="form-check-label" for="registration">Registration</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="defect" data-column="2">
+                                <label class="form-check-label" for="defect">Defect</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="servicetime" data-column="3">
+                                <label class="form-check-label" for="servicetime">Next service-item time</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="hours" data-column="4">
+                                <label class="form-check-label" for="hours">Aircraft time</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="landing_day_total" data-column="5">
+                                <label class="form-check-label" for="landing_day_total">Day landings</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="landing_night_total" data-column="6">
+                                <label class="form-check-label" for="landing_night_total">Night landings</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="status" data-column="7">
+                                <label class="form-check-label" for="status">Status</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="fuel" data-column="8">
+                                <label class="form-check-label" for="fuel">Fuel</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="oil_l" data-column="9">
+                                <label class="form-check-label" for="oil_l">Oil left</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="oil_r" data-column="10">
+                                <label class="form-check-label" for="oil_r">Oil right</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="tks" data-column="11">
+                                <label class="form-check-label" for="tks">TKS</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="srp_ac" data-column="12">
+                                <label class="form-check-label" for="srp_ac">SRP</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="callsign_ac" data-column="13">
+                                <label class="form-check-label" for="callsign_ac">Last callsign</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="location" data-column="14">
+                                <label class="form-check-label" for="location">Last location</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="toggle-vis form-check-input" type="checkbox" id="cycles" data-column="15">
+                                <label class="form-check-label" for="cycles">Cycles</label>
+                            </div>
                         </div>
                     </div>
                 </div>
