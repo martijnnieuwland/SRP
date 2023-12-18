@@ -9,7 +9,7 @@ from flask import Flask, request, render_template
 from datetime import datetime
 import psycopg2
 
-db = psycopg2.connect("dbname=learning")
+db = psycopg2.connect("dbname=srp")
 cr = db.cursor()
 
 app = Flask(__name__)
