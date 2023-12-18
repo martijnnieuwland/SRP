@@ -12,3 +12,6 @@ SRP/__pycache__/
 .vscode/
 ToDo
 __pycache__/
+SRP/bin/
+SRP/lib/
+SRP/pyvenv.cfg
