@@ -1,23 +1,29 @@
 # cd ~/SectorRecords
 # . venv/bin/activate
 # export FLASK_APP=srp.py
-# export FLASK_ENV=development
+# export FLASK_DEBUG=True
 # flask run
 
 
 from flask import Flask, request, render_template
+from SRP.views import views
 from datetime import datetime
-import psycopg2
+from SRP import create_app
 
-db = psycopg2.connect("dbname=srp")
-cr = db.cursor()
+# import psycopg2
 
-app = Flask(__name__)
+# db = psycopg2.connect("dbname=srp", user='postgres', password='postgres')
+# cr = db.cursor()
+
+# app = Flask(__name__, template_folder='SRP/templates')
+# app.register_blueprint(views)
+
+app = create_app()
 
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("home.html")
 
 
 @app.route("/preflight/")

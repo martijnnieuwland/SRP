@@ -5,13 +5,13 @@ from SRP.models import aircraft, crew, employee, flight, passenger, pilot, srp_u
 from SRP import db
 from sqlalchemy.sql import cast
 from sqlalchemy.types import String
-import yagmail
+# import yagmail
 import SRP.cred as cred
 
 views = Blueprint("views", __name__)
 
 
-@views.route('/', methods=["GET", "POST"])
+@views.route("/", methods=["GET", "POST"])
 @login_required
 def home():
     if request.method == "GET":
@@ -306,13 +306,13 @@ def preflight_ac(ac):
             receiver = current_user.email
             body = [f"""
             Thanks, we have received your email!
- 
+
             The following data have been added to the database:
-            
+
             {body}
-            
-            Thank you for your continued support and co-operation. 
- 
+
+            Thank you for your continued support and co-operation.
+
              regards,
              CAMO Office.
             """]
@@ -497,7 +497,7 @@ def postflight(ac):
 
         {body}
 
-        Thank you for your continued support and co-operation. 
+        Thank you for your continued support and co-operation.
 
          regards,
          CAMO Office.
