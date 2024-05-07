@@ -10,14 +10,6 @@ from SRP.views import views
 from datetime import datetime
 from SRP import create_app
 
-# import psycopg2
-
-# db = psycopg2.connect("dbname=srp", user='postgres', password='postgres')
-# cr = db.cursor()
-
-# app = Flask(__name__, template_folder='SRP/templates')
-# app.register_blueprint(views)
-
 app = create_app()
 
 
